@@ -1,26 +1,219 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-surface: var(--surface);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-neon-lime: var(--neon-lime);
+  --color-rarity-common: var(--rarity-common);
+  --color-rarity-uncommon: var(--rarity-uncommon);
+  --color-rarity-rare: var(--rarity-rare);
+  --color-rarity-epic: var(--rarity-epic);
+  --color-rarity-legendary: var(--rarity-legendary);
+  --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
+  --font-display: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --background: oklch(0.135 0.035 273);
+  --foreground: oklch(0.97 0.012 250);
+  --card: oklch(0.19 0.044 274);
+  --card-foreground: var(--foreground);
+  --surface: oklch(0.17 0.04 274);
+  --surface-elevated: oklch(0.245 0.054 274);
+  --primary: oklch(0.78 0.22 330);
+  --primary-foreground: oklch(0.13 0.035 273);
+  --accent: oklch(0.82 0.18 195);
+  --accent-foreground: oklch(0.13 0.035 273);
+  --muted: oklch(0.25 0.05 274);
+  --muted-foreground: oklch(0.72 0.042 260);
+  --destructive: oklch(0.69 0.22 25);
+  --border: oklch(0.34 0.055 274);
+  --input: oklch(0.31 0.055 274);
+  --ring: oklch(0.82 0.18 195);
+  --neon-lime: oklch(0.9 0.21 132);
+  --rarity-common: oklch(0.75 0.025 260);
+  --rarity-uncommon: oklch(0.82 0.18 145);
+  --rarity-rare: oklch(0.78 0.18 235);
+  --rarity-epic: oklch(0.72 0.22 305);
+  --rarity-legendary: oklch(0.87 0.18 78);
+  --shadow-card: 0 1px 0 0 oklch(1 0 0 / 0.05) inset,
+    0 24px 52px -28px oklch(0 0 0 / 0.68);
+  --shadow-neon-pink: 0 0 0 1px oklch(0.78 0.22 330 / 0.52),
+    0 0 30px -8px oklch(0.78 0.22 330 / 0.72);
+  --shadow-neon-cyan: 0 0 0 1px oklch(0.82 0.18 195 / 0.52),
+    0 0 30px -8px oklch(0.82 0.18 195 / 0.72);
+  --gradient-bg: radial-gradient(
+      ellipse at 16% 0%,
+      oklch(0.78 0.22 330 / 0.17),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 88% 10%,
+      oklch(0.82 0.18 195 / 0.14),
+      transparent 48%
+    ),
+    radial-gradient(
+      ellipse at 50% 100%,
+      oklch(0.9 0.21 132 / 0.08),
+      transparent 58%
+    );
+  --grid-bg: linear-gradient(oklch(1 0 0 / 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 0.04) 1px, transparent 1px);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
 }
 
 body {
-  background: var(--background);
+  margin: 0;
+  background-color: var(--background);
+  background-image: var(--gradient-bg), var(--grid-bg);
+  background-attachment: fixed;
+  background-size: auto, 34px 34px;
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: var(--primary);
+  color: var(--primary-foreground);
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0;
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-neon-pink {
+    box-shadow: var(--shadow-neon-pink);
+  }
+
+  .shadow-neon-cyan {
+    box-shadow: var(--shadow-neon-cyan);
+  }
+
+  .text-glow-pink {
+    text-shadow: 0 0 13px oklch(0.78 0.22 330 / 0.82),
+      0 0 4px oklch(0.78 0.22 330 / 0.66);
+  }
+
+  .text-glow-cyan {
+    text-shadow: 0 0 13px oklch(0.82 0.18 195 / 0.82),
+      0 0 4px oklch(0.82 0.18 195 / 0.66);
+  }
+
+  .scanline {
+    position: relative;
+  }
+
+  .scanline::after {
+    background: repeating-linear-gradient(
+      to bottom,
+      transparent 0,
+      transparent 3px,
+      oklch(1 0 0 / 0.025) 3px,
+      oklch(1 0 0 / 0.025) 4px
+    );
+    content: "";
+    inset: 0;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+    position: fixed;
+    z-index: 60;
+  }
+
+  .panel-corners {
+    position: relative;
+  }
+
+  .panel-corners::before,
+  .panel-corners::after {
+    border-color: currentColor;
+    content: "";
+    height: 10px;
+    opacity: 0.55;
+    pointer-events: none;
+    position: absolute;
+    width: 10px;
+  }
+
+  .panel-corners::before {
+    border-left-width: 2px;
+    border-top-width: 2px;
+    left: 7px;
+    top: 7px;
+  }
+
+  .panel-corners::after {
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+    bottom: 7px;
+    right: 7px;
+  }
+
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }

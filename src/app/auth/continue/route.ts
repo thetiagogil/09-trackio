@@ -1,0 +1,19 @@
+import { NextResponse, type NextRequest } from "next/server";
+
+import { safeRedirectPath } from "@/lib/routing/redirect";
+import { getCurrentUser } from "@/lib/server/data";
+
+export async function GET(request: NextRequest) {
+  const requestUrl = new URL(request.url);
+  const next = safeRedirectPath(requestUrl.searchParams.get("next"), "/");
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    const authUrl = new URL("/auth", requestUrl.origin);
+    authUrl.searchParams.set("next", next);
+
+    return NextResponse.redirect(authUrl);
+  }
+
+  return NextResponse.redirect(new URL(next, requestUrl.origin));
+}
