@@ -20,6 +20,7 @@ export async function signOutAction(): Promise<ActionResult<void>> {
     }
 
     revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return { ok: true, data: undefined };
   } catch (error) {

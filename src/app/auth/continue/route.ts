@@ -5,7 +5,10 @@ import { getCurrentUser } from "@/lib/server/data";
 
 export async function GET(request: NextRequest) {
   const requestUrl = new URL(request.url);
-  const next = safeRedirectPath(requestUrl.searchParams.get("next"), "/");
+  const next = safeRedirectPath(
+    requestUrl.searchParams.get("next"),
+    "/dashboard",
+  );
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {

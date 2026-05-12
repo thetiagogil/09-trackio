@@ -225,7 +225,7 @@ export function TrackioDashboard({
         return;
       }
 
-      router.replace("/auth");
+      router.replace("/");
       router.refresh();
     });
   };

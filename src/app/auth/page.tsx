@@ -24,11 +24,11 @@ export default async function AuthPage({ searchParams }: AuthPageProps) {
   const currentUser = await getCurrentUser();
 
   if (currentUser) {
-    redirect("/");
+    redirect("/dashboard");
   }
 
   const params = await searchParams;
-  const safeNext = safeRedirectPath(params.next, "/");
+  const safeNext = safeRedirectPath(params.next, "/dashboard");
 
   return (
     <AuthForm

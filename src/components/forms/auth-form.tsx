@@ -22,7 +22,7 @@ const minimumPasswordLength = 8;
 export function AuthForm({
   initialError,
   initialMode = "signin",
-  next = "/",
+  next = "/dashboard",
 }: AuthFormProps) {
   const router = useRouter();
   const [mode, setMode] = useState<AuthMode>(initialMode);

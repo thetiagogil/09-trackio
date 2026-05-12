@@ -14,7 +14,7 @@ export async function getActiveTrackers(
     .order("updated_at", { ascending: false });
 
   if (error) {
-    throw error;
+    throw new Error(error.message);
   }
 
   return (data ?? []).map(mapTracker);

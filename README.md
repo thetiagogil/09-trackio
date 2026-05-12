@@ -1,36 +1,45 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Trackio
 
-## Getting Started
+Trackio is a private tracker directory for the apps, sites, profiles, docs,
+spreadsheets, and custom URLs where a user already tracks things.
 
-First, run the development server:
+V1 deliberately does not track movies, anime episodes, songs, concerts, habits,
+goals, streaks, achievements, social feeds, or public progress.
+
+## Local Setup
+
+Create `.env.local` from `.env.example`:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+```
+
+Then run:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Supabase Requirements
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Trackio uses the shared Supabase project from:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```text
+C:\Users\talme\Documents\Web Development\Tiago\00-databases
+```
 
-## Learn More
+The app reads `core.profiles` for shared identity and `trackio.trackers` for
+the private tracker directory. Tracker writes go through the `trackio` RPCs.
 
-To learn more about Next.js, take a look at the following resources:
+The Supabase Data API must expose these schemas:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `core`
+- `trackio`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+If the dashboard shows `Invalid schema: trackio`, the database is reachable but
+the `trackio` schema is not exposed to PostgREST. Add `trackio` to the project's
+exposed schemas and reload the PostgREST schema cache.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The database repo's local Supabase config already includes `trackio` in
+`projects/shared/supabase/config.toml`.

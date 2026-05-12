@@ -37,7 +37,7 @@ export async function createTrackerAction(
       return { ok: false, error: formatMutationError(error?.message) };
     }
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return { ok: true, data: mapTracker(data) };
   } catch (error) {
@@ -74,7 +74,7 @@ export async function updateTrackerAction(
       return { ok: false, error: formatMutationError(error?.message) };
     }
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return { ok: true, data: mapTracker(data) };
   } catch (error) {
@@ -103,7 +103,7 @@ export async function archiveTrackerAction(
       return { ok: false, error: formatMutationError(error?.message) };
     }
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return { ok: true, data: mapTracker(data) };
   } catch (error) {
@@ -132,7 +132,7 @@ export async function recordTrackerClickAction(
       return { ok: false, error: formatMutationError(error?.message) };
     }
 
-    revalidatePath("/");
+    revalidatePath("/dashboard");
 
     return { ok: true, data: mapTracker(data) };
   } catch (error) {

@@ -1,21 +1,19 @@
-import { SetupMissing } from "@/components/shared/setup-missing";
+import { unstable_rethrow } from "next/navigation";
+
 import { TrackioDashboard } from "@/components/trackers/dashboard";
-import { isSupabaseConfigured } from "@/lib/env";
 import { hydrateDashboard } from "@/lib/server/data";
 import type { DashboardHydration } from "@/lib/server/data";
 
 export const dynamic = "force-dynamic";
 
-export default async function Home() {
-  if (!isSupabaseConfigured()) {
-    return <SetupMissing />;
-  }
-
+export default async function DashboardPage() {
   let dashboard: DashboardHydration;
 
   try {
     dashboard = await hydrateDashboard();
   } catch (error) {
+    unstable_rethrow(error);
+
     return (
       <main className="flex min-h-screen w-full items-center justify-center px-0 py-12">
         <section
@@ -29,9 +27,7 @@ export default async function Home() {
             Trackers could not load
           </h1>
           <p className="mt-4 text-sm leading-6 text-muted-foreground">
-            {error instanceof Error
-              ? error.message
-              : "Something went wrong while loading Trackio."}
+            {formatDashboardError(error)}
           </p>
         </section>
       </main>
@@ -44,4 +40,31 @@ export default async function Home() {
       initialTrackers={dashboard.trackers}
     />
   );
+}
+
+function formatDashboardError(error: unknown) {
+  const message = readMessage(error) ?? "";
+
+  if (message.includes("Invalid schema: trackio")) {
+    return "The shared Supabase project is reachable, but the Trackio schema is not exposed through the Data API. Add `trackio` to the project's exposed schemas, then reload the PostgREST schema cache.";
+  }
+
+  return message || "Something went wrong while loading Trackio.";
+}
+
+function readMessage(error: unknown) {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  if (
+    typeof error === "object" &&
+    error !== null &&
+    "message" in error &&
+    typeof error.message === "string"
+  ) {
+    return error.message;
+  }
+
+  return null;
 }
