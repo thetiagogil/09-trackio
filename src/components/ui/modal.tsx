@@ -45,7 +45,7 @@ export function Modal({ open, title, children, onClose }: ModalProps) {
         className="relative w-full max-w-lg overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-6 shadow-card"
         role="dialog"
       >
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+        <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10" />
         <div className="relative mb-5 flex items-center justify-between gap-3">
           <h2 className="font-display text-sm uppercase tracking-wider text-glow-primary">
             {title}

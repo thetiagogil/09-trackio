@@ -30,15 +30,15 @@ type ButtonLinkProps = LinkProps &
 
 const variants: Record<ButtonVariant, string> = {
   primary:
-    "border-primary bg-primary text-primary-foreground shadow-sm hover:border-primary hover:bg-primary hover:shadow-primary",
+    "border-primary bg-primary text-primary-foreground hover:border-accent hover:bg-accent hover:text-accent-foreground",
   secondary:
-    "border-border bg-card text-foreground shadow-sm hover:border-accent hover:bg-surface-elevated",
+    "border-border bg-card text-foreground hover:border-accent hover:bg-surface-elevated",
   outline:
-    "border-accent bg-background text-foreground shadow-sm hover:border-accent hover:bg-accent hover:text-accent-foreground hover:shadow-neon-cyan",
+    "border-accent bg-background text-foreground hover:border-accent hover:bg-accent hover:text-accent-foreground",
   ghost:
     "border-transparent bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
   danger:
-    "border-destructive bg-destructive text-destructive-foreground shadow-sm hover:border-destructive hover:bg-primary",
+    "border-destructive bg-destructive text-destructive-foreground hover:border-destructive hover:bg-primary",
 };
 
 const sizes: Record<ButtonSize, string> = {

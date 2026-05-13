@@ -1,6 +1,10 @@
 import { HomeFeatureGrid } from "@/components/features/home/home-feature-grid";
 import { HomeHero } from "@/components/features/home/home-hero";
-import { PageMain, PageShell, SiteHeader } from "@/components/shared/page-shell";
+import {
+  PageMain,
+  PageShell,
+  SiteHeader,
+} from "@/components/shared/page-shell";
 import { SetupMissing } from "@/components/shared/setup-missing";
 import { ButtonLink } from "@/components/ui/button";
 import { isSupabaseConfigured } from "@/lib/env";
@@ -11,17 +15,14 @@ export default function Home() {
   }
 
   return (
-    <PageShell className="h-[100dvh] min-h-[100vh] overflow-hidden">
+    <PageShell className="h-dvh min-h-screen overflow-hidden">
       <SiteHeader
         actions={
           <>
             <ButtonLink href="/auth?next=/dashboard" size="sm" variant="ghost">
               Sign In
             </ButtonLink>
-            <ButtonLink
-              href="/auth?mode=signup&next=/dashboard"
-              size="sm"
-            >
+            <ButtonLink href="/auth?mode=signup&next=/dashboard" size="sm">
               Start Quest
             </ButtonLink>
           </>

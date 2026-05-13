@@ -96,7 +96,7 @@ export function BrandMark({ className, href, size = "md" }: BrandMarkProps) {
     >
       <span className="text-glow-primary">TRACKIO</span>
       <span className="mx-2 text-accent">x</span>
-      <span className="text-glow-cyan">TRACKERS</span>
+      <span className="text-glow-accent">TRACKERS</span>
     </span>
   );
 

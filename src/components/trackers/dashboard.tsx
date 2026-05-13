@@ -245,7 +245,7 @@ export function TrackioDashboard({
         sticky
         leading={
           <div>
-            <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-accent text-glow-cyan">
+            <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-accent text-glow-accent">
               &gt; tracker.hud <span className="animate-blink">_</span>
             </div>
             <BrandMark size="lg" />
@@ -257,7 +257,7 @@ export function TrackioDashboard({
               <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
                 signed in
               </span>
-              <span className="max-w-44 truncate font-display text-[11px] text-glow-cyan">
+              <span className="max-w-44 truncate font-display text-[11px] text-glow-accent">
                 {profileName}
               </span>
             </div>

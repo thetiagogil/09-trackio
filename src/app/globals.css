@@ -27,9 +27,6 @@
   --color-ring: var(--ring);
   --color-surface: var(--surface);
   --color-surface-elevated: var(--surface-elevated);
-  --color-neon-cyan: var(--neon-cyan);
-  --color-neon-lime: var(--neon-lime);
-  --color-neon-violet: var(--neon-violet);
   --color-neon-amber: var(--neon-amber);
   --color-rarity-common: var(--rarity-common);
   --color-rarity-uncommon: var(--rarity-uncommon);
@@ -64,9 +61,6 @@
   --border: oklch(0.32 0.06 278);
   --input: oklch(0.28 0.06 278);
   --ring: oklch(0.78 0.22 330);
-  --neon-cyan: oklch(0.82 0.18 195);
-  --neon-lime: oklch(0.9 0.22 130);
-  --neon-violet: oklch(0.7 0.22 295);
   --neon-amber: oklch(0.85 0.18 75);
   --rarity-common: oklch(0.7 0.02 280);
   --rarity-uncommon: oklch(0.82 0.18 145);
@@ -96,52 +90,56 @@
     0 24px 50px -25px oklch(0 0 0 / 0.6);
   --shadow-primary: 0 0 0 1px oklch(0.78 0.22 330 / 0.5),
     0 0 30px -5px oklch(0.78 0.22 330 / 0.5);
-  --shadow-neon-cyan: 0 0 0 1px oklch(0.82 0.18 195 / 0.5),
+  --shadow-accent: 0 0 0 1px oklch(0.82 0.18 195 / 0.5),
     0 0 30px -5px oklch(0.82 0.18 195 / 0.5);
 }
 
-* {
-  border-color: var(--color-border);
-  box-sizing: border-box;
-}
+@layer base {
+  *,
+  *::before,
+  *::after {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
 
-html,
-body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  min-height: 100%;
-}
+  html,
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    min-height: 100%;
+  }
 
-body {
-  background-attachment: fixed;
-  background-image: var(--gradient-bg), var(--grid-bg);
-  background-position: 0 0, 0 0;
-  background-size: auto, 32px 32px;
-  margin: 0;
-  text-rendering: geometricPrecision;
-}
+  body {
+    background-attachment: fixed;
+    background-image: var(--gradient-bg), var(--grid-bg);
+    background-position: 0 0, 0 0;
+    background-size: auto, 32px 32px;
+    margin: 0;
+    text-rendering: geometricPrecision;
+  }
 
-button,
-input,
-textarea,
-select {
-  font: inherit;
-}
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
 
-button {
-  cursor: pointer;
-}
+  button {
+    cursor: pointer;
+  }
 
-a {
-  color: inherit;
-  text-decoration: none;
-}
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
 
-::selection {
-  background-color: var(--color-primary);
-  color: var(--color-primary-foreground);
+  ::selection {
+    background-color: var(--color-primary);
+    color: var(--color-primary-foreground);
+  }
 }
 
 @layer utilities {
@@ -166,8 +164,8 @@ a {
     box-shadow: var(--shadow-primary);
   }
 
-  .shadow-neon-cyan {
-    box-shadow: var(--shadow-neon-cyan);
+  .shadow-accent {
+    box-shadow: var(--shadow-accent);
   }
 
   .text-glow-primary {
@@ -175,7 +173,7 @@ a {
       0 0 4px oklch(0.78 0.22 330 / 0.6);
   }
 
-  .text-glow-cyan {
+  .text-glow-accent {
     text-shadow: 0 0 12px oklch(0.82 0.18 195 / 0.8),
       0 0 4px oklch(0.82 0.18 195 / 0.6);
   }
