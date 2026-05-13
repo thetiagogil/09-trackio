@@ -13,7 +13,7 @@ export function Label({
   return (
     <label
       className={cn(
-        "font-mono text-[11px] uppercase tracking-wider text-muted-foreground",
+        "font-mono text-xs uppercase tracking-wider text-foreground",
         className,
       )}
       {...props}
@@ -28,7 +28,7 @@ export function Input({
   return (
     <input
       className={cn(
-        "h-11 w-full rounded-sm border-2 border-input bg-background/70 px-3 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:cursor-not-allowed disabled:opacity-60",
+        "flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
         className,
       )}
       {...props}
@@ -43,7 +43,7 @@ export function Textarea({
   return (
     <textarea
       className={cn(
-        "min-h-28 w-full resize-y rounded-sm border-2 border-input bg-background/70 px-3 py-2 font-mono text-sm text-foreground outline-none transition-colors placeholder:text-muted-foreground/60 focus:border-accent focus:ring-2 focus:ring-accent/20 disabled:cursor-not-allowed disabled:opacity-60",
+        "flex min-h-24 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base shadow-sm transition-colors placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50 md:text-sm",
         className,
       )}
       {...props}

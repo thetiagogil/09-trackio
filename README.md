@@ -8,7 +8,7 @@ goals, streaks, achievements, social feeds, or public progress.
 
 ## Local Setup
 
-Create `.env.local` from `.env.example`:
+Create `.env.local` from `.env.local.example`:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL=

@@ -66,7 +66,7 @@ function TrackerFormContent({
   const categoryOptions = useMemo(() => {
     const unique = new Set([...DEFAULT_CATEGORIES, ...categories]);
 
-    return Array.from(unique).sort((a, b) => a.localeCompare(b));
+    return Array.from(unique);
   }, [categories]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -81,7 +81,7 @@ function TrackerFormContent({
     <Modal
       onClose={onClose}
       open={open}
-      title={editing ? "Edit tracker" : "New tracker"}
+      title={editing ? "> Edit Tracker" : "> New Tracker"}
     >
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
@@ -93,7 +93,7 @@ function TrackerFormContent({
             onChange={(event) =>
               setForm((current) => ({ ...current, title: event.target.value }))
             }
-            placeholder="Letterboxd"
+            placeholder="e.g. AniList"
             required
             value={form.title}
           />
@@ -107,45 +107,43 @@ function TrackerFormContent({
             onChange={(event) =>
               setForm((current) => ({ ...current, url: event.target.value }))
             }
-            placeholder="https://letterboxd.com/you"
+            placeholder="https://..."
             required
             type="url"
             value={form.url}
           />
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="space-y-1.5">
-            <Label htmlFor="tracker-category">Category</Label>
-            <select
-              className="h-11 w-full rounded-sm border-2 border-input bg-background/70 px-3 font-mono text-sm text-foreground outline-none transition-colors focus:border-accent focus:ring-2 focus:ring-accent/20"
-              id="tracker-category"
-              onChange={(event) =>
-                setForm((current) => ({
-                  ...current,
-                  category: event.target.value,
-                }))
-              }
-              value={form.category}
-            >
-              {categoryOptions.map((category) => (
-                <option key={category} value={category}>
-                  {category}
-                </option>
-              ))}
-            </select>
-          </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="tracker-category">Category</Label>
+          <select
+            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 font-mono text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+            id="tracker-category"
+            onChange={(event) =>
+              setForm((current) => ({
+                ...current,
+                category: event.target.value,
+              }))
+            }
+            value={form.category}
+          >
+            {categoryOptions.map((category) => (
+              <option key={category} value={category}>
+                {category}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <div className="space-y-1.5">
-            <Label htmlFor="tracker-custom-category">New category</Label>
-            <Input
-              id="tracker-custom-category"
-              maxLength={TRACKER_FIELD_LIMITS.category}
-              onChange={(event) => setCustomCategory(event.target.value)}
-              placeholder="optional"
-              value={customCategory}
-            />
-          </div>
+        <div className="space-y-1.5">
+          <Label htmlFor="tracker-custom-category">Or new category</Label>
+          <Input
+            id="tracker-custom-category"
+            maxLength={TRACKER_FIELD_LIMITS.category}
+            onChange={(event) => setCustomCategory(event.target.value)}
+            placeholder="optional"
+            value={customCategory}
+          />
         </div>
 
         <div className="space-y-1.5">
@@ -165,7 +163,7 @@ function TrackerFormContent({
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="tracker-notes">Notes</Label>
+          <Label htmlFor="tracker-notes">Notes / Context</Label>
           <Textarea
             id="tracker-notes"
             maxLength={TRACKER_FIELD_LIMITS.notes}
@@ -173,6 +171,7 @@ function TrackerFormContent({
               setForm((current) => ({ ...current, notes: event.target.value }))
             }
             placeholder="Private context for this tracker"
+            rows={3}
             value={form.notes ?? ""}
           />
         </div>
@@ -181,9 +180,12 @@ function TrackerFormContent({
           <Button onClick={onClose} variant="ghost">
             Cancel
           </Button>
-          <Button disabled={pending} type="submit">
+          <Button
+            disabled={pending}
+            type="submit"
+          >
             {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            {editing ? "Save tracker" : "Add tracker"}
+            {editing ? "Save" : "Add Tracker"}
           </Button>
         </div>
       </form>

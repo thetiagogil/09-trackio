@@ -3,19 +3,19 @@
 import {
   Archive,
   ExternalLink,
+  MoreHorizontal,
   Pencil,
-  RadioTower,
   Zap,
 } from "lucide-react";
+import { useState } from "react";
 
-import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import {
   formatDomain,
   levelFromXp,
   rarityFromXp,
   relativeTime,
-  trackerInitials,
 } from "@/lib/trackers";
 import type { Tracker } from "@/types/trackio";
 
@@ -26,13 +26,21 @@ type TrackerCardProps = {
   onLaunch: (tracker: Tracker) => void;
 };
 
-const rarityClasses = {
-  common: "border-rarity-common/45 text-rarity-common",
-  uncommon: "border-rarity-uncommon/55 text-rarity-uncommon",
-  rare: "border-rarity-rare/60 text-rarity-rare hover:shadow-[0_0_34px_-12px_var(--rarity-rare)]",
-  epic: "border-rarity-epic/65 text-rarity-epic hover:shadow-[0_0_34px_-12px_var(--rarity-epic)]",
+const rarityClass = {
+  common: "border-rarity-common/40 text-rarity-common",
+  uncommon: "border-rarity-uncommon/60 text-rarity-uncommon",
+  rare: "border-rarity-rare/60 text-rarity-rare",
+  epic: "border-rarity-epic/60 text-rarity-epic",
+  legendary: "border-rarity-legendary/70 text-rarity-legendary",
+};
+
+const rarityGlow = {
+  common: "",
+  uncommon: "",
+  rare: "hover:shadow-[0_0_30px_-8px_var(--color-rarity-rare)]",
+  epic: "hover:shadow-[0_0_30px_-8px_var(--color-rarity-epic)]",
   legendary:
-    "border-rarity-legendary/75 text-rarity-legendary hover:shadow-[0_0_42px_-12px_var(--rarity-legendary)]",
+    "animate-pulse-glow hover:shadow-[0_0_40px_-8px_var(--color-rarity-legendary)]",
 };
 
 export function TrackerCard({
@@ -41,121 +49,159 @@ export function TrackerCard({
   onLaunch,
   tracker,
 }: TrackerCardProps) {
+  const [menuOpen, setMenuOpen] = useState(false);
   const domain = formatDomain(tracker.url);
+  const favicon = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(
+    domain,
+  )}&sz=64`;
   const level = levelFromXp(tracker.xp);
   const rarity = rarityFromXp(tracker.xp);
+
+  const handleEdit = () => {
+    setMenuOpen(false);
+    onEdit(tracker);
+  };
+
+  const handleArchive = () => {
+    setMenuOpen(false);
+    onArchive(tracker);
+  };
 
   return (
     <article
       className={cn(
-        "panel-corners group flex min-h-[292px] flex-col rounded-lg border-2 bg-card p-4 shadow-card transition-all hover:-translate-y-0.5",
-        rarityClasses[rarity.tone],
+        "group relative flex flex-col rounded-lg border-2 bg-card p-5 shadow-card transition-all hover:-translate-y-1",
+        rarityClass[rarity.tone],
+        rarityGlow[rarity.tone],
       )}
     >
+      <span className="absolute left-1.5 top-1.5 h-2 w-2 border-l-2 border-t-2 border-current opacity-60" />
+      <span className="absolute right-1.5 top-1.5 h-2 w-2 border-r-2 border-t-2 border-current opacity-60" />
+      <span className="absolute bottom-1.5 left-1.5 h-2 w-2 border-b-2 border-l-2 border-current opacity-60" />
+      <span className="absolute bottom-1.5 right-1.5 h-2 w-2 border-b-2 border-r-2 border-current opacity-60" />
+
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="relative grid h-12 w-12 shrink-0 place-items-center rounded-sm border-2 border-current/45 bg-surface-elevated">
-            <span className="font-display text-[12px] uppercase tracking-wider text-foreground">
-              {trackerInitials(tracker.title)}
-            </span>
-            <span className="absolute -bottom-2 -right-2 rounded-sm border border-current bg-background px-1.5 py-0.5 font-mono text-[10px] text-foreground">
+          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 border-current/40 bg-surface-elevated">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              alt=""
+              className="h-7 w-7"
+              onError={(event) => {
+                event.currentTarget.style.display = "none";
+              }}
+              src={favicon}
+            />
+            <span className="absolute -bottom-1 -right-1 rounded border border-current bg-background px-1 py-0.5 font-display text-[8px] text-foreground">
               L{level.level}
             </span>
           </div>
           <div className="min-w-0">
-            <h3 className="truncate text-lg font-bold leading-tight text-foreground">
+            <h3 className="truncate text-lg font-bold leading-tight tracking-tight text-foreground">
               {tracker.title}
             </h3>
-            <p className="mt-1 truncate font-mono text-[11px] text-muted-foreground">
+            <p className="truncate font-mono text-[11px] text-muted-foreground">
               {domain}
             </p>
           </div>
         </div>
 
-        <div className="flex shrink-0 gap-1 opacity-100 sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100">
-          <Button
-            aria-label={`Edit ${tracker.title}`}
-            onClick={() => onEdit(tracker)}
-            size="icon"
-            title="Edit tracker"
-            variant="ghost"
+        <div className="relative">
+          <button
+            aria-expanded={menuOpen}
+            aria-label={`Open menu for ${tracker.title}`}
+            className="rounded-md p-1.5 opacity-100 transition-opacity hover:bg-surface-elevated sm:opacity-0 sm:group-hover:opacity-100"
+            onClick={() => setMenuOpen((current) => !current)}
+            type="button"
           >
-            <Pencil className="h-4 w-4" />
-          </Button>
-          <Button
-            aria-label={`Archive ${tracker.title}`}
-            onClick={() => onArchive(tracker)}
-            size="icon"
-            title="Archive tracker"
-            variant="ghost"
-          >
-            <Archive className="h-4 w-4" />
-          </Button>
+            <MoreHorizontal className="h-4 w-4" />
+          </button>
+
+          {menuOpen ? (
+            <div className="absolute right-0 top-9 z-20 min-w-36 overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md">
+              <button
+                className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                onClick={handleEdit}
+                type="button"
+              >
+                <Pencil className="h-4 w-4" />
+                Edit
+              </button>
+              <div className="-mx-1 my-1 h-px bg-muted" />
+              <button
+                className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm text-destructive outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
+                onClick={handleArchive}
+                type="button"
+              >
+                <Archive className="h-4 w-4" />
+                Archive
+              </button>
+            </div>
+          ) : null}
         </div>
       </div>
 
+      {tracker.notes ? (
+        <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-foreground/80">
+          {tracker.notes}
+        </p>
+      ) : null}
+
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="rounded-sm border border-border bg-surface-elevated px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-foreground">
+        <span className="rounded-sm border border-border bg-surface-elevated px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground">
           {tracker.category}
         </span>
-        <span className="rounded-sm border border-current bg-background/50 px-2 py-1 font-display text-[9px] uppercase tracking-wider">
-          {rarity.label}
+        <span
+          className={cn(
+            "rounded-sm border bg-background/50 px-2 py-1 font-display text-[9px] uppercase tracking-wider",
+            rarityClass[rarity.tone],
+          )}
+        >
+          * {rarity.label}
         </span>
         {tracker.username ? (
-          <span className="rounded-sm border border-border bg-background/50 px-2 py-1 font-mono text-[10px] text-muted-foreground">
+          <span className="rounded-sm border border-border bg-background/50 px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
             {tracker.username}
           </span>
         ) : null}
       </div>
 
-      {tracker.notes ? (
-        <p className="mt-4 line-clamp-3 text-sm leading-6 text-foreground/78">
-          {tracker.notes}
-        </p>
-      ) : (
-        <p className="mt-4 text-sm leading-6 text-muted-foreground">
-          No private notes yet.
-        </p>
-      )}
-
-      <div className="mt-auto pt-5">
-        <div className="mb-2 flex items-center justify-between font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-          <span>XP level {level.level}</span>
+      <div className="mt-4">
+        <div className="mb-1 flex justify-between font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+          <span>XP - LVL {level.level}</span>
           <span>{level.percent}%</span>
         </div>
-        <div className="h-2 overflow-hidden rounded-full border border-border bg-surface-elevated">
+        <div className="h-1.5 w-full overflow-hidden rounded-full border border-border bg-surface-elevated">
           <div
-            className="h-full bg-gradient-to-r from-primary via-accent to-neon-lime transition-all"
+            className="h-full bg-gradient-to-r from-primary to-accent transition-all"
             style={{ width: `${level.percent}%` }}
           />
         </div>
+      </div>
 
-        <div className="mt-4 flex items-center justify-between gap-3 border-t border-dashed border-border pt-4">
-          <div className="min-w-0 font-mono text-[11px] text-muted-foreground">
-            <div className="flex items-center gap-1.5 text-foreground">
-              <Zap className="h-3.5 w-3.5 text-accent" />
-              {tracker.xp.toLocaleString()} XP
-              <span className="text-muted-foreground">
-                / {tracker.clickCount.toLocaleString()} launches
-              </span>
-            </div>
-            <div className="mt-1 flex items-center gap-1.5">
-              <RadioTower className="h-3.5 w-3.5" />
-              last: {relativeTime(tracker.lastClickedAt)}
-            </div>
+      <div className="mt-4 flex items-center justify-between border-t border-dashed border-border pt-3">
+        <div className="font-mono text-[11px] text-muted-foreground">
+          <div className="flex items-center gap-1 text-foreground">
+            <Zap className="h-3 w-3 text-accent" />
+            {tracker.xp.toLocaleString()} XP
           </div>
-
-          <a
-            className="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-sm border-2 border-primary bg-primary px-3 font-display text-[11px] uppercase tracking-wider text-primary-foreground transition-all hover:shadow-neon-pink focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background"
-            href={tracker.url}
-            onClick={() => onLaunch(tracker)}
-            rel="noreferrer"
-            target="_blank"
-          >
-            Launch
-            <ExternalLink className="h-3.5 w-3.5" />
-          </a>
+          <div className="mt-0.5 opacity-60">
+            last: {relativeTime(tracker.lastClickedAt)}
+          </div>
         </div>
+        <a
+          className={buttonVariants({
+            className: "rounded-sm",
+            size: "sm",
+          })}
+          href={tracker.url}
+          onClick={() => onLaunch(tracker)}
+          rel="noreferrer"
+          target="_blank"
+        >
+          Launch
+          <ExternalLink className="h-3 w-3" />
+        </a>
       </div>
     </article>
   );

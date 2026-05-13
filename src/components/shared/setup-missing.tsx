@@ -1,3 +1,5 @@
+import { PageMain, PageShell, SiteHeader } from "@/components/shared/page-shell";
+
 const envRows = [
   {
     name: "NEXT_PUBLIC_SUPABASE_URL",
@@ -11,38 +13,48 @@ const envRows = [
 
 export function SetupMissing() {
   return (
-    <main className="flex min-h-screen w-full items-center justify-center px-0 py-12">
-      <section
-        className="panel-corners min-w-0 rounded-lg border-2 border-accent/50 bg-card p-6 shadow-card"
-        style={{ width: "min(42rem, calc(100vw - 5rem))" }}
-      >
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.28em] text-accent">
-          setup required
-        </p>
-        <h1 className="font-display text-xl leading-relaxed text-glow-cyan">
-          Configure Supabase
-        </h1>
-        <p className="mt-4 text-sm leading-6 text-muted-foreground">
-          Trackio is ready to use the shared Supabase project, but the local app
-          needs public client credentials in <code>.env.local</code>.
-        </p>
+    <PageShell>
+      <SiteHeader
+        actions={
+          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+            setup
+          </span>
+        }
+      />
 
-        <div className="mt-5 rounded-sm border border-border bg-background/70 p-3">
-          {envRows.map((row) => (
-            <div
-              className="flex min-w-0 flex-col gap-1 border-b border-border/70 py-3 first:pt-1 last:border-b-0 last:pb-1 sm:flex-row sm:items-center sm:justify-between"
-              key={row.name}
-            >
-              <span className="break-all font-mono text-xs font-bold text-foreground">
-                {row.name}
-              </span>
-              <span className="font-mono text-[11px] uppercase tracking-wider text-accent">
-                {row.value}
-              </span>
+      <PageMain className="flex flex-1 items-center justify-center py-12">
+        <section className="relative w-full max-w-md overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-8 shadow-card">
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+          <div className="relative">
+            <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+              &gt; setup required
             </div>
-          ))}
-        </div>
-      </section>
-    </main>
+            <h1 className="mb-5 font-display text-2xl text-glow-primary">
+              CONFIGURE SUPABASE
+            </h1>
+            <p className="text-sm leading-6 text-muted-foreground">
+              Trackio is ready to use the shared Supabase project. Add these
+              public client credentials to <code>.env.local</code>.
+            </p>
+
+            <div className="mt-6 overflow-hidden rounded-md border border-border bg-background/50">
+              {envRows.map((row) => (
+                <div
+                  className="flex min-w-0 flex-col gap-1 border-b border-border px-3 py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between"
+                  key={row.name}
+                >
+                  <span className="break-all font-mono text-xs text-foreground">
+                    {row.name}
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-accent">
+                    {row.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      </PageMain>
+    </PageShell>
   );
 }

@@ -33,7 +33,7 @@ export function Modal({ open, title, children, onClose }: ModalProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-background/80 px-4 py-8 backdrop-blur-sm">
+    <div className="fixed inset-0 z-50 grid place-items-center bg-black/80 px-4 py-8">
       <button
         aria-label="Close modal"
         className="absolute inset-0 cursor-default"
@@ -42,11 +42,12 @@ export function Modal({ open, title, children, onClose }: ModalProps) {
       />
       <div
         aria-modal="true"
-        className="panel-corners relative w-full max-w-lg rounded-lg border-2 border-primary/45 bg-card p-5 shadow-card"
+        className="relative w-full max-w-lg overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-6 shadow-card"
         role="dialog"
       >
-        <div className="mb-5 flex items-center justify-between gap-3">
-          <h2 className="font-display text-sm uppercase tracking-wider text-glow-pink">
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+        <div className="relative mb-5 flex items-center justify-between gap-3">
+          <h2 className="font-display text-sm uppercase tracking-wider text-glow-primary">
             {title}
           </h2>
           <Button
@@ -58,7 +59,7 @@ export function Modal({ open, title, children, onClose }: ModalProps) {
             <X className="h-4 w-4" />
           </Button>
         </div>
-        {children}
+        <div className="relative">{children}</div>
       </div>
     </div>
   );
