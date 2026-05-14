@@ -1,6 +1,6 @@
 import { ArrowRight, Zap } from "lucide-react";
 
-import { ButtonLink } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
 
 export function HomeHero() {
   return (
@@ -25,7 +25,7 @@ export function HomeHero() {
         </ButtonLink>
         <ButtonLink href="/auth?next=/dashboard" size="lg" variant="outline">
           <Zap className="h-4 w-4" />
-          Continue as test user
+          Enter HUD
         </ButtonLink>
       </div>
     </section>

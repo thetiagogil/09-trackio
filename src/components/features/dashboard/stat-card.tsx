@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 
-type StatBoxProps = {
+type StatCardProps = {
   icon: ReactNode;
   label: string;
   small?: boolean;
@@ -10,7 +10,7 @@ type StatBoxProps = {
   value: string | number;
 };
 
-export function StatBox({ icon, label, small, tone, value }: StatBoxProps) {
+export function StatCard({ icon, label, small, tone, value }: StatCardProps) {
   const toneClass =
     tone === "pink"
       ? "text-primary"

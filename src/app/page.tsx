@@ -1,12 +1,10 @@
 import { HomeFeatureGrid } from "@/components/features/home/home-feature-grid";
 import { HomeHero } from "@/components/features/home/home-hero";
-import {
-  PageMain,
-  PageShell,
-  SiteHeader,
-} from "@/components/shared/page-shell";
+import { AppHeader } from "@/components/shared/app-header";
+import { AppMain } from "@/components/shared/app-main";
+import { AppShell } from "@/components/shared/app-shell";
 import { SetupMissing } from "@/components/shared/setup-missing";
-import { ButtonLink } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
 import { isSupabaseConfigured } from "@/lib/env";
 
 export default function Home() {
@@ -15,8 +13,8 @@ export default function Home() {
   }
 
   return (
-    <PageShell className="h-dvh min-h-screen overflow-hidden">
-      <SiteHeader
+    <AppShell className="h-dvh min-h-screen overflow-hidden">
+      <AppHeader
         actions={
           <>
             <ButtonLink href="/auth?next=/dashboard" size="sm" variant="ghost">
@@ -29,12 +27,12 @@ export default function Home() {
         }
       />
 
-      <PageMain className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto py-6 md:py-10">
+      <AppMain className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto pb-6 md:pb-10">
         <div className="flex w-full flex-col justify-center gap-10 md:gap-14">
           <HomeHero />
           <HomeFeatureGrid />
         </div>
-      </PageMain>
-    </PageShell>
+      </AppMain>
+    </AppShell>
   );
 }

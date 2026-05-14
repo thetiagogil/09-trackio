@@ -6,8 +6,6 @@ import { isSupabaseConfigured } from "@/lib/env";
 import { safeRedirectPath } from "@/lib/routing/redirect";
 import { getCurrentUser } from "@/lib/server/data";
 
-export const dynamic = "force-dynamic";
-
 type AuthPageProps = {
   searchParams: Promise<{
     error?: string;

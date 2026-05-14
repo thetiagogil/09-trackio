@@ -1,11 +1,11 @@
 import { unstable_rethrow } from "next/navigation";
 
-import { PageMain, PageShell, SiteHeader } from "@/components/shared/page-shell";
-import { TrackioDashboard } from "@/components/trackers/dashboard";
+import { Dashboard } from "@/components/features/dashboard/dashboard";
+import { AppHeader } from "@/components/shared/app-header";
+import { AppMain } from "@/components/shared/app-main";
+import { AppShell } from "@/components/shared/app-shell";
 import { hydrateDashboard } from "@/lib/server/data";
 import type { DashboardHydration } from "@/lib/server/data";
-
-export const dynamic = "force-dynamic";
 
 export default async function DashboardPage() {
   let dashboard: DashboardHydration;
@@ -16,9 +16,9 @@ export default async function DashboardPage() {
     unstable_rethrow(error);
 
     return (
-      <PageShell>
-        <SiteHeader />
-        <PageMain className="flex flex-1 items-center justify-center py-12">
+      <AppShell>
+        <AppHeader />
+        <AppMain className="flex flex-1 items-center justify-center pb-12">
           <section
             className="panel-corners min-w-0 rounded-lg border-2 border-destructive/50 bg-card p-6 shadow-card"
             style={{ width: "min(42rem, calc(100vw - 5rem))" }}
@@ -33,13 +33,13 @@ export default async function DashboardPage() {
               {formatDashboardError(error)}
             </p>
           </section>
-        </PageMain>
-      </PageShell>
+        </AppMain>
+      </AppShell>
     );
   }
 
   return (
-    <TrackioDashboard
+    <Dashboard
       currentUser={dashboard.currentUser}
       initialTrackers={dashboard.trackers}
     />

@@ -1,9 +1,4 @@
-import Link, { type LinkProps } from "next/link";
-import type {
-  AnchorHTMLAttributes,
-  ButtonHTMLAttributes,
-  ReactNode,
-} from "react";
+import type { ButtonHTMLAttributes } from "react";
 
 import { cn } from "@/lib/cn";
 
@@ -21,12 +16,6 @@ type ButtonStyleProps = {
 };
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & ButtonStyleProps;
-
-type ButtonLinkProps = LinkProps &
-  Omit<AnchorHTMLAttributes<HTMLAnchorElement>, keyof LinkProps> &
-  ButtonStyleProps & {
-    children: ReactNode;
-  };
 
 const variants: Record<ButtonVariant, string> = {
   primary:
@@ -74,16 +63,5 @@ export function Button({
       className={buttonVariants({ className, size, variant })}
       {...props}
     />
-  );
-}
-
-export function ButtonLink({
-  className,
-  size = "md",
-  variant = "primary",
-  ...props
-}: ButtonLinkProps) {
-  return (
-    <Link className={buttonVariants({ className, size, variant })} {...props} />
   );
 }

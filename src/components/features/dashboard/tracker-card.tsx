@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
+import { HudCard } from "@/components/features/dashboard/hud-card";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import {
@@ -68,18 +69,13 @@ export function TrackerCard({
   };
 
   return (
-    <article
+    <HudCard
+      interactive
       className={cn(
-        "group relative flex flex-col rounded-lg border-2 bg-card p-5 shadow-card transition-all hover:-translate-y-1",
         rarityClass[rarity.tone],
         rarityGlow[rarity.tone],
       )}
     >
-      <span className="absolute left-1.5 top-1.5 h-2 w-2 border-l-2 border-t-2 border-current opacity-60" />
-      <span className="absolute right-1.5 top-1.5 h-2 w-2 border-r-2 border-t-2 border-current opacity-60" />
-      <span className="absolute bottom-1.5 left-1.5 h-2 w-2 border-b-2 border-l-2 border-current opacity-60" />
-      <span className="absolute bottom-1.5 right-1.5 h-2 w-2 border-b-2 border-r-2 border-current opacity-60" />
-
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
           <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 border-current/40 bg-surface-elevated">
@@ -173,7 +169,7 @@ export function TrackerCard({
         </div>
         <div className="h-1.5 w-full overflow-hidden rounded-full border border-border bg-surface-elevated">
           <div
-            className="h-full bg-gradient-to-r from-primary to-accent transition-all"
+            className="h-full bg-linear-to-r from-primary to-accent transition-all"
             style={{ width: `${level.percent}%` }}
           />
         </div>
@@ -203,6 +199,6 @@ export function TrackerCard({
           <ExternalLink className="h-3 w-3" />
         </a>
       </div>
-    </article>
+    </HudCard>
   );
 }

@@ -1,18 +1,18 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, LockKeyhole, Zap } from "lucide-react";
+import { ArrowLeft, Loader2, LockKeyhole } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 
-import {
-  BrandMark,
-  PageMain,
-  PageShell,
-  SiteHeader,
-} from "@/components/shared/page-shell";
-import { Button, ButtonLink } from "@/components/ui/button";
-import { Input, Label } from "@/components/ui/field";
-import { cn } from "@/lib/cn";
+import { AuthFeedback } from "@/components/features/auth/auth-feedback";
+import { AppHeader } from "@/components/shared/app-header";
+import { AppLogo } from "@/components/shared/app-logo";
+import { AppMain } from "@/components/shared/app-main";
+import { AppShell } from "@/components/shared/app-shell";
+import { Button } from "@/components/ui/button";
+import { ButtonLink } from "@/components/ui/button-link";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/browser";
 
 type AuthMode = "signin" | "signup";
@@ -127,9 +127,9 @@ export function AuthForm({
   };
 
   return (
-    <PageShell>
-      <SiteHeader
-        actions={<BrandMark size="sm" />}
+    <AppShell>
+      <AppHeader
+        actions={<AppLogo size="sm" />}
         leading={
           <ButtonLink href="/" size="sm" variant="ghost">
             <ArrowLeft className="h-4 w-4" />
@@ -138,7 +138,7 @@ export function AuthForm({
         }
       />
 
-      <PageMain className="flex flex-1 items-center justify-center py-12">
+      <AppMain className="flex flex-1 items-center justify-center pb-12">
         <div className="w-full max-w-md">
           <div className="relative overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-8 shadow-card">
             <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10" />
@@ -267,47 +267,10 @@ export function AuthForm({
                 </button>
               </div>
 
-              <div className="my-6 flex items-center gap-3">
-                <div className="h-px flex-1 bg-border" />
-                <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
-                  or
-                </span>
-                <div className="h-px flex-1 bg-border" />
-              </div>
-
-              <ButtonLink className="w-full" href="/" variant="outline">
-                <Zap className="h-4 w-4" />
-                Continue as test user
-              </ButtonLink>
-              <p className="mt-3 text-center font-mono text-[10px] text-muted-foreground">
-                Skip the form. Try the HUD with seeded quests.
-              </p>
             </div>
           </div>
         </div>
-      </PageMain>
-    </PageShell>
-  );
-}
-
-function AuthFeedback({
-  children,
-  tone,
-}: {
-  children: React.ReactNode;
-  tone: "error" | "success";
-}) {
-  return (
-    <div
-      className={cn(
-        "mb-5 rounded-sm border px-3 py-2 font-mono text-xs leading-5",
-        tone === "error"
-          ? "border-destructive/40 bg-destructive/10 text-destructive"
-          : "border-accent/50 bg-accent/10 text-accent",
-      )}
-    >
-      {tone === "error" ? "! " : null}
-      {children}
-    </div>
+      </AppMain>
+    </AppShell>
   );
 }

@@ -2,17 +2,17 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/lib/cn";
 
-type CategoryChipProps = {
+type RealmChipProps = {
   active: boolean;
   children: ReactNode;
   onClick: () => void;
 };
 
-export function CategoryChip({
+export function RealmChip({
   active,
   children,
   onClick,
-}: CategoryChipProps) {
+}: RealmChipProps) {
   return (
     <button
       className={cn(

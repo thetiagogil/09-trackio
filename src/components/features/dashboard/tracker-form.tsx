@@ -4,8 +4,11 @@ import { Loader2 } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Input, Label, Textarea } from "@/components/ui/field";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
+import { Select } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import {
   DEFAULT_CATEGORIES,
   TRACKER_FIELD_LIMITS,
@@ -30,26 +33,7 @@ const emptyForm: TrackerFormInput = {
 };
 
 export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
-  const formKey = `${open ? "open" : "closed"}-${editing?.id ?? "new"}`;
-
-  return (
-    <TrackerFormContent
-      editing={editing}
-      key={formKey}
-      open={open}
-      {...props}
-    />
-  );
-}
-
-function TrackerFormContent({
-  categories,
-  editing,
-  onClose,
-  onSubmit,
-  open,
-  pending,
-}: TrackerFormProps) {
+  const { categories, onClose, onSubmit, pending } = props;
   const [form, setForm] = useState<TrackerFormInput>(() =>
     editing
       ? {
@@ -116,8 +100,7 @@ function TrackerFormContent({
 
         <div className="space-y-1.5">
           <Label htmlFor="tracker-category">Category</Label>
-          <select
-            className="flex h-9 w-full rounded-md border border-input bg-transparent px-3 py-1 font-mono text-sm shadow-sm transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+          <Select
             id="tracker-category"
             onChange={(event) =>
               setForm((current) => ({
@@ -132,7 +115,7 @@ function TrackerFormContent({
                 {category}
               </option>
             ))}
-          </select>
+          </Select>
         </div>
 
         <div className="space-y-1.5">
@@ -180,10 +163,7 @@ function TrackerFormContent({
           <Button onClick={onClose} variant="ghost">
             Cancel
           </Button>
-          <Button
-            disabled={pending}
-            type="submit"
-          >
+          <Button disabled={pending} type="submit">
             {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
             {editing ? "Save" : "Add Tracker"}
           </Button>
