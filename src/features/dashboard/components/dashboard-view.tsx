@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, LogOut, Plus } from "lucide-react";
+import { Loader2, LogOut } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 
@@ -8,7 +8,23 @@ import { AppHeader } from "@/shared/components/layout/app-header";
 import { AppLogo } from "@/shared/components/layout/app-logo";
 import { AppMain } from "@/shared/components/layout/app-main";
 import { AppShell } from "@/shared/components/layout/app-shell";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/shared/components/ui/alert-dialog";
 import { Button } from "@/shared/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/shared/components/ui/tooltip";
 import { DashboardActionFeedback } from "@/features/dashboard/components/dashboard-action-feedback";
 import { DashboardControls } from "@/features/dashboard/components/dashboard-controls";
 import { DashboardSummary } from "@/features/dashboard/components/dashboard-summary";
@@ -47,6 +63,9 @@ export function DashboardView({
   const [category, setCategory] = useState("all");
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Tracker | null>(null);
+  const [archiveCandidate, setArchiveCandidate] = useState<Tracker | null>(
+    null,
+  );
   const [feedback, setFeedback] = useState<string | null>(null);
   const [pendingTrackerId, setPendingTrackerId] = useState<number | null>(null);
   const [isTrackerPending, startTrackerTransition] = useTransition();
@@ -117,12 +136,17 @@ export function DashboardView({
     });
   };
 
-  const archiveTracker = (tracker: Tracker) => {
-    if (!window.confirm(`Archive ${tracker.title}?`)) {
-      return;
-    }
-
+  const requestArchiveTracker = (tracker: Tracker) => {
     setFeedback(null);
+    setArchiveCandidate(tracker);
+  };
+
+  const confirmArchiveTracker = () => {
+    if (!archiveCandidate) return;
+
+    const tracker = archiveCandidate;
+    setFeedback(null);
+    setArchiveCandidate(null);
     setPendingTrackerId(tracker.id);
 
     startTrackerTransition(async () => {
@@ -207,24 +231,26 @@ export function DashboardView({
                 {profileName}
               </span>
             </div>
-            <Button onClick={openCreateForm} size="lg">
-              <Plus className="h-4 w-4" />
-              New Tracker
-            </Button>
-            <Button
-              aria-label="Sign out"
-              disabled={isAuthPending}
-              onClick={signOut}
-              size="lg"
-              title="Sign out"
-              variant="outline"
-            >
-              {isAuthPending ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <LogOut className="h-4 w-4" />
-              )}
-            </Button>
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    aria-label="Sign out"
+                    disabled={isAuthPending}
+                    onClick={signOut}
+                    size="lg"
+                    variant="outline"
+                  >
+                    {isAuthPending ? (
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                    ) : (
+                      <LogOut className="h-4 w-4" />
+                    )}
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>Sign out</TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </>
         }
       />
@@ -240,12 +266,13 @@ export function DashboardView({
           categories={visibleRealms}
           category={activeCategory}
           onCategoryChange={setCategory}
+          onCreate={openCreateForm}
           onQueryChange={setQuery}
           query={query}
         />
         <TrackerList
           allTrackerCount={trackers.length}
-          onArchive={archiveTracker}
+          onArchive={requestArchiveTracker}
           onCreate={openCreateForm}
           onEdit={openEditForm}
           onLaunch={launchTracker}
@@ -263,6 +290,37 @@ export function DashboardView({
         open={formOpen}
         pending={isTrackerPending}
       />
+
+      <AlertDialog
+        onOpenChange={(open) => {
+          if (!open) {
+            setArchiveCandidate(null);
+          }
+        }}
+        open={Boolean(archiveCandidate)}
+      >
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Archive Tracker</AlertDialogTitle>
+            <AlertDialogDescription>
+              {archiveCandidate
+                ? `Archive ${archiveCandidate.title}? It will leave your active HUD, but your data stays private.`
+                : "Archive this tracker? It will leave your active HUD, but your data stays private."}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isTrackerPending}>
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              disabled={isTrackerPending}
+              onClick={confirmArchiveTracker}
+            >
+              Archive
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AppShell>
   );
 }

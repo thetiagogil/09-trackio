@@ -1,4 +1,4 @@
-import type { ButtonHTMLAttributes } from "react";
+import { forwardRef, type ButtonHTMLAttributes } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
@@ -50,18 +50,22 @@ export function buttonVariants({
   );
 }
 
-export function Button({
-  className,
-  variant = "primary",
-  size = "md",
-  type = "button",
-  ...props
-}: ButtonProps) {
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    className,
+    variant = "primary",
+    size = "md",
+    type = "button",
+    ...props
+  },
+  ref,
+) {
   return (
     <button
-      type={type}
       className={buttonVariants({ className, size, variant })}
+      ref={ref}
+      type={type}
       {...props}
     />
   );
-}
+});

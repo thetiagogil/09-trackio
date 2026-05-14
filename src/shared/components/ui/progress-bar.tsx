@@ -1,10 +1,15 @@
+"use client";
+
+import * as ProgressPrimitive from "@radix-ui/react-progress";
 import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
 type ProgressBarSize = "sm" | "md";
 
-type ProgressBarProps = ComponentPropsWithoutRef<"div"> & {
+type ProgressBarProps = ComponentPropsWithoutRef<
+  typeof ProgressPrimitive.Root
+> & {
   size?: ProgressBarSize;
   value: number;
 };
@@ -23,21 +28,23 @@ export function ProgressBar({
   const boundedValue = Math.max(0, Math.min(100, value));
 
   return (
-    <div
+    <ProgressPrimitive.Root
       className={cn(
         "w-full overflow-hidden rounded-full border border-border bg-surface-elevated",
         sizes[size],
         className,
       )}
+      max={100}
+      value={boundedValue}
       {...props}
     >
-      <div
-        className="h-full bg-linear-to-r from-primary via-accent to-primary transition-all"
+      <ProgressPrimitive.Indicator
+        className="h-full bg-linear-to-r from-primary via-accent to-primary transition-transform"
         style={{
           backgroundSize: "200% 100%",
-          width: `${boundedValue}%`,
+          transform: `translateX(-${100 - boundedValue}%)`,
         }}
       />
-    </div>
+    </ProgressPrimitive.Root>
   );
 }

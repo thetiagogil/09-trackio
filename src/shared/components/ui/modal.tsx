@@ -1,7 +1,7 @@
 "use client";
 
+import * as DialogPrimitive from "@radix-ui/react-dialog";
 import { X } from "lucide-react";
-import { useEffect } from "react";
 
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
@@ -13,56 +13,34 @@ type ModalProps = {
   onClose: () => void;
 };
 
-export function Modal({ open, title, children, onClose }: ModalProps) {
-  useEffect(() => {
-    if (!open) {
-      return;
-    }
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [onClose, open]);
-
-  if (!open) {
-    return null;
-  }
-
+export function Modal({ children, onClose, open, title }: ModalProps) {
   return (
-    <div className="fixed inset-0 z-50 grid place-items-center bg-black/80 px-4 py-8">
-      <button
-        aria-label="Close modal"
-        className="absolute inset-0 cursor-default"
-        onClick={onClose}
-        type="button"
-      />
-      <Card
-        aria-modal="true"
-        className="w-full max-w-lg overflow-visible p-6"
-        gradient
-        role="dialog"
-        tone="primary"
-      >
-        <div className="relative mb-5 flex items-center justify-between gap-3">
-          <h2 className="font-display text-sm uppercase tracking-wider text-glow-primary">
-            {title}
-          </h2>
-          <Button
-            aria-label="Close"
-            onClick={onClose}
-            size="icon"
-            variant="ghost"
-          >
-            <X className="h-4 w-4" />
-          </Button>
-        </div>
-        <div className="relative">{children}</div>
-      </Card>
-    </div>
+    <DialogPrimitive.Root
+      onOpenChange={(nextOpen) => {
+        if (!nextOpen) {
+          onClose();
+        }
+      }}
+      open={open}
+    >
+      <DialogPrimitive.Portal>
+        <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80" />
+        <DialogPrimitive.Content className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none">
+          <Card className="overflow-visible p-6" gradient tone="primary">
+            <div className="relative mb-5 flex items-center justify-between gap-3">
+              <DialogPrimitive.Title className="font-display text-sm uppercase tracking-wider text-glow-primary">
+                {title}
+              </DialogPrimitive.Title>
+              <DialogPrimitive.Close asChild>
+                <Button aria-label="Close" size="icon" variant="ghost">
+                  <X className="h-4 w-4" />
+                </Button>
+              </DialogPrimitive.Close>
+            </div>
+            <div className="relative">{children}</div>
+          </Card>
+        </DialogPrimitive.Content>
+      </DialogPrimitive.Portal>
+    </DialogPrimitive.Root>
   );
 }

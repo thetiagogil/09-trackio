@@ -7,11 +7,17 @@ import {
   Pencil,
   Zap,
 } from "lucide-react";
-import { useState } from "react";
 
 import { Badge } from "@/shared/components/ui/badge";
 import { buttonVariants } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/shared/components/ui/dropdown-menu";
 import { ProgressBar } from "@/shared/components/ui/progress-bar";
 import { cn } from "@/shared/utils/cn";
 import {
@@ -39,7 +45,6 @@ export function TrackerCard({
   onLaunch,
   tracker,
 }: TrackerCardProps) {
-  const [menuOpen, setMenuOpen] = useState(false);
   const domain = formatDomain(tracker.url);
   const favicon = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(
     domain,
@@ -48,12 +53,10 @@ export function TrackerCard({
   const rarity = rarityFromXp(tracker.xp);
 
   const handleEdit = () => {
-    setMenuOpen(false);
     onEdit(tracker);
   };
 
   const handleArchive = () => {
-    setMenuOpen(false);
     onArchive(tracker);
   };
 
@@ -95,39 +98,28 @@ export function TrackerCard({
           </div>
         </div>
 
-        <div className="relative">
-          <button
-            aria-expanded={menuOpen}
-            aria-label={`Open menu for ${tracker.title}`}
-            className="rounded-md p-1.5 opacity-100 transition-opacity hover:bg-surface-elevated sm:opacity-0 sm:group-hover:opacity-100"
-            onClick={() => setMenuOpen((current) => !current)}
-            type="button"
-          >
-            <MoreHorizontal className="h-4 w-4" />
-          </button>
-
-          {menuOpen ? (
-            <div className="absolute right-0 top-9 z-20 min-w-36 overflow-hidden rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-md">
-              <button
-                className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
-                onClick={handleEdit}
-                type="button"
-              >
-                <Pencil className="h-4 w-4" />
-                Edit
-              </button>
-              <div className="-mx-1 my-1 h-px bg-muted" />
-              <button
-                className="flex w-full items-center gap-2 rounded-sm px-2 py-1.5 text-left text-sm text-destructive outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
-                onClick={handleArchive}
-                type="button"
-              >
-                <Archive className="h-4 w-4" />
-                Archive
-              </button>
-            </div>
-          ) : null}
-        </div>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
+              aria-label={`Open menu for ${tracker.title}`}
+              className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              type="button"
+            >
+              <MoreHorizontal className="h-4 w-4" />
+            </button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem onSelect={handleEdit}>
+              <Pencil className="h-4 w-4" />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onSelect={handleArchive} tone="danger">
+              <Archive className="h-4 w-4" />
+              Archive
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
 
       {tracker.notes ? (

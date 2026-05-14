@@ -9,9 +9,8 @@ type AppLogoProps = {
 export function AppLogo({ href }: AppLogoProps) {
   const content = (
     <span className={cn("font-display tracking-tight", "text-sm md:text-base")}>
-      <span className="text-glow-primary">TRACKER</span>
-      <span className="mx-2 text-accent">x</span>
-      <span className="text-glow-accent">TRACKERS</span>
+      <span className="text-glow-primary">TRACK</span>
+      <span className="text-glow-accent">IO</span>
     </span>
   );
 

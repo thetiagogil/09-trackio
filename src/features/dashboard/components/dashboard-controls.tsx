@@ -1,6 +1,7 @@
-import { Search } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 
 import { DashboardRealmFilterChip } from "@/features/dashboard/components/dashboard-realm-filter-chip";
+import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
 
 type DashboardControlsProps = {
@@ -8,6 +9,7 @@ type DashboardControlsProps = {
   category: string;
   query: string;
   onCategoryChange: (category: string) => void;
+  onCreate: () => void;
   onQueryChange: (query: string) => void;
 };
 
@@ -15,6 +17,7 @@ export function DashboardControls({
   categories,
   category,
   onCategoryChange,
+  onCreate,
   onQueryChange,
   query,
 }: DashboardControlsProps) {
@@ -22,14 +25,20 @@ export function DashboardControls({
 
   return (
     <section className="mb-6 space-y-4">
-      <div className="relative">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-        <Input
-          className="h-11 bg-card pl-9 text-sm"
-          onChange={(event) => onQueryChange(event.target.value)}
-          placeholder="Search trackers, URLs, notes..."
-          value={query}
-        />
+      <div className="flex flex-col gap-3 sm:flex-row">
+        <div className="relative min-w-0 flex-1">
+          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            className="h-11 bg-card pl-9 text-sm"
+            onChange={(event) => onQueryChange(event.target.value)}
+            placeholder="Search trackers, URLs, notes..."
+            value={query}
+          />
+        </div>
+        <Button className="h-11 w-full sm:w-auto" onClick={onCreate} size="lg">
+          <Plus className="h-4 w-4" />
+          New Tracker
+        </Button>
       </div>
 
       {hasMultipleRealms ? (
