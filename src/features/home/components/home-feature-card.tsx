@@ -2,14 +2,19 @@ import type { ReactNode } from "react";
 
 import { Card } from "@/shared/components/ui/card";
 
-type FeatureCardProps = {
+type HomeFeatureCardProps = {
   body: string;
   icon: ReactNode;
   title: string;
   tone: "pink" | "cyan" | "amber";
 };
 
-export function FeatureCard({ body, icon, title, tone }: FeatureCardProps) {
+export function HomeFeatureCard({
+  body,
+  icon,
+  title,
+  tone,
+}: HomeFeatureCardProps) {
   const toneClass =
     tone === "pink"
       ? "text-primary"

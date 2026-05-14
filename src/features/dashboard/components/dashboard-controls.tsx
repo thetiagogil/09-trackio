@@ -1,9 +1,9 @@
 import { Search } from "lucide-react";
 
-import { RealmChip } from "@/features/dashboard/components/realm-chip";
+import { DashboardRealmFilterChip } from "@/features/dashboard/components/dashboard-realm-filter-chip";
 import { Input } from "@/shared/components/ui/input";
 
-type ControlsProps = {
+type DashboardControlsProps = {
   categories: string[];
   category: string;
   query: string;
@@ -11,13 +11,13 @@ type ControlsProps = {
   onQueryChange: (query: string) => void;
 };
 
-export function Controls({
+export function DashboardControls({
   categories,
   category,
   onCategoryChange,
   onQueryChange,
   query,
-}: ControlsProps) {
+}: DashboardControlsProps) {
   const hasMultipleRealms = categories.length > 1;
 
   return (
@@ -37,20 +37,20 @@ export function Controls({
           <span className="mr-1 font-display text-[9px] uppercase tracking-wider text-accent">
             &gt; Realm
           </span>
-          <RealmChip
+          <DashboardRealmFilterChip
             active={category === "all"}
             onClick={() => onCategoryChange("all")}
           >
             All
-          </RealmChip>
+          </DashboardRealmFilterChip>
           {categories.map((item) => (
-            <RealmChip
+            <DashboardRealmFilterChip
               active={category === item}
               key={item}
               onClick={() => onCategoryChange(item)}
             >
               {item}
-            </RealmChip>
+            </DashboardRealmFilterChip>
           ))}
         </div>
       ) : null}

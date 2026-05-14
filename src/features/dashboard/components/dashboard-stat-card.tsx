@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
-type StatCardProps = {
+type DashboardStatCardProps = {
   icon: ReactNode;
   label: string;
   small?: boolean;
@@ -10,7 +10,13 @@ type StatCardProps = {
   value: string | number;
 };
 
-export function StatCard({ icon, label, small, tone, value }: StatCardProps) {
+export function DashboardStatCard({
+  icon,
+  label,
+  small,
+  tone,
+  value,
+}: DashboardStatCardProps) {
   const toneClass =
     tone === "pink"
       ? "text-primary"

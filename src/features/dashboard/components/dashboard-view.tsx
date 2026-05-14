@@ -9,9 +9,9 @@ import { AppLogo } from "@/shared/components/layout/app-logo";
 import { AppMain } from "@/shared/components/layout/app-main";
 import { AppShell } from "@/shared/components/layout/app-shell";
 import { Button } from "@/shared/components/ui/button";
-import { Controls } from "@/features/dashboard/components/controls";
-import { Feedback } from "@/features/dashboard/components/feedback";
-import { Summary } from "@/features/dashboard/components/summary";
+import { DashboardActionFeedback } from "@/features/dashboard/components/dashboard-action-feedback";
+import { DashboardControls } from "@/features/dashboard/components/dashboard-controls";
+import { DashboardSummary } from "@/features/dashboard/components/dashboard-summary";
 import { TrackerForm } from "@/features/dashboard/components/tracker-form";
 import { TrackerList } from "@/features/dashboard/components/tracker-list";
 import {
@@ -32,12 +32,15 @@ import type { Tracker, TrackerFormInput } from "@/features/dashboard/types";
 import { signOutAction } from "@/shared/server/auth-actions";
 import type { CurrentUser } from "@/shared/types";
 
-type DashboardProps = {
+type DashboardViewProps = {
   initialTrackers: Tracker[];
   currentUser: CurrentUser;
 };
 
-export function Dashboard({ currentUser, initialTrackers }: DashboardProps) {
+export function DashboardView({
+  currentUser,
+  initialTrackers,
+}: DashboardViewProps) {
   const router = useRouter();
   const [trackers, setTrackers] = useState(initialTrackers);
   const [query, setQuery] = useState("");
@@ -227,13 +230,13 @@ export function Dashboard({ currentUser, initialTrackers }: DashboardProps) {
       />
 
       <AppMain className="pb-8">
-        <Summary
+        <DashboardSummary
           playerLevel={playerLevel}
           profileName={profileName}
           stats={stats}
         />
-        <Feedback message={feedback} />
-        <Controls
+        <DashboardActionFeedback message={feedback} />
+        <DashboardControls
           categories={visibleRealms}
           category={activeCategory}
           onCategoryChange={setCategory}

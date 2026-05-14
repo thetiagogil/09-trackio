@@ -1,11 +1,11 @@
 import { LayoutGrid, Target, Trophy } from "lucide-react";
 
-import { StatCard } from "@/features/dashboard/components/stat-card";
+import { DashboardStatCard } from "@/features/dashboard/components/dashboard-stat-card";
 import { Card } from "@/shared/components/ui/card";
 import { ProgressBar } from "@/shared/components/ui/progress-bar";
 import type { TrackerStats } from "@/features/dashboard/types";
 
-type SummaryProps = {
+type DashboardSummaryProps = {
   playerLevel: {
     level: number;
     percent: number;
@@ -14,11 +14,11 @@ type SummaryProps = {
   stats: TrackerStats;
 };
 
-export function Summary({
+export function DashboardSummary({
   playerLevel,
   profileName,
   stats,
-}: SummaryProps) {
+}: DashboardSummaryProps) {
   return (
     <Card
       as="section"
@@ -48,19 +48,19 @@ export function Summary({
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <StatCard
+          <DashboardStatCard
             icon={<Target className="h-3.5 w-3.5" />}
             label="Trackers"
             tone="pink"
             value={stats.totalTrackers}
           />
-          <StatCard
+          <DashboardStatCard
             icon={<LayoutGrid className="h-3.5 w-3.5" />}
             label="Realms"
             tone="cyan"
             value={stats.categoryCount}
           />
-          <StatCard
+          <DashboardStatCard
             icon={<Trophy className="h-3.5 w-3.5" />}
             label="Top"
             small

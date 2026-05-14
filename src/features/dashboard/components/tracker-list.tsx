@@ -1,6 +1,6 @@
 import { Loader2 } from "lucide-react";
 
-import { EmptyState } from "@/features/dashboard/components/empty-state";
+import { TrackerListEmptyState } from "@/features/dashboard/components/tracker-list-empty-state";
 import { TrackerCard } from "@/features/dashboard/components/tracker-card";
 import type { Tracker } from "@/features/dashboard/types";
 
@@ -26,7 +26,10 @@ export function TrackerList({
   if (trackers.length === 0) {
     return (
       <section>
-        <EmptyState hasTrackers={allTrackerCount > 0} onCreate={onCreate} />
+        <TrackerListEmptyState
+          hasTrackers={allTrackerCount > 0}
+          onCreate={onCreate}
+        />
       </section>
     );
   }

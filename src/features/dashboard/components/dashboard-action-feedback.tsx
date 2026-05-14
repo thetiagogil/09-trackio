@@ -1,10 +1,12 @@
 import { Alert } from "@/shared/components/ui/alert";
 
-type FeedbackProps = {
+type DashboardActionFeedbackProps = {
   message: string | null;
 };
 
-export function Feedback({ message }: FeedbackProps) {
+export function DashboardActionFeedback({
+  message,
+}: DashboardActionFeedbackProps) {
   if (!message) return null;
 
   return (

@@ -3,12 +3,15 @@ import { Plus } from "lucide-react";
 import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 
-type EmptyStateProps = {
+type TrackerListEmptyStateProps = {
   hasTrackers: boolean;
   onCreate: () => void;
 };
 
-export function EmptyState({ hasTrackers, onCreate }: EmptyStateProps) {
+export function TrackerListEmptyState({
+  hasTrackers,
+  onCreate,
+}: TrackerListEmptyStateProps) {
   return (
     <Card
       as="article"

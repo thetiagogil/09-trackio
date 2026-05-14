@@ -2,17 +2,17 @@ import type { ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
-type RealmChipProps = {
+type DashboardRealmFilterChipProps = {
   active: boolean;
   children: ReactNode;
   onClick: () => void;
 };
 
-export function RealmChip({
+export function DashboardRealmFilterChip({
   active,
   children,
   onClick,
-}: RealmChipProps) {
+}: DashboardRealmFilterChipProps) {
   return (
     <button
       className={cn(
