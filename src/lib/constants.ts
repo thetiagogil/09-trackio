@@ -1,15 +1,13 @@
 export const APP_NAME = "Trackio";
 
 export const DEFAULT_CATEGORIES = [
-  "Anime & Manga",
   "Films",
   "TV Shows",
+  "Anime",
   "Music",
   "Books",
-  "Events",
-  "Notion",
-  "Spreadsheets",
-  "Custom URLs",
+  "Manga",
+  "Video Games",
 ];
 
 export const TRACKER_FIELD_LIMITS = {

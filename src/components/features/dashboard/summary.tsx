@@ -1,6 +1,8 @@
 import { LayoutGrid, Target, Trophy } from "lucide-react";
 
 import { StatCard } from "@/components/features/dashboard/stat-card";
+import { Card } from "@/components/ui/card";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import type { TrackerStats } from "@/types/trackio";
 
 type SummaryProps = {
@@ -18,8 +20,12 @@ export function Summary({
   stats,
 }: SummaryProps) {
   return (
-    <section className="relative mb-8 overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-6 shadow-card">
-      <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10" />
+    <Card
+      as="section"
+      className="mb-8 p-6"
+      gradient
+      tone="primary"
+    >
       <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
@@ -34,15 +40,7 @@ export function Summary({
             </div>
           </div>
           <div className="mt-3 w-full md:w-80">
-            <div className="h-2 overflow-hidden rounded-full border border-border bg-surface-elevated">
-              <div
-                className="h-full bg-linear-to-r from-primary via-accent to-primary transition-all"
-                style={{
-                  backgroundSize: "200% 100%",
-                  width: `${playerLevel.percent}%`,
-                }}
-              />
-            </div>
+            <ProgressBar value={playerLevel.percent} />
             <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
               {playerLevel.percent}% to LV.{playerLevel.level + 1}
             </div>
@@ -71,6 +69,6 @@ export function Summary({
           />
         </div>
       </div>
-    </section>
+    </Card>
   );
 }

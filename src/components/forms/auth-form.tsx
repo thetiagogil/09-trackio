@@ -1,16 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { ArrowLeft, Loader2, LockKeyhole } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
 import { AuthFeedback } from "@/components/features/auth/auth-feedback";
 import { AppHeader } from "@/components/shared/app-header";
-import { AppLogo } from "@/components/shared/app-logo";
 import { AppMain } from "@/components/shared/app-main";
 import { AppShell } from "@/components/shared/app-shell";
 import { Button } from "@/components/ui/button";
 import { ButtonLink } from "@/components/ui/button-link";
+import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { createClient } from "@/lib/supabase/browser";
@@ -129,7 +129,6 @@ export function AuthForm({
   return (
     <AppShell>
       <AppHeader
-        actions={<AppLogo size="sm" />}
         leading={
           <ButtonLink href="/" size="sm" variant="ghost">
             <ArrowLeft className="h-4 w-4" />
@@ -140,8 +139,7 @@ export function AuthForm({
 
       <AppMain className="flex flex-1 items-center justify-center pb-12">
         <div className="w-full max-w-md">
-          <div className="relative overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-8 shadow-card">
-            <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10" />
+          <Card className="p-8" gradient tone="primary">
             <div className="relative">
               <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
                 <LockKeyhole className="h-3.5 w-3.5" />
@@ -162,12 +160,12 @@ export function AuthForm({
                     <Label
                       className="font-mono text-[10px] uppercase tracking-wider text-accent"
                       htmlFor="displayName"
+                      required
                     >
                       Display name
                     </Label>
                     <Input
                       autoComplete="name"
-                      className="border-2 border-border bg-background/50 font-mono focus-visible:border-accent"
                       disabled={pending}
                       id="displayName"
                       maxLength={80}
@@ -184,12 +182,12 @@ export function AuthForm({
                   <Label
                     className="font-mono text-[10px] uppercase tracking-wider text-accent"
                     htmlFor="email"
+                    required
                   >
                     Email
                   </Label>
                   <Input
                     autoComplete="email"
-                    className="border-2 border-border bg-background/50 font-mono focus-visible:border-accent"
                     disabled={pending}
                     id="email"
                     onChange={(event) => setEmail(event.target.value)}
@@ -204,6 +202,7 @@ export function AuthForm({
                   <Label
                     className="font-mono text-[10px] uppercase tracking-wider text-accent"
                     htmlFor="password"
+                    required
                   >
                     Password
                   </Label>
@@ -211,7 +210,6 @@ export function AuthForm({
                     autoComplete={
                       isSignup ? "new-password" : "current-password"
                     }
-                    className="border-2 border-border bg-background/50 font-mono focus-visible:border-accent"
                     disabled={pending}
                     id="password"
                     minLength={minimumPasswordLength}
@@ -228,12 +226,12 @@ export function AuthForm({
                     <Label
                       className="font-mono text-[10px] uppercase tracking-wider text-accent"
                       htmlFor="confirmPassword"
+                      required
                     >
                       Confirm password
                     </Label>
                     <Input
                       autoComplete="new-password"
-                      className="border-2 border-border bg-background/50 font-mono focus-visible:border-accent"
                       disabled={pending}
                       id="confirmPassword"
                       minLength={minimumPasswordLength}
@@ -266,9 +264,8 @@ export function AuthForm({
                   {isSignup ? "Sign in" : "Sign up"}
                 </button>
               </div>
-
             </div>
-          </div>
+          </Card>
         </div>
       </AppMain>
     </AppShell>

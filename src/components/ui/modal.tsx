@@ -4,6 +4,7 @@ import { X } from "lucide-react";
 import { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 
 type ModalProps = {
   open: boolean;
@@ -40,12 +41,13 @@ export function Modal({ open, title, children, onClose }: ModalProps) {
         onClick={onClose}
         type="button"
       />
-      <div
+      <Card
         aria-modal="true"
-        className="relative w-full max-w-lg overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-6 shadow-card"
+        className="w-full max-w-lg overflow-visible p-6"
+        gradient
         role="dialog"
+        tone="primary"
       >
-        <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10" />
         <div className="relative mb-5 flex items-center justify-between gap-3">
           <h2 className="font-display text-sm uppercase tracking-wider text-glow-primary">
             {title}
@@ -60,7 +62,7 @@ export function Modal({ open, title, children, onClose }: ModalProps) {
           </Button>
         </div>
         <div className="relative">{children}</div>
-      </div>
+      </Card>
     </div>
   );
 }

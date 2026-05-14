@@ -1,6 +1,7 @@
 import { AppHeader } from "@/components/shared/app-header";
 import { AppMain } from "@/components/shared/app-main";
 import { AppShell } from "@/components/shared/app-shell";
+import { Card } from "@/components/ui/card";
 
 const envRows = [
   {
@@ -25,8 +26,12 @@ export function SetupMissing() {
       />
 
       <AppMain className="flex flex-1 items-center justify-center pb-12">
-        <section className="relative w-full max-w-md overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-8 shadow-card">
-          <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10" />
+        <Card
+          as="section"
+          className="w-full max-w-md p-8"
+          gradient
+          tone="primary"
+        >
           <div className="relative">
             <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
               &gt; setup required
@@ -55,7 +60,7 @@ export function SetupMissing() {
               ))}
             </div>
           </div>
-        </section>
+        </Card>
       </AppMain>
     </AppShell>
   );

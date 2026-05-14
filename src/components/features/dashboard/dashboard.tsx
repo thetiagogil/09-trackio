@@ -1,7 +1,7 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { Loader2, LogOut, Plus } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useMemo, useState, useTransition } from "react";
 
 import { Controls } from "@/components/features/dashboard/controls";
@@ -182,10 +182,7 @@ export function Dashboard({ currentUser, initialTrackers }: DashboardProps) {
         innerClassName="flex-wrap"
         leading={
           <div>
-            <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.3em] text-accent text-glow-accent">
-              &gt; tracker.hud <span className="animate-blink">_</span>
-            </div>
-            <AppLogo size="lg" />
+            <AppLogo />
           </div>
         }
         actions={

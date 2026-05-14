@@ -9,8 +9,10 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 
-import { HudCard } from "@/components/features/dashboard/hud-card";
+import { Badge } from "@/components/ui/badge";
 import { buttonVariants } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { ProgressBar } from "@/components/ui/progress-bar";
 import { cn } from "@/lib/cn";
 import {
   formatDomain,
@@ -18,6 +20,7 @@ import {
   rarityFromXp,
   relativeTime,
 } from "@/lib/trackers";
+import { RARITY_GLOW_CLASS, RARITY_TEXT_CLASS } from "@/lib/rarity";
 import type { Tracker } from "@/types/trackio";
 
 type TrackerCardProps = {
@@ -25,23 +28,6 @@ type TrackerCardProps = {
   onArchive: (tracker: Tracker) => void;
   onEdit: (tracker: Tracker) => void;
   onLaunch: (tracker: Tracker) => void;
-};
-
-const rarityClass = {
-  common: "border-rarity-common/40 text-rarity-common",
-  uncommon: "border-rarity-uncommon/60 text-rarity-uncommon",
-  rare: "border-rarity-rare/60 text-rarity-rare",
-  epic: "border-rarity-epic/60 text-rarity-epic",
-  legendary: "border-rarity-legendary/70 text-rarity-legendary",
-};
-
-const rarityGlow = {
-  common: "",
-  uncommon: "",
-  rare: "hover:shadow-[0_0_30px_-8px_var(--color-rarity-rare)]",
-  epic: "hover:shadow-[0_0_30px_-8px_var(--color-rarity-epic)]",
-  legendary:
-    "animate-pulse-glow hover:shadow-[0_0_40px_-8px_var(--color-rarity-legendary)]",
 };
 
 export function TrackerCard({
@@ -69,16 +55,20 @@ export function TrackerCard({
   };
 
   return (
-    <HudCard
+    <Card
+      as="article"
       interactive
-      className={cn(
-        rarityClass[rarity.tone],
-        rarityGlow[rarity.tone],
-      )}
+      className={cn("flex flex-col", RARITY_GLOW_CLASS[rarity.rarity])}
+      rarity={rarity.rarity}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
-          <div className="relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 border-current/40 bg-surface-elevated">
+          <div
+            className={cn(
+              "relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 border-current/40 bg-surface-elevated",
+              RARITY_TEXT_CLASS[rarity.rarity],
+            )}
+          >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               alt=""
@@ -144,21 +134,10 @@ export function TrackerCard({
       ) : null}
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
-        <span className="rounded-sm border border-border bg-surface-elevated px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider text-foreground">
-          {tracker.category}
-        </span>
-        <span
-          className={cn(
-            "rounded-sm border bg-background/50 px-2 py-1 font-display text-[9px] uppercase tracking-wider",
-            rarityClass[rarity.tone],
-          )}
-        >
-          * {rarity.label}
-        </span>
+        <Badge variant="accent">{tracker.category}</Badge>
+        <Badge rarity={rarity.rarity}>{rarity.label}</Badge>
         {tracker.username ? (
-          <span className="rounded-sm border border-border bg-background/50 px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
-            {tracker.username}
-          </span>
+          <Badge variant="surface">{tracker.username}</Badge>
         ) : null}
       </div>
 
@@ -167,12 +146,7 @@ export function TrackerCard({
           <span>XP - LVL {level.level}</span>
           <span>{level.percent}%</span>
         </div>
-        <div className="h-1.5 w-full overflow-hidden rounded-full border border-border bg-surface-elevated">
-          <div
-            className="h-full bg-linear-to-r from-primary to-accent transition-all"
-            style={{ width: `${level.percent}%` }}
-          />
-        </div>
+        <ProgressBar size="sm" value={level.percent} />
       </div>
 
       <div className="mt-4 flex items-center justify-between border-t border-dashed border-border pt-3">
@@ -199,6 +173,6 @@ export function TrackerCard({
           <ExternalLink className="h-3 w-3" />
         </a>
       </div>
-    </HudCard>
+    </Card>
   );
 }

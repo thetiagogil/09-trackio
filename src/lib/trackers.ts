@@ -1,5 +1,5 @@
 import { DEFAULT_CATEGORIES, TRACKER_FIELD_LIMITS } from "@/lib/constants";
-import type { TrackerFormInput } from "@/types/trackio";
+import type { RarityInfo, TrackerFormInput } from "@/types/trackio";
 
 export type NormalizedTrackerInput = {
   title: string;
@@ -142,24 +142,24 @@ export function levelFromXp(xp: number) {
   };
 }
 
-export function rarityFromXp(xp: number) {
+export function rarityFromXp(xp: number): RarityInfo {
   if (xp >= 1000) {
-    return { label: "Legendary", tone: "legendary" as const };
+    return { label: "Legendary", rarity: "legendary" };
   }
 
   if (xp >= 500) {
-    return { label: "Epic", tone: "epic" as const };
+    return { label: "Epic", rarity: "epic" };
   }
 
   if (xp >= 200) {
-    return { label: "Rare", tone: "rare" as const };
+    return { label: "Rare", rarity: "rare" };
   }
 
   if (xp >= 50) {
-    return { label: "Uncommon", tone: "uncommon" as const };
+    return { label: "Uncommon", rarity: "uncommon" };
   }
 
-  return { label: "Common", tone: "common" as const };
+  return { label: "Common", rarity: "common" };
 }
 
 export { DEFAULT_CATEGORIES, TRACKER_FIELD_LIMITS };

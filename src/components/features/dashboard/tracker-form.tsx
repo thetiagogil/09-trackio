@@ -3,16 +3,14 @@
 import { Loader2 } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 
+import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Modal } from "@/components/ui/modal";
 import { Select } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  DEFAULT_CATEGORIES,
-  TRACKER_FIELD_LIMITS,
-} from "@/lib/trackers";
+import { DEFAULT_CATEGORIES, TRACKER_FIELD_LIMITS } from "@/lib/trackers";
 import type { Tracker, TrackerFormInput } from "@/types/trackio";
 
 type TrackerFormProps = {
@@ -27,7 +25,7 @@ type TrackerFormProps = {
 const emptyForm: TrackerFormInput = {
   title: "",
   url: "",
-  category: DEFAULT_CATEGORIES[0],
+  category: "",
   username: "",
   notes: "",
 };
@@ -46,18 +44,29 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
       : emptyForm,
   );
   const [customCategory, setCustomCategory] = useState("");
+  const [categoryError, setCategoryError] = useState<string | null>(null);
 
   const categoryOptions = useMemo(() => {
     const unique = new Set([...DEFAULT_CATEGORIES, ...categories]);
 
-    return Array.from(unique);
+    return Array.from(unique).map((category) => ({
+      label: category,
+      value: category,
+    }));
   }, [categories]);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const category = customCategory.trim() || form.category;
+
+    if (!category) {
+      setCategoryError("Choose a category or type a new one.");
+      return;
+    }
+
     onSubmit({
       ...form,
-      category: customCategory.trim() || form.category,
+      category,
     });
   };
 
@@ -69,7 +78,9 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
     >
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
-          <Label htmlFor="tracker-title">Title</Label>
+          <Label htmlFor="tracker-title" required>
+            Title
+          </Label>
           <Input
             autoFocus
             id="tracker-title"
@@ -84,7 +95,9 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="tracker-url">URL</Label>
+          <Label htmlFor="tracker-url" required>
+            URL
+          </Label>
           <Input
             id="tracker-url"
             maxLength={TRACKER_FIELD_LIMITS.url}
@@ -99,23 +112,25 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="tracker-category">Category</Label>
+          <Label htmlFor="tracker-category" required>
+            Category
+          </Label>
           <Select
             id="tracker-category"
-            onChange={(event) =>
+            aria-describedby={
+              categoryError ? "tracker-category-error" : undefined
+            }
+            onValueChange={(value) => {
               setForm((current) => ({
                 ...current,
-                category: event.target.value,
-              }))
-            }
+                category: value,
+              }));
+              setCategoryError(null);
+            }}
+            options={categoryOptions}
+            placeholder="Select category..."
             value={form.category}
-          >
-            {categoryOptions.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </Select>
+          />
         </div>
 
         <div className="space-y-1.5">
@@ -123,11 +138,19 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
           <Input
             id="tracker-custom-category"
             maxLength={TRACKER_FIELD_LIMITS.category}
-            onChange={(event) => setCustomCategory(event.target.value)}
-            placeholder="optional"
+            onChange={(event) => {
+              setCustomCategory(event.target.value);
+              setCategoryError(null);
+            }}
+            placeholder="Type a new category"
             value={customCategory}
           />
         </div>
+        {categoryError ? (
+          <Alert id="tracker-category-error" tone="error">
+            {categoryError}
+          </Alert>
+        ) : null}
 
         <div className="space-y-1.5">
           <Label htmlFor="tracker-username">Username or profile label</Label>
@@ -140,7 +163,7 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
                 username: event.target.value,
               }))
             }
-            placeholder="@you"
+            placeholder="@me"
             value={form.username ?? ""}
           />
         </div>

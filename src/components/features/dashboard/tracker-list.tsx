@@ -25,7 +25,9 @@ export function TrackerList({
 }: TrackerListProps) {
   if (trackers.length === 0) {
     return (
-      <EmptyState hasTrackers={allTrackerCount > 0} onCreate={onCreate} />
+      <section>
+        <EmptyState hasTrackers={allTrackerCount > 0} onCreate={onCreate} />
+      </section>
     );
   }
 

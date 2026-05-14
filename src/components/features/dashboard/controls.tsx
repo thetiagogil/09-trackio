@@ -25,7 +25,7 @@ export function Controls({
       <div className="relative">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
-          className="h-11 border-2 border-border bg-card pl-9 font-mono text-sm focus-visible:border-accent"
+          className="h-11 bg-card pl-9 text-sm"
           onChange={(event) => onQueryChange(event.target.value)}
           placeholder="Search trackers, URLs, notes..."
           value={query}

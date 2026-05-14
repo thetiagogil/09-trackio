@@ -4,6 +4,7 @@ import { Dashboard } from "@/components/features/dashboard/dashboard";
 import { AppHeader } from "@/components/shared/app-header";
 import { AppMain } from "@/components/shared/app-main";
 import { AppShell } from "@/components/shared/app-shell";
+import { Card } from "@/components/ui/card";
 import { hydrateDashboard } from "@/lib/server/data";
 import type { DashboardHydration } from "@/lib/server/data";
 
@@ -19,9 +20,11 @@ export default async function DashboardPage() {
       <AppShell>
         <AppHeader />
         <AppMain className="flex flex-1 items-center justify-center pb-12">
-          <section
-            className="panel-corners min-w-0 rounded-lg border-2 border-destructive/50 bg-card p-6 shadow-card"
+          <Card
+            as="section"
+            className="min-w-0 p-6"
             style={{ width: "min(42rem, calc(100vw - 5rem))" }}
+            tone="danger"
           >
             <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.28em] text-destructive">
               database error
@@ -32,7 +35,7 @@ export default async function DashboardPage() {
             <p className="mt-4 text-sm leading-6 text-muted-foreground">
               {formatDashboardError(error)}
             </p>
-          </section>
+          </Card>
         </AppMain>
       </AppShell>
     );

@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { Card } from "@/components/ui/card";
+
 type FeatureCardProps = {
   body: string;
   icon: ReactNode;
@@ -16,7 +18,7 @@ export function FeatureCard({ body, icon, title, tone }: FeatureCardProps) {
         : "text-neon-amber";
 
   return (
-    <div className="rounded-lg border-2 border-border bg-card p-5 shadow-card">
+    <Card corners={false} className="p-5">
       <div
         className={`mb-3 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider ${toneClass}`}
       >
@@ -25,6 +27,6 @@ export function FeatureCard({ body, icon, title, tone }: FeatureCardProps) {
       <p className="font-mono text-sm leading-relaxed text-muted-foreground">
         {body}
       </p>
-    </div>
+    </Card>
   );
 }

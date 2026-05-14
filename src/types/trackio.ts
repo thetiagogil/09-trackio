@@ -22,6 +22,13 @@ export type CurrentUser = {
 
 export type TrackerStatus = "active" | "archived";
 
+export type Rarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
+
+export type RarityInfo = {
+  label: string;
+  rarity: Rarity;
+};
+
 export type Tracker = {
   id: number;
   title: string;
