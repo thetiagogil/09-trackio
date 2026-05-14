@@ -25,7 +25,7 @@ export function HomeHero() {
         </ButtonLink>
         <ButtonLink href="/auth?next=/dashboard" size="lg" variant="outline">
           <Zap className="h-4 w-4" />
-          Enter HUD
+          Continue as test user
         </ButtonLink>
       </div>
     </section>

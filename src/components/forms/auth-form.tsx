@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Loader2, LockKeyhole } from "lucide-react";
+import { ArrowLeft, Loader2, LockKeyhole, Zap } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 
 import {
@@ -109,7 +109,9 @@ export function AuthForm({
       }
 
       if (isSignup && !result.data.session) {
-        setMessage(`Check ${emailValue} to confirm your account, then sign in.`);
+        setMessage(
+          `Check ${emailValue} to confirm your account, then sign in.`,
+        );
         return;
       }
 
@@ -129,11 +131,7 @@ export function AuthForm({
       <SiteHeader
         actions={<BrandMark size="sm" />}
         leading={
-          <ButtonLink
-            href="/"
-            size="sm"
-            variant="ghost"
-          >
+          <ButtonLink href="/" size="sm" variant="ghost">
             <ArrowLeft className="h-4 w-4" />
             Back
           </ButtonLink>
@@ -143,7 +141,7 @@ export function AuthForm({
       <PageMain className="flex flex-1 items-center justify-center py-12">
         <div className="w-full max-w-md">
           <div className="relative overflow-hidden rounded-lg border-2 border-primary/40 bg-card p-8 shadow-card">
-            <div className="pointer-events-none absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10" />
+            <div className="pointer-events-none absolute inset-0 bg-linear-to-br from-primary/10 via-transparent to-accent/10" />
             <div className="relative">
               <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
                 <LockKeyhole className="h-3.5 w-3.5" />
@@ -174,7 +172,9 @@ export function AuthForm({
                       id="displayName"
                       maxLength={80}
                       onChange={(event) => setDisplayName(event.target.value)}
-                      placeholder="optional"
+                      placeholder="Your name"
+                      required
+                      type="text"
                       value={displayName}
                     />
                   </div>
@@ -208,7 +208,9 @@ export function AuthForm({
                     Password
                   </Label>
                   <Input
-                    autoComplete={isSignup ? "new-password" : "current-password"}
+                    autoComplete={
+                      isSignup ? "new-password" : "current-password"
+                    }
                     className="border-2 border-border bg-background/50 font-mono focus-visible:border-accent"
                     disabled={pending}
                     id="password"
@@ -246,12 +248,10 @@ export function AuthForm({
                   </div>
                 ) : null}
 
-                <Button
-                  className="w-full"
-                  disabled={pending}
-                  type="submit"
-                >
-                  {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
+                <Button className="w-full" disabled={pending} type="submit">
+                  {pending ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : null}
                   {isSignup ? "Create Account" : "Enter HUD"}
                 </Button>
               </form>
@@ -275,15 +275,12 @@ export function AuthForm({
                 <div className="h-px flex-1 bg-border" />
               </div>
 
-              <ButtonLink
-                className="w-full"
-                href="/"
-                variant="outline"
-              >
-                View landing page
+              <ButtonLink className="w-full" href="/" variant="outline">
+                <Zap className="h-4 w-4" />
+                Continue as test user
               </ButtonLink>
               <p className="mt-3 text-center font-mono text-[10px] text-muted-foreground">
-                Trackio uses Supabase Auth and your private database rows.
+                Skip the form. Try the HUD with seeded quests.
               </p>
             </div>
           </div>
