@@ -1,10 +1,10 @@
-import { HomeFeatureGrid } from "@/components/features/home/home-feature-grid";
-import { HomeHero } from "@/components/features/home/home-hero";
-import { AppHeader } from "@/components/shared/app-header";
-import { AppMain } from "@/components/shared/app-main";
-import { AppShell } from "@/components/shared/app-shell";
-import { SetupMissing } from "@/components/shared/setup-missing";
-import { ButtonLink } from "@/components/ui/button-link";
+import { HomeFeatureGrid } from "@/features/home/components/home-feature-grid";
+import { HomeHero } from "@/features/home/components/home-hero";
+import { AppHeader } from "@/shared/components/layout/app-header";
+import { AppMain } from "@/shared/components/layout/app-main";
+import { AppShell } from "@/shared/components/layout/app-shell";
+import { SetupMissing } from "@/shared/components/setup-missing";
+import { ButtonLink } from "@/shared/components/ui/button-link";
 import { isSupabaseConfigured } from "@/lib/env";
 
 export default function Home() {

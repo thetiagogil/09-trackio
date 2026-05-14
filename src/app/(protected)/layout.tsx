@@ -1,5 +1,5 @@
 import { isSupabaseConfigured } from "@/lib/env";
-import { requireUser } from "@/lib/server/data";
+import { requireUser } from "@/shared/server/auth";
 
 export default async function ProtectedLayout({
   children,

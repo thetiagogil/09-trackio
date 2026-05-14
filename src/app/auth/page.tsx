@@ -1,10 +1,10 @@
 import { redirect } from "next/navigation";
 
-import { AuthForm } from "@/components/forms/auth-form";
-import { SetupMissing } from "@/components/shared/setup-missing";
+import { AuthForm } from "@/features/auth/components/auth-form";
+import { SetupMissing } from "@/shared/components/setup-missing";
 import { isSupabaseConfigured } from "@/lib/env";
 import { safeRedirectPath } from "@/lib/routing/redirect";
-import { getCurrentUser } from "@/lib/server/data";
+import { getCurrentUser } from "@/shared/server/auth";
 
 type AuthPageProps = {
   searchParams: Promise<{

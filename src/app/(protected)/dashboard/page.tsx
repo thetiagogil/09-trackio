@@ -1,12 +1,12 @@
 import { unstable_rethrow } from "next/navigation";
 
-import { Dashboard } from "@/components/features/dashboard/dashboard";
-import { AppHeader } from "@/components/shared/app-header";
-import { AppMain } from "@/components/shared/app-main";
-import { AppShell } from "@/components/shared/app-shell";
-import { Card } from "@/components/ui/card";
-import { hydrateDashboard } from "@/lib/server/data";
-import type { DashboardHydration } from "@/lib/server/data";
+import { Dashboard } from "@/features/dashboard/components/dashboard";
+import { hydrateDashboard } from "@/features/dashboard/server/hydrate";
+import type { DashboardHydration } from "@/features/dashboard/types";
+import { AppHeader } from "@/shared/components/layout/app-header";
+import { AppMain } from "@/shared/components/layout/app-main";
+import { AppShell } from "@/shared/components/layout/app-shell";
+import { Card } from "@/shared/components/ui/card";
 
 export default async function DashboardPage() {
   let dashboard: DashboardHydration;

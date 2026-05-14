@@ -1,0 +1,81 @@
+import { DEFAULT_CATEGORIES } from "@/features/dashboard/constants";
+import type { Tracker, TrackerStats } from "@/features/dashboard/types";
+import type { CurrentUser } from "@/shared/types";
+
+export function getDashboardProfileName(currentUser: CurrentUser) {
+  return (
+    currentUser.profile.displayName ??
+    currentUser.profile.username ??
+    currentUser.email ??
+    "Trackio user"
+  );
+}
+
+export function getDashboardCategories(trackers: Tracker[]) {
+  const categories = new Set(DEFAULT_CATEGORIES);
+  trackers.forEach((tracker) => categories.add(tracker.category));
+
+  return Array.from(categories);
+}
+
+export function getDashboardVisibleRealms(trackers: Tracker[]) {
+  const realms = new Set<string>();
+  trackers.forEach((tracker) => realms.add(tracker.category));
+
+  return Array.from(realms);
+}
+
+export function getDashboardFilteredTrackers(
+  trackers: Tracker[],
+  query: string,
+  category: string,
+) {
+  const normalizedQuery = query.trim().toLowerCase();
+
+  return trackers.filter((tracker) => {
+    if (category !== "all" && tracker.category !== category) {
+      return false;
+    }
+
+    if (!normalizedQuery) {
+      return true;
+    }
+
+    const searchable = [
+      tracker.title,
+      tracker.url,
+      tracker.category,
+      tracker.notes ?? "",
+      tracker.username ?? "",
+    ]
+      .join(" ")
+      .toLowerCase();
+
+    return searchable.includes(normalizedQuery);
+  });
+}
+
+export function getDashboardStats(trackers: Tracker[]): TrackerStats {
+  let totalXp = 0;
+  let totalLaunches = 0;
+  let topTracker: Tracker | null = null;
+  const categories = new Set<string>();
+
+  trackers.forEach((tracker) => {
+    totalXp += tracker.xp;
+    totalLaunches += tracker.clickCount;
+    categories.add(tracker.category);
+
+    if (!topTracker || tracker.clickCount > topTracker.clickCount) {
+      topTracker = tracker;
+    }
+  });
+
+  return {
+    totalTrackers: trackers.length,
+    totalXp,
+    totalLaunches,
+    categoryCount: categories.size,
+    topTracker,
+  };
+}
