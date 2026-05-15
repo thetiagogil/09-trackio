@@ -11,7 +11,8 @@ export async function getActiveTrackers(
       "id, title, url, category, username, notes, status, xp, click_count, last_clicked_at, archived_at, created_at, updated_at, user_id",
     )
     .eq("status", "active")
-    .order("updated_at", { ascending: false });
+    .order("title", { ascending: true })
+    .order("created_at", { ascending: true });
 
   if (error) {
     throw new Error(error.message);

@@ -2,6 +2,11 @@ import { DEFAULT_CATEGORIES } from "@/features/dashboard/constants";
 import type { Tracker, TrackerStats } from "@/features/dashboard/types";
 import type { CurrentUser } from "@/shared/types";
 
+const TRACKER_NAME_COLLATOR = new Intl.Collator("en", {
+  numeric: true,
+  sensitivity: "base",
+});
+
 export function getDashboardProfileName(currentUser: CurrentUser) {
   return (
     currentUser.profile.displayName ??
@@ -32,27 +37,29 @@ export function getDashboardFilteredTrackers(
 ) {
   const normalizedQuery = query.trim().toLowerCase();
 
-  return trackers.filter((tracker) => {
-    if (category !== "all" && tracker.category !== category) {
-      return false;
-    }
+  return sortDashboardTrackersByName(
+    trackers.filter((tracker) => {
+      if (category !== "all" && tracker.category !== category) {
+        return false;
+      }
 
-    if (!normalizedQuery) {
-      return true;
-    }
+      if (!normalizedQuery) {
+        return true;
+      }
 
-    const searchable = [
-      tracker.title,
-      tracker.url,
-      tracker.category,
-      tracker.notes ?? "",
-      tracker.username ?? "",
-    ]
-      .join(" ")
-      .toLowerCase();
+      const searchable = [
+        tracker.title,
+        tracker.url,
+        tracker.category,
+        tracker.notes ?? "",
+        tracker.username ?? "",
+      ]
+        .join(" ")
+        .toLowerCase();
 
-    return searchable.includes(normalizedQuery);
-  });
+      return searchable.includes(normalizedQuery);
+    }),
+  );
 }
 
 export function getDashboardStats(trackers: Tracker[]): TrackerStats {
@@ -78,4 +85,19 @@ export function getDashboardStats(trackers: Tracker[]): TrackerStats {
     categoryCount: categories.size,
     topTracker,
   };
+}
+
+export function sortDashboardTrackersByName(trackers: Tracker[]) {
+  return [...trackers].sort((left, right) => {
+    const titleComparison = TRACKER_NAME_COLLATOR.compare(
+      left.title,
+      right.title,
+    );
+
+    if (titleComparison !== 0) {
+      return titleComparison;
+    }
+
+    return left.id - right.id;
+  });
 }
