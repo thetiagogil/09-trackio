@@ -7,6 +7,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: APP_NAME,
   description: "A private tracker directory for the places you already track.",
+  icons: {
+    icon: [{ url: "/favicon.svg", type: "image/svg+xml" }],
+  },
 };
 
 export default function RootLayout({
