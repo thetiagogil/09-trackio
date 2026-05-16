@@ -13,6 +13,17 @@ export function getSupabaseEnv() {
   return { url, publishableKey };
 }
 
+export function getDemoUserEnv() {
+  const email = process.env.DEMO_USER_EMAIL;
+  const password = process.env.DEMO_USER_PASSWORD;
+
+  if (!email || !password) {
+    throw new Error("Missing demo user environment variables.");
+  }
+
+  return { email, password };
+}
+
 export function isSupabaseConfigured() {
   return Boolean(
     process.env.NEXT_PUBLIC_SUPABASE_URL &&

@@ -1,5 +1,6 @@
 import { ArrowRight, Zap } from "lucide-react";
 
+import { Button } from "@/shared/components/ui/button";
 import { ButtonLink } from "@/shared/components/ui/button-link";
 
 export function HomeHero() {
@@ -23,10 +24,13 @@ export function HomeHero() {
           Create Account
           <ArrowRight className="h-4 w-4" />
         </ButtonLink>
-        <ButtonLink href="/auth?next=/dashboard" size="lg" variant="outline">
-          <Zap className="h-4 w-4" />
-          Enter HUD
-        </ButtonLink>
+        <form action="/api/auth/demo" method="post">
+          <input type="hidden" name="next" value="/dashboard" />
+          <Button size="lg" type="submit" variant="outline">
+            <Zap className="h-4 w-4" />
+            Continue with test user
+          </Button>
+        </form>
       </div>
     </section>
   );

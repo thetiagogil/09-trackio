@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Loader2, LockKeyhole } from "lucide-react";
+import { ArrowLeft, Loader2, LockKeyhole, Zap } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
@@ -251,6 +251,26 @@ export function AuthForm({
                     <Loader2 className="h-4 w-4 animate-spin" />
                   ) : null}
                   {isSignup ? "Create Account" : "Enter HUD"}
+                </Button>
+              </form>
+
+              <div className="my-6 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground">
+                <div className="h-px flex-1 bg-border" />
+                <span>or</span>
+                <div className="h-px flex-1 bg-border" />
+              </div>
+
+              <form action="/api/auth/demo" method="post">
+                <input name="next" type="hidden" value={next} />
+                <Button
+                  className="w-full"
+                  disabled={pending}
+                  size="lg"
+                  type="submit"
+                  variant="outline"
+                >
+                  <Zap className="h-4 w-4" />
+                  Continue with test user
                 </Button>
               </form>
 

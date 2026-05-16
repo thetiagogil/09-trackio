@@ -19,7 +19,7 @@ export function AppHeader({
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-40 border-b-2 border-border bg-background",
+        "fixed inset-x-0 top-0 z-40 border-b-2 border-border/70 bg-background/75 backdrop-blur-md",
         className,
       )}
       {...props}
