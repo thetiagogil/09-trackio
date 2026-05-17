@@ -20,12 +20,7 @@ export function DashboardSummary({
   stats,
 }: DashboardSummaryProps) {
   return (
-    <Card
-      as="section"
-      className="mb-8 p-6"
-      gradient
-      tone="primary"
-    >
+    <Card as="section" className="mb-8 p-6" gradient tone="primary">
       <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
           <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">

@@ -36,9 +36,7 @@ export function buildUpdateTrackerArgs(
   };
 }
 
-export function buildArchiveTrackerArgs(
-  trackerId: number,
-): ArchiveTrackerArgs {
+export function buildArchiveTrackerArgs(trackerId: number): ArchiveTrackerArgs {
   return { p_tracker_id: trackerId };
 }
 
@@ -48,9 +46,9 @@ export function buildRecordTrackerClickArgs(
   return { p_tracker_id: trackerId };
 }
 
-export function validateTrackerId(trackerId: number):
-  | { ok: true; id: number }
-  | { ok: false; error: string } {
+export function validateTrackerId(
+  trackerId: number,
+): { ok: true; id: number } | { ok: false; error: string } {
   if (!Number.isSafeInteger(trackerId) || trackerId <= 0) {
     return { ok: false, error: "Invalid tracker id." };
   }

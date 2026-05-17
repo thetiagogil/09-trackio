@@ -50,22 +50,18 @@ export function buttonVariants({
   );
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  {
-    className,
-    variant = "primary",
-    size = "md",
-    type = "button",
-    ...props
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    { className, variant = "primary", size = "md", type = "button", ...props },
+    ref,
+  ) {
+    return (
+      <button
+        className={buttonVariants({ className, size, variant })}
+        ref={ref}
+        type={type}
+        {...props}
+      />
+    );
   },
-  ref,
-) {
-  return (
-    <button
-      className={buttonVariants({ className, size, variant })}
-      ref={ref}
-      type={type}
-      {...props}
-    />
-  );
-});
+);

@@ -4,12 +4,7 @@ import { cn } from "@/shared/utils/cn";
 import { RARITY_BADGE_CLASS } from "@/shared/constants/rarity";
 import type { Rarity } from "@/shared/types";
 
-type BadgeVariant =
-  | "accent"
-  | "danger"
-  | "default"
-  | "primary"
-  | "surface";
+type BadgeVariant = "accent" | "danger" | "default" | "primary" | "surface";
 
 type BadgeProps = ComponentPropsWithoutRef<"span"> & {
   rarity?: Rarity;

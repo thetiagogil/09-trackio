@@ -45,12 +45,8 @@ export function Card({
   tone = "default",
   ...props
 }: CardProps) {
-  const borderClass = rarity
-    ? RARITY_BORDER_CLASS[rarity]
-    : borders[tone];
-  const cornerClass = rarity
-    ? RARITY_TEXT_CLASS[rarity]
-    : cornerTones[tone];
+  const borderClass = rarity ? RARITY_BORDER_CLASS[rarity] : borders[tone];
+  const cornerClass = rarity ? RARITY_TEXT_CLASS[rarity] : cornerTones[tone];
 
   return (
     <Component

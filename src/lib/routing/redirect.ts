@@ -1,7 +1,15 @@
-export function safeRedirectPath(value: string | null | undefined, fallback = "/") {
+export function safeRedirectPath(
+  value: string | null | undefined,
+  fallback = "/",
+) {
   const trimmed = value?.trim();
 
-  if (!trimmed || !trimmed.startsWith("/") || trimmed.startsWith("//") || trimmed.includes("\\")) {
+  if (
+    !trimmed ||
+    !trimmed.startsWith("/") ||
+    trimmed.startsWith("//") ||
+    trimmed.includes("\\")
+  ) {
     return fallback;
   }
 

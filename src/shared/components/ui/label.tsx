@@ -6,12 +6,7 @@ type LabelProps = LabelHTMLAttributes<HTMLLabelElement> & {
   required?: boolean;
 };
 
-export function Label({
-  children,
-  className,
-  required,
-  ...props
-}: LabelProps) {
+export function Label({ children, className, required, ...props }: LabelProps) {
   return (
     <label
       className={cn(

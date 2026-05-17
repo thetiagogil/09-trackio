@@ -74,7 +74,9 @@ export async function ensureProfileForAuthUser(
       display_name: defaults.displayName,
       avatar_url: defaults.avatarUrl,
     })
-    .select("id, display_name, avatar_url, username, bio, created_at, updated_at")
+    .select(
+      "id, display_name, avatar_url, username, bio, created_at, updated_at",
+    )
     .single();
 
   if (!error && data) {
@@ -102,7 +104,9 @@ async function readProfile(
 ): Promise<ProfileRow | null> {
   const { data, error } = await core(client)
     .from("profiles")
-    .select("id, display_name, avatar_url, username, bio, created_at, updated_at")
+    .select(
+      "id, display_name, avatar_url, username, bio, created_at, updated_at",
+    )
     .eq("id", userId)
     .maybeSingle();
 

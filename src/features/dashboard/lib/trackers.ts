@@ -10,9 +10,9 @@ export type NormalizedTrackerInput = {
   notes: string | null;
 };
 
-export function normalizeTrackerInput(input: TrackerFormInput):
-  | { ok: true; data: NormalizedTrackerInput }
-  | { ok: false; error: string } {
+export function normalizeTrackerInput(
+  input: TrackerFormInput,
+): { ok: true; data: NormalizedTrackerInput } | { ok: false; error: string } {
   const title = input.title.trim();
   const category = input.category.trim();
   const username = normalizeOptionalText(input.username);
@@ -163,9 +163,9 @@ export function rarityFromXp(xp: number): RarityInfo {
   return { label: "Common", rarity: "common" };
 }
 
-function normalizeTrackerUrl(value: string):
-  | { ok: true; url: string }
-  | { ok: false; error: string } {
+function normalizeTrackerUrl(
+  value: string,
+): { ok: true; url: string } | { ok: false; error: string } {
   const trimmed = value.trim();
 
   if (!trimmed || trimmed.length > TRACKER_FIELD_LIMITS.url) {
