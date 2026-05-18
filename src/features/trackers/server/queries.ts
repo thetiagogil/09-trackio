@@ -1,5 +1,5 @@
-import { mapTracker } from "@/features/dashboard/server/mappers";
-import type { Tracker } from "@/features/dashboard/types";
+import { mapTracker } from "@/features/trackers/server/mappers";
+import type { Tracker } from "@/features/trackers/types";
 import { trackio, type AppSupabaseClient } from "@/lib/supabase/schemas";
 
 export async function getActiveTrackers(

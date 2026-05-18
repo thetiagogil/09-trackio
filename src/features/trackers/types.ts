@@ -1,4 +1,3 @@
-import type { CurrentUser } from "@/shared/types";
 import type { Tables } from "@thetiagogil/shared-db-types";
 
 export type TrackerRow = Tables<{ schema: "trackio" }, "trackers">;
@@ -38,7 +37,9 @@ export type TrackerStats = {
   topTracker: Tracker | null;
 };
 
-export type DashboardHydration = {
-  currentUser: CurrentUser;
-  trackers: Tracker[];
+export type Rarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
+
+export type RarityInfo = {
+  label: string;
+  rarity: Rarity;
 };

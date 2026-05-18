@@ -1,13 +1,19 @@
 import { redirect } from "next/navigation";
 
-import { getActiveTrackers } from "@/features/dashboard/server/trackers";
-import type { DashboardHydration } from "@/features/dashboard/types";
+import { getActiveTrackers } from "@/features/trackers/server/queries";
+import type { Tracker } from "@/features/trackers/types";
 import { createClient } from "@/lib/supabase/server";
 import {
   ensureProfileForAuthUser,
   getCurrentAuthUser,
 } from "@/shared/server/auth";
 import { mapProfile } from "@/shared/server/mappers";
+import type { CurrentUser } from "@/shared/types";
+
+export type DashboardHydration = {
+  currentUser: CurrentUser;
+  trackers: Tracker[];
+};
 
 export async function hydrateDashboard(): Promise<DashboardHydration> {
   const client = await createClient();

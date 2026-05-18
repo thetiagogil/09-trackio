@@ -2,20 +2,20 @@
 
 import { revalidatePath } from "next/cache";
 
-import { normalizeTrackerInput } from "@/features/dashboard/lib/trackers";
+import { normalizeTrackerInput } from "@/features/trackers/lib/trackers";
 import {
   formatCaughtTrackerActionError,
   formatTrackerMutationError,
-} from "@/features/dashboard/server/action-errors";
+} from "@/features/trackers/server/action-errors";
 import {
   buildArchiveTrackerArgs,
   buildCreateTrackerArgs,
   buildRecordTrackerClickArgs,
   buildUpdateTrackerArgs,
   validateTrackerId,
-} from "@/features/dashboard/server/action-inputs";
-import { mapTracker } from "@/features/dashboard/server/mappers";
-import type { Tracker, TrackerFormInput } from "@/features/dashboard/types";
+} from "@/features/trackers/server/action-inputs";
+import { mapTracker } from "@/features/trackers/server/mappers";
+import type { Tracker, TrackerFormInput } from "@/features/trackers/types";
 import { trackio } from "@/lib/supabase/schemas";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionResult } from "@/shared/server/action-result";

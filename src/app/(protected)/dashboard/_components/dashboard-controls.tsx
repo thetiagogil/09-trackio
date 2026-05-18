@@ -1,8 +1,8 @@
 import { Plus, Search } from "lucide-react";
 
-import { DashboardRealmFilterChip } from "@/features/dashboard/components/dashboard-realm-filter-chip";
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
+import { DashboardRealmFilterChip } from "./dashboard-realm-filter-chip";
 
 type DashboardControlsProps = {
   categories: string[];

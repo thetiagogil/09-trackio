@@ -1,6 +1,6 @@
 import { LayoutGrid, LockKeyhole, Trophy } from "lucide-react";
 
-import { HomeFeatureCard } from "@/features/home/components/home-feature-card";
+import { HomeFeatureCard } from "./home-feature-card";
 
 export function HomeFeatureGrid() {
   return (

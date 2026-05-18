@@ -1,5 +1,5 @@
-import { DEFAULT_CATEGORIES } from "@/features/dashboard/constants";
-import type { Tracker, TrackerStats } from "@/features/dashboard/types";
+import { DEFAULT_CATEGORIES } from "@/features/trackers/constants";
+import type { Tracker, TrackerStats } from "@/features/trackers/types";
 import type { CurrentUser } from "@/shared/types";
 
 const TRACKER_NAME_COLLATOR = new Intl.Collator("en", {

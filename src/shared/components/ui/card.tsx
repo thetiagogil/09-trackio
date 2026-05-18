@@ -1,11 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import {
-  RARITY_BORDER_CLASS,
-  RARITY_TEXT_CLASS,
-} from "@/shared/constants/rarity";
-import type { Rarity } from "@/shared/types";
 
 type CardElement = "article" | "div" | "section";
 type CardTone = "accent" | "danger" | "default" | "primary";
@@ -13,10 +8,10 @@ type CardTone = "accent" | "danger" | "default" | "primary";
 type CardProps = ComponentPropsWithoutRef<"div"> & {
   as?: CardElement;
   children: ReactNode;
+  cornerClassName?: string;
   corners?: boolean;
   gradient?: boolean;
   interactive?: boolean;
-  rarity?: Rarity;
   tone?: CardTone;
 };
 
@@ -38,15 +33,15 @@ export function Card({
   as: Component = "div",
   children,
   className,
+  cornerClassName,
   corners = true,
   gradient = false,
   interactive = false,
-  rarity,
   tone = "default",
   ...props
 }: CardProps) {
-  const borderClass = rarity ? RARITY_BORDER_CLASS[rarity] : borders[tone];
-  const cornerClass = rarity ? RARITY_TEXT_CLASS[rarity] : cornerTones[tone];
+  const borderClass = borders[tone];
+  const cornerClass = cn(cornerTones[tone], cornerClassName);
 
   return (
     <Component

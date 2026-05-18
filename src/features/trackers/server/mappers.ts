@@ -2,7 +2,7 @@ import type {
   Tracker,
   TrackerRow,
   TrackerStatus,
-} from "@/features/dashboard/types";
+} from "@/features/trackers/types";
 
 export function mapTracker(row: TrackerRow): Tracker {
   return {

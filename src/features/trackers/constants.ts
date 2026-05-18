@@ -1,4 +1,22 @@
-import type { Rarity } from "@/shared/types";
+import type { Rarity } from "@/features/trackers/types";
+
+export const DEFAULT_CATEGORIES = [
+  "Films",
+  "TV Shows",
+  "Anime",
+  "Music",
+  "Books",
+  "Manga",
+  "Video Games",
+];
+
+export const TRACKER_FIELD_LIMITS = {
+  title: 120,
+  url: 2048,
+  category: 60,
+  username: 100,
+  notes: 1000,
+} as const;
 
 export const RARITY_BORDER_CLASS: Record<Rarity, string> = {
   common: "border-rarity-common/40",

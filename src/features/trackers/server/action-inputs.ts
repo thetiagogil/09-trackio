@@ -1,4 +1,4 @@
-import type { NormalizedTrackerInput } from "@/features/dashboard/lib/trackers";
+import type { NormalizedTrackerInput } from "@/features/trackers/lib/trackers";
 import type { Database } from "@thetiagogil/shared-db-types";
 
 type CreateTrackerArgs =

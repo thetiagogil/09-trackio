@@ -1,9 +1,11 @@
 import { unstable_rethrow } from "next/navigation";
 
-import { DashboardLoadError } from "@/features/dashboard/components/dashboard-load-error";
-import { DashboardView } from "@/features/dashboard/components/dashboard-view";
-import { hydrateDashboard } from "@/features/dashboard/server/hydrate";
-import type { DashboardHydration } from "@/features/dashboard/types";
+import { DashboardLoadError } from "./_components/dashboard-load-error";
+import { DashboardView } from "./_components/dashboard-view";
+import {
+  hydrateDashboard,
+  type DashboardHydration,
+} from "./_lib/hydrate-dashboard";
 
 export default async function DashboardPage() {
   let dashboard: DashboardHydration;

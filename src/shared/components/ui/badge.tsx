@@ -1,13 +1,10 @@
 import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "@/shared/utils/cn";
-import { RARITY_BADGE_CLASS } from "@/shared/constants/rarity";
-import type { Rarity } from "@/shared/types";
 
 type BadgeVariant = "accent" | "danger" | "default" | "primary" | "surface";
 
 type BadgeProps = ComponentPropsWithoutRef<"span"> & {
-  rarity?: Rarity;
   variant?: BadgeVariant;
 };
 
@@ -21,7 +18,6 @@ const variants: Record<BadgeVariant, string> = {
 
 export function Badge({
   className,
-  rarity,
   variant = "default",
   ...props
 }: BadgeProps) {
@@ -29,7 +25,7 @@ export function Badge({
     <span
       className={cn(
         "inline-flex items-center rounded-sm border px-2 py-0.5 font-mono text-[10px] uppercase tracking-wider",
-        rarity ? RARITY_BADGE_CLASS[rarity] : variants[variant],
+        variants[variant],
         className,
       )}
       {...props}

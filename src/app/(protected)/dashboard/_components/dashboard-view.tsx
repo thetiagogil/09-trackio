@@ -25,28 +25,28 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/shared/components/ui/tooltip";
-import { DashboardActionFeedback } from "@/features/dashboard/components/dashboard-action-feedback";
-import { DashboardControls } from "@/features/dashboard/components/dashboard-controls";
-import { DashboardSummary } from "@/features/dashboard/components/dashboard-summary";
-import { TrackerForm } from "@/features/dashboard/components/tracker-form";
-import { TrackerList } from "@/features/dashboard/components/tracker-list";
+import { TrackerForm } from "@/features/trackers/components/tracker-form";
+import { TrackerList } from "@/features/trackers/components/tracker-list";
 import {
   getDashboardCategories,
   getDashboardFilteredTrackers,
   getDashboardProfileName,
   getDashboardStats,
   getDashboardVisibleRealms,
-} from "@/features/dashboard/lib/view-model";
+} from "../_lib/dashboard-view-model";
 import {
   archiveTrackerAction,
   createTrackerAction,
   recordTrackerClickAction,
   updateTrackerAction,
-} from "@/features/dashboard/server/actions";
-import { levelFromXp } from "@/features/dashboard/lib/trackers";
-import type { Tracker, TrackerFormInput } from "@/features/dashboard/types";
+} from "@/features/trackers/server/actions";
+import { levelFromXp } from "@/features/trackers/lib/trackers";
+import type { Tracker, TrackerFormInput } from "@/features/trackers/types";
 import { signOutAction } from "@/shared/server/auth-actions";
 import type { CurrentUser } from "@/shared/types";
+import { DashboardActionFeedback } from "./dashboard-action-feedback";
+import { DashboardControls } from "./dashboard-controls";
+import { DashboardSummary } from "./dashboard-summary";
 
 type DashboardViewProps = {
   initialTrackers: Tracker[];

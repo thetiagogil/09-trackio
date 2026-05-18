@@ -1,6 +1,5 @@
-import { TRACKER_FIELD_LIMITS } from "@/features/dashboard/constants";
-import type { TrackerFormInput } from "@/features/dashboard/types";
-import type { RarityInfo } from "@/shared/types";
+import { TRACKER_FIELD_LIMITS } from "@/features/trackers/constants";
+import type { RarityInfo, TrackerFormInput } from "@/features/trackers/types";
 
 export type NormalizedTrackerInput = {
   title: string;

@@ -1,8 +1,8 @@
 import { Loader2 } from "lucide-react";
 
-import { TrackerListEmptyState } from "@/features/dashboard/components/tracker-list-empty-state";
-import { TrackerCard } from "@/features/dashboard/components/tracker-card";
-import type { Tracker } from "@/features/dashboard/types";
+import { TrackerListEmptyState } from "@/features/trackers/components/tracker-list-empty-state";
+import { TrackerCard } from "@/features/trackers/components/tracker-card";
+import type { Tracker } from "@/features/trackers/types";
 
 type TrackerListProps = {
   allTrackerCount: number;

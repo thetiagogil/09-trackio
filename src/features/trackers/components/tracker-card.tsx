@@ -25,12 +25,14 @@ import {
   levelFromXp,
   rarityFromXp,
   relativeTime,
-} from "@/features/dashboard/lib/trackers";
+} from "@/features/trackers/lib/trackers";
 import {
+  RARITY_BADGE_CLASS,
+  RARITY_BORDER_CLASS,
   RARITY_GLOW_CLASS,
   RARITY_TEXT_CLASS,
-} from "@/shared/constants/rarity";
-import type { Tracker } from "@/features/dashboard/types";
+} from "@/features/trackers/constants";
+import type { Tracker } from "@/features/trackers/types";
 
 type TrackerCardProps = {
   tracker: Tracker;
@@ -64,8 +66,12 @@ export function TrackerCard({
     <Card
       as="article"
       interactive
-      className={cn("flex flex-col", RARITY_GLOW_CLASS[rarity.rarity])}
-      rarity={rarity.rarity}
+      className={cn(
+        "flex flex-col",
+        RARITY_BORDER_CLASS[rarity.rarity],
+        RARITY_GLOW_CLASS[rarity.rarity],
+      )}
+      cornerClassName={RARITY_TEXT_CLASS[rarity.rarity]}
     >
       <div className="flex items-start justify-between gap-3">
         <div className="flex min-w-0 items-center gap-3">
@@ -130,7 +136,9 @@ export function TrackerCard({
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
         <Badge variant="accent">{tracker.category}</Badge>
-        <Badge rarity={rarity.rarity}>{rarity.label}</Badge>
+        <Badge className={RARITY_BADGE_CLASS[rarity.rarity]}>
+          {rarity.label}
+        </Badge>
         {tracker.username ? (
           <Badge variant="surface">{tracker.username}</Badge>
         ) : null}

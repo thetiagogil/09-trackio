@@ -1,9 +1,9 @@
 import { LayoutGrid, Target, Trophy } from "lucide-react";
 
-import { DashboardStatCard } from "@/features/dashboard/components/dashboard-stat-card";
 import { Card } from "@/shared/components/ui/card";
 import { ProgressBar } from "@/shared/components/ui/progress-bar";
-import type { TrackerStats } from "@/features/dashboard/types";
+import type { TrackerStats } from "@/features/trackers/types";
+import { DashboardStatCard } from "./dashboard-stat-card";
 
 type DashboardSummaryProps = {
   playerLevel: {

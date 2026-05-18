@@ -13,8 +13,8 @@ import { Textarea } from "@/shared/components/ui/textarea";
 import {
   DEFAULT_CATEGORIES,
   TRACKER_FIELD_LIMITS,
-} from "@/features/dashboard/constants";
-import type { Tracker, TrackerFormInput } from "@/features/dashboard/types";
+} from "@/features/trackers/constants";
+import type { Tracker, TrackerFormInput } from "@/features/trackers/types";
 
 type TrackerFormProps = {
   open: boolean;

@@ -17,10 +17,3 @@ export type CurrentUser = {
   email: string | null;
   profile: Profile;
 };
-
-export type Rarity = "common" | "uncommon" | "rare" | "epic" | "legendary";
-
-export type RarityInfo = {
-  label: string;
-  rarity: Rarity;
-};
