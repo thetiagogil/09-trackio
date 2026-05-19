@@ -141,11 +141,11 @@ export function AuthForm({
         <div className="w-full max-w-md">
           <Card className="p-8" gradient tone="primary">
             <div className="relative">
-              <div className="mb-2 flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+              <div className="text-accent mb-2 flex items-center gap-2 font-mono text-[10px] tracking-[0.25em] uppercase">
                 <LockKeyhole className="h-3.5 w-3.5" />
                 {isSignup ? "new player" : "returning player"}
               </div>
-              <h1 className="mb-6 font-display text-2xl text-glow-primary">
+              <h1 className="font-display text-glow-primary mb-6 text-2xl">
                 {isSignup ? "CREATE ACCOUNT" : "SIGN IN"}
               </h1>
 
@@ -158,7 +158,7 @@ export function AuthForm({
                 {isSignup ? (
                   <div className="space-y-1.5">
                     <Label
-                      className="font-mono text-[10px] uppercase tracking-wider text-accent"
+                      className="text-accent font-mono text-[10px] tracking-wider uppercase"
                       htmlFor="displayName"
                       required
                     >
@@ -180,7 +180,7 @@ export function AuthForm({
 
                 <div className="space-y-1.5">
                   <Label
-                    className="font-mono text-[10px] uppercase tracking-wider text-accent"
+                    className="text-accent font-mono text-[10px] tracking-wider uppercase"
                     htmlFor="email"
                     required
                   >
@@ -200,7 +200,7 @@ export function AuthForm({
 
                 <div className="space-y-1.5">
                   <Label
-                    className="font-mono text-[10px] uppercase tracking-wider text-accent"
+                    className="text-accent font-mono text-[10px] tracking-wider uppercase"
                     htmlFor="password"
                     required
                   >
@@ -224,7 +224,7 @@ export function AuthForm({
                 {isSignup ? (
                   <div className="space-y-1.5">
                     <Label
-                      className="font-mono text-[10px] uppercase tracking-wider text-accent"
+                      className="text-accent font-mono text-[10px] tracking-wider uppercase"
                       htmlFor="confirmPassword"
                       required
                     >
@@ -254,10 +254,10 @@ export function AuthForm({
                 </Button>
               </form>
 
-              <div className="my-6 flex items-center gap-3 font-mono text-[10px] uppercase tracking-[0.25em] text-foreground">
-                <div className="h-px flex-1 bg-border" />
+              <div className="text-foreground my-6 flex items-center gap-3 font-mono text-[10px] tracking-[0.25em] uppercase">
+                <div className="bg-border h-px flex-1" />
                 <span>or</span>
-                <div className="h-px flex-1 bg-border" />
+                <div className="bg-border h-px flex-1" />
               </div>
 
               <form action="/api/auth/demo" method="post">
@@ -274,7 +274,7 @@ export function AuthForm({
                 </Button>
               </form>
 
-              <div className="mt-4 text-center font-mono text-xs text-muted-foreground">
+              <div className="text-muted-foreground mt-4 text-center font-mono text-xs">
                 {isSignup ? "Already have an account?" : "No account yet?"}{" "}
                 <button
                   className="text-accent underline-offset-4 hover:underline"

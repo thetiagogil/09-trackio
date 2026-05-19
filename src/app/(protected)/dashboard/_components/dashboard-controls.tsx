@@ -27,9 +27,9 @@ export function DashboardControls({
     <section className="mb-6 space-y-4">
       <div className="flex flex-col gap-3 sm:flex-row">
         <div className="relative min-w-0 flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+          <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
-            className="h-11 bg-card pl-9 text-sm"
+            className="bg-card h-11 pl-9 text-sm"
             onChange={(event) => onQueryChange(event.target.value)}
             placeholder="Search trackers, URLs, notes..."
             value={query}
@@ -43,7 +43,7 @@ export function DashboardControls({
 
       {hasMultipleRealms ? (
         <div className="flex flex-wrap items-center gap-2">
-          <span className="mr-1 font-display text-[9px] uppercase tracking-wider text-accent">
+          <span className="font-display text-accent mr-1 text-[9px] tracking-wider uppercase">
             &gt; Realm
           </span>
           <DashboardRealmFilterChip

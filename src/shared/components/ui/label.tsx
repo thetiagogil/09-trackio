@@ -10,7 +10,7 @@ export function Label({ children, className, required, ...props }: LabelProps) {
   return (
     <label
       className={cn(
-        "font-mono text-xs uppercase tracking-wider text-foreground",
+        "text-foreground font-mono text-xs tracking-wider uppercase",
         className,
       )}
       {...props}
@@ -18,7 +18,7 @@ export function Label({ children, className, required, ...props }: LabelProps) {
       {children}
       {required ? (
         <>
-          <span aria-hidden="true" className="ml-1 text-primary">
+          <span aria-hidden="true" className="text-primary ml-1">
             *
           </span>
           <span className="sr-only"> required</span>

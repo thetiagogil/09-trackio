@@ -35,7 +35,7 @@ const AlertDialogContent = forwardRef<
     <AlertDialogOverlay />
     <AlertDialogPrimitive.Content
       className={cn(
-        "fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none",
+        "fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none",
         className,
       )}
       ref={ref}
@@ -80,7 +80,7 @@ const AlertDialogTitle = forwardRef<
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Title
     className={cn(
-      "font-display text-base uppercase tracking-wider text-glow-primary",
+      "font-display text-glow-primary text-base tracking-wider uppercase",
       className,
     )}
     ref={ref}
@@ -94,7 +94,7 @@ const AlertDialogDescription = forwardRef<
   ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <AlertDialogPrimitive.Description
-    className={cn("text-sm leading-6 text-muted-foreground", className)}
+    className={cn("text-muted-foreground text-sm leading-6", className)}
     ref={ref}
     {...props}
   />

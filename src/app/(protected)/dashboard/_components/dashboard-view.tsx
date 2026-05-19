@@ -224,10 +224,10 @@ export function DashboardView({
         actions={
           <>
             <div className="mr-2 hidden flex-col items-end sm:flex">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground">
+              <span className="text-muted-foreground font-mono text-[9px] tracking-wider uppercase">
                 signed in
               </span>
-              <span className="max-w-44 truncate font-display text-[11px] text-glow-accent">
+              <span className="font-display text-glow-accent max-w-44 truncate text-[11px]">
                 {profileName}
               </span>
             </div>

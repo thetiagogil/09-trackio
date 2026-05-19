@@ -18,13 +18,13 @@ export function DashboardLoadError({ error }: DashboardLoadErrorProps) {
           style={{ width: "min(42rem, calc(100vw - 5rem))" }}
           tone="danger"
         >
-          <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.28em] text-destructive">
+          <p className="text-destructive mb-3 font-mono text-[11px] tracking-[0.28em] uppercase">
             database error
           </p>
-          <h1 className="font-display text-xl leading-relaxed text-glow-primary">
+          <h1 className="font-display text-glow-primary text-xl leading-relaxed">
             Trackers could not load
           </h1>
-          <p className="mt-4 text-sm leading-6 text-muted-foreground">
+          <p className="text-muted-foreground mt-4 text-sm leading-6">
             {formatDashboardLoadError(error)}
           </p>
         </Card>

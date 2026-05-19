@@ -19,7 +19,7 @@ export function SetupMissing() {
     <AppShell>
       <AppHeader
         actions={
-          <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+          <span className="text-accent font-mono text-[10px] tracking-[0.25em] uppercase">
             setup
           </span>
         }
@@ -33,27 +33,27 @@ export function SetupMissing() {
           tone="primary"
         >
           <div className="relative">
-            <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-accent">
+            <div className="text-accent mb-2 font-mono text-[10px] tracking-[0.25em] uppercase">
               &gt; setup required
             </div>
-            <h1 className="mb-5 font-display text-2xl text-glow-primary">
+            <h1 className="font-display text-glow-primary mb-5 text-2xl">
               CONFIGURE SUPABASE
             </h1>
-            <p className="text-sm leading-6 text-muted-foreground">
+            <p className="text-muted-foreground text-sm leading-6">
               Trackio is ready to use the shared Supabase project. Add these
               public client credentials to <code>.env.local</code>.
             </p>
 
-            <div className="mt-6 overflow-hidden rounded-md border border-border bg-background/50">
+            <div className="border-border bg-background/50 mt-6 overflow-hidden rounded-md border">
               {envRows.map((row) => (
                 <div
-                  className="flex min-w-0 flex-col gap-1 border-b border-border px-3 py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between"
+                  className="border-border flex min-w-0 flex-col gap-1 border-b px-3 py-3 last:border-b-0 sm:flex-row sm:items-center sm:justify-between"
                   key={row.name}
                 >
-                  <span className="break-all font-mono text-xs text-foreground">
+                  <span className="text-foreground font-mono text-xs break-all">
                     {row.name}
                   </span>
-                  <span className="font-mono text-[10px] uppercase tracking-wider text-accent">
+                  <span className="text-accent font-mono text-[10px] tracking-wider uppercase">
                     {row.value}
                   </span>
                 </div>

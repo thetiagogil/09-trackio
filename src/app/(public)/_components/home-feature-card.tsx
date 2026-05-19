@@ -25,11 +25,11 @@ export function HomeFeatureCard({
   return (
     <Card corners={false} className="p-5">
       <div
-        className={`mb-3 flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider ${toneClass}`}
+        className={`mb-3 flex items-center gap-1.5 font-mono text-[10px] tracking-wider uppercase ${toneClass}`}
       >
         {icon} {title}
       </div>
-      <p className="font-mono text-sm leading-relaxed text-muted-foreground">
+      <p className="text-muted-foreground font-mono text-sm leading-relaxed">
         {body}
       </p>
     </Card>

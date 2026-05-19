@@ -23,20 +23,20 @@ export function DashboardSummary({
     <Card as="section" className="mb-8 p-6" gradient tone="primary">
       <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <div>
-          <div className="mb-2 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
+          <div className="text-muted-foreground mb-2 font-mono text-[10px] tracking-[0.25em] uppercase">
             * {profileName}
           </div>
           <div className="flex items-end gap-4">
-            <div className="font-display text-4xl leading-none text-glow-primary md:text-5xl">
+            <div className="font-display text-glow-primary text-4xl leading-none md:text-5xl">
               LV.{playerLevel.level}
             </div>
-            <div className="pb-1 font-mono text-xs text-muted-foreground">
+            <div className="text-muted-foreground pb-1 font-mono text-xs">
               {stats.totalXp.toLocaleString()} XP
             </div>
           </div>
           <div className="mt-3 w-full md:w-80">
             <ProgressBar value={playerLevel.percent} />
-            <div className="mt-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+            <div className="text-muted-foreground mt-1 font-mono text-[10px] tracking-wider uppercase">
               {playerLevel.percent}% to LV.{playerLevel.level + 1}
             </div>
           </div>

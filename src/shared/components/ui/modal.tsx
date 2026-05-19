@@ -25,10 +25,10 @@ export function Modal({ children, onClose, open, title }: ModalProps) {
     >
       <DialogPrimitive.Portal>
         <DialogPrimitive.Overlay className="fixed inset-0 z-50 bg-black/80" />
-        <DialogPrimitive.Content className="fixed left-1/2 top-1/2 z-50 w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none">
+        <DialogPrimitive.Content className="fixed top-1/2 left-1/2 z-50 w-[calc(100vw-2rem)] max-w-lg -translate-x-1/2 -translate-y-1/2 focus-visible:outline-none">
           <Card className="overflow-visible p-6" gradient tone="primary">
             <div className="relative mb-5 flex items-center justify-between gap-3">
-              <DialogPrimitive.Title className="font-display text-sm uppercase tracking-wider text-glow-primary">
+              <DialogPrimitive.Title className="font-display text-glow-primary text-sm tracking-wider uppercase">
                 {title}
               </DialogPrimitive.Title>
               <DialogPrimitive.Close asChild>

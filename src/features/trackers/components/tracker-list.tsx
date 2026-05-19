@@ -45,8 +45,8 @@ export function TrackerList({
             tracker={tracker}
           />
           {pendingTrackerId === tracker.id ? (
-            <div className="absolute inset-0 grid place-items-center rounded-lg border-2 border-accent/60 bg-background/70 backdrop-blur-sm">
-              <Loader2 className="h-6 w-6 animate-spin text-accent" />
+            <div className="border-accent/60 bg-background/70 absolute inset-0 grid place-items-center rounded-lg border-2 backdrop-blur-sm">
+              <Loader2 className="text-accent h-6 w-6 animate-spin" />
             </div>
           ) : null}
         </div>

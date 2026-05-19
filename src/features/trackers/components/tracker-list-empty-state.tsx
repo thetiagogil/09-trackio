@@ -18,13 +18,13 @@ export function TrackerListEmptyState({
       className="flex min-h-80 items-center justify-center p-6 text-center"
     >
       <div className="flex max-w-xs flex-col items-center">
-        <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-md border-2 border-accent/40 bg-surface-elevated">
-          <Plus className="h-6 w-6 text-accent" />
+        <div className="border-accent/40 bg-surface-elevated mb-4 flex h-12 w-12 items-center justify-center rounded-md border-2">
+          <Plus className="text-accent h-6 w-6" />
         </div>
-        <h3 className="mb-2 font-display text-base uppercase text-glow-primary">
+        <h3 className="font-display text-glow-primary mb-2 text-base uppercase">
           No trackers found
         </h3>
-        <p className="mb-6 font-mono text-sm text-muted-foreground">
+        <p className="text-muted-foreground mb-6 font-mono text-sm">
           {hasTrackers
             ? "Try a different realm or search."
             : "Add your first tracker."}

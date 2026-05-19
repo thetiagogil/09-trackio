@@ -20,7 +20,7 @@ const TooltipContent = forwardRef<
   <TooltipPrimitive.Portal>
     <TooltipPrimitive.Content
       className={cn(
-        "z-50 overflow-hidden rounded-sm border border-accent/60 bg-popover px-2.5 py-1.5 font-mono text-[10px] uppercase tracking-wider text-popover-foreground shadow-accent",
+        "border-accent/60 bg-popover text-popover-foreground shadow-accent z-50 overflow-hidden rounded-sm border px-2.5 py-1.5 font-mono text-[10px] tracking-wider uppercase",
         "data-[state=delayed-open]:animate-in data-[state=closed]:animate-out data-[side=bottom]:slide-in-from-top-1 data-[side=top]:slide-in-from-bottom-1",
         className,
       )}

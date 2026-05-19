@@ -48,7 +48,7 @@ export function Select({
       >
         <SelectPrimitive.Trigger
           className={cn(
-            "flex h-9 w-full items-center justify-between gap-3 rounded-md border-2 border-border bg-background/50 py-1 pl-3 pr-10 font-mono text-sm text-foreground shadow-sm transition-colors focus-visible:border-accent focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:saturate-50 data-[placeholder]:text-muted-foreground",
+            "border-border bg-background/50 text-foreground focus-visible:border-accent focus-visible:ring-ring data-[placeholder]:text-muted-foreground flex h-9 w-full items-center justify-between gap-3 rounded-md border-2 py-1 pr-10 pl-3 font-mono text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:saturate-50",
             hasValue && "pr-16",
             className,
           )}
@@ -57,13 +57,13 @@ export function Select({
         >
           <SelectPrimitive.Value placeholder={placeholder} />
           <SelectPrimitive.Icon asChild>
-            <ChevronDown className="h-4 w-4 text-accent" />
+            <ChevronDown className="text-accent h-4 w-4" />
           </SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
 
         <SelectPrimitive.Portal>
           <SelectPrimitive.Content
-            className="z-50 max-h-56 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border-2 border-accent/60 bg-popover text-popover-foreground shadow-accent"
+            className="border-accent/60 bg-popover text-popover-foreground shadow-accent z-50 max-h-56 min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-md border-2"
             position="popper"
             sideOffset={6}
           >
@@ -71,7 +71,7 @@ export function Select({
               {options.map((option) => (
                 <SelectPrimitive.Item
                   className={cn(
-                    "relative flex cursor-default select-none items-center rounded-sm py-2 pl-2 pr-8 font-mono text-xs outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:text-muted-foreground",
+                    "focus:bg-accent focus:text-accent-foreground data-[disabled]:text-muted-foreground relative flex cursor-default items-center rounded-sm py-2 pr-8 pl-2 font-mono text-xs transition-colors outline-none select-none data-[disabled]:pointer-events-none",
                     option.value === value && "text-accent",
                   )}
                   disabled={option.disabled}
@@ -94,7 +94,7 @@ export function Select({
       {hasValue ? (
         <button
           aria-label="Clear selected option"
-          className="absolute right-8 top-1/2 z-10 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:saturate-50"
+          className="text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring absolute top-1/2 right-8 z-10 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:saturate-50"
           disabled={disabled}
           onClick={() => onValueChange("")}
           type="button"

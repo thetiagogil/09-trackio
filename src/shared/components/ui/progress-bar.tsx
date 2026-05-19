@@ -30,7 +30,7 @@ export function ProgressBar({
   return (
     <ProgressPrimitive.Root
       className={cn(
-        "w-full overflow-hidden rounded-full border border-border bg-surface-elevated",
+        "border-border bg-surface-elevated w-full overflow-hidden rounded-full border",
         sizes[size],
         className,
       )}
@@ -39,7 +39,7 @@ export function ProgressBar({
       {...props}
     >
       <ProgressPrimitive.Indicator
-        className="h-full bg-linear-to-r from-primary via-accent to-primary transition-transform"
+        className="from-primary via-accent to-primary h-full bg-linear-to-r transition-transform"
         style={{
           backgroundSize: "200% 100%",
           transform: `translateX(-${100 - boundedValue}%)`,

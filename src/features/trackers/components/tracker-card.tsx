@@ -77,7 +77,7 @@ export function TrackerCard({
         <div className="flex min-w-0 items-center gap-3">
           <div
             className={cn(
-              "relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 border-current/40 bg-surface-elevated",
+              "bg-surface-elevated relative flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-md border-2 border-current/40",
               RARITY_TEXT_CLASS[rarity.rarity],
             )}
           >
@@ -90,15 +90,15 @@ export function TrackerCard({
               }}
               src={favicon}
             />
-            <span className="absolute -bottom-1 -right-1 rounded border border-current bg-background px-1 py-0.5 font-display text-[8px] text-foreground">
+            <span className="bg-background font-display text-foreground absolute -right-1 -bottom-1 rounded border border-current px-1 py-0.5 text-[8px]">
               L{level.level}
             </span>
           </div>
           <div className="min-w-0">
-            <h3 className="truncate text-lg font-bold leading-tight tracking-tight text-foreground">
+            <h3 className="text-foreground truncate text-lg leading-tight font-bold tracking-tight">
               {tracker.title}
             </h3>
-            <p className="truncate font-mono text-[11px] text-muted-foreground">
+            <p className="text-muted-foreground truncate font-mono text-[11px]">
               {domain}
             </p>
           </div>
@@ -108,7 +108,7 @@ export function TrackerCard({
           <DropdownMenuTrigger asChild>
             <button
               aria-label={`Open menu for ${tracker.title}`}
-              className="rounded-md p-1.5 text-muted-foreground transition-colors hover:bg-surface-elevated hover:text-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+              className="text-muted-foreground hover:bg-surface-elevated hover:text-foreground focus-visible:ring-ring rounded-md p-1.5 transition-colors focus-visible:ring-1 focus-visible:outline-none"
               type="button"
             >
               <MoreHorizontal className="h-4 w-4" />
@@ -129,7 +129,7 @@ export function TrackerCard({
       </div>
 
       {tracker.notes ? (
-        <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-foreground/80">
+        <p className="text-foreground/80 mt-4 line-clamp-2 text-sm leading-relaxed">
           {tracker.notes}
         </p>
       ) : null}
@@ -145,17 +145,17 @@ export function TrackerCard({
       </div>
 
       <div className="mt-4">
-        <div className="mb-1 flex justify-between font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <div className="text-muted-foreground mb-1 flex justify-between font-mono text-[10px] tracking-wider uppercase">
           <span>XP - LVL {level.level}</span>
           <span>{level.percent}%</span>
         </div>
         <ProgressBar size="sm" value={level.percent} />
       </div>
 
-      <div className="mt-4 flex items-center justify-between border-t border-dashed border-border pt-3">
-        <div className="font-mono text-[11px] text-muted-foreground">
-          <div className="flex items-center gap-1 text-foreground">
-            <Zap className="h-3 w-3 text-accent" />
+      <div className="border-border mt-4 flex items-center justify-between border-t border-dashed pt-3">
+        <div className="text-muted-foreground font-mono text-[11px]">
+          <div className="text-foreground flex items-center gap-1">
+            <Zap className="text-accent h-3 w-3" />
             {tracker.xp.toLocaleString()} XP
           </div>
           <div className="mt-0.5 opacity-60">
