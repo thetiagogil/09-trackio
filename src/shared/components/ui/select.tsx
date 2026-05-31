@@ -48,7 +48,7 @@ export function Select({
       >
         <SelectPrimitive.Trigger
           className={cn(
-            "border-border bg-background/50 text-foreground focus-visible:border-accent focus-visible:ring-ring data-[placeholder]:text-muted-foreground flex h-9 w-full items-center justify-between gap-3 rounded-md border-2 py-1 pr-10 pl-3 font-mono text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:saturate-50",
+            "border-border bg-background/50 text-foreground focus-visible:border-accent focus-visible:ring-ring data-placeholder:text-muted-foreground relative flex h-9 w-full items-center rounded-md border-2 py-1 pr-9 pl-3 text-left font-mono text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:saturate-50",
             hasValue && "pr-16",
             className,
           )}
@@ -57,7 +57,7 @@ export function Select({
         >
           <SelectPrimitive.Value placeholder={placeholder} />
           <SelectPrimitive.Icon asChild>
-            <ChevronDown className="text-accent h-4 w-4" />
+            <ChevronDown className="text-accent absolute top-1/2 right-3 h-4 w-4 -translate-y-1/2" />
           </SelectPrimitive.Icon>
         </SelectPrimitive.Trigger>
 
@@ -71,7 +71,7 @@ export function Select({
               {options.map((option) => (
                 <SelectPrimitive.Item
                   className={cn(
-                    "focus:bg-accent focus:text-accent-foreground data-[disabled]:text-muted-foreground relative flex cursor-default items-center rounded-sm py-2 pr-8 pl-2 font-mono text-xs transition-colors outline-none select-none data-[disabled]:pointer-events-none",
+                    "focus:bg-accent focus:text-accent-foreground data-disabled:text-muted-foreground relative flex cursor-default items-center rounded-sm py-2 pr-8 pl-2 font-mono text-xs transition-colors outline-none select-none data-disabled:pointer-events-none",
                     option.value === value && "text-accent",
                   )}
                   disabled={option.disabled}

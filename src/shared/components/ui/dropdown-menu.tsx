@@ -90,7 +90,7 @@ const DropdownMenuItem = forwardRef<
   <DropdownMenuPrimitive.Item
     className={cn(
       "relative flex cursor-default items-center gap-2 rounded-sm px-2 py-1.5 text-sm transition-colors outline-none select-none",
-      "focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:saturate-50",
+      "focus:bg-accent focus:text-accent-foreground data-disabled:pointer-events-none data-disabled:saturate-50",
       inset && "pl-8",
       tone === "danger" &&
         "text-destructive focus:bg-destructive focus:text-destructive-foreground",
@@ -109,7 +109,7 @@ const DropdownMenuCheckboxItem = forwardRef<
   <DropdownMenuPrimitive.CheckboxItem
     checked={checked}
     className={cn(
-      "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm transition-colors outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:saturate-50",
+      "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm transition-colors outline-none select-none data-disabled:pointer-events-none data-disabled:saturate-50",
       className,
     )}
     ref={ref}
@@ -132,7 +132,7 @@ const DropdownMenuRadioItem = forwardRef<
 >(({ children, className, ...props }, ref) => (
   <DropdownMenuPrimitive.RadioItem
     className={cn(
-      "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm transition-colors outline-none select-none data-[disabled]:pointer-events-none data-[disabled]:saturate-50",
+      "focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center rounded-sm py-1.5 pr-2 pl-8 text-sm transition-colors outline-none select-none data-disabled:pointer-events-none data-disabled:saturate-50",
       className,
     )}
     ref={ref}

@@ -6,7 +6,7 @@ export function HomeFeatureGrid() {
   return (
     <section className="grid gap-4 sm:grid-cols-3">
       <HomeFeatureCard
-        body="Add Letterboxd, AniList, Last.fm, Goodreads, Notion pages, spreadsheets, and custom URLs."
+        body="Trackio is a directory of trackers. You can search for and launch your favorite trackers from one place."
         icon={<LayoutGrid className="h-4 w-4" />}
         title="Directory"
         tone="pink"
@@ -18,7 +18,7 @@ export function HomeFeatureGrid() {
         tone="cyan"
       />
       <HomeFeatureCard
-        body="Each launch awards that tracker 1 XP. Levels and rarity are derived from usage."
+        body="Each launch awards you with points. The more you launch, the more points you earn."
         icon={<Trophy className="h-4 w-4" />}
         title="Loot"
         tone="amber"

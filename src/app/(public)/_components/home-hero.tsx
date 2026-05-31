@@ -15,9 +15,9 @@ export function HomeHero() {
         <span className="text-foreground">YOUR TRACKER HUD</span>
       </h1>
       <p className="text-muted-foreground mx-auto mb-8 max-w-xl font-mono text-sm leading-6 md:mb-10 md:text-lg md:leading-8">
-        Save every external tracker you already use in one private HUD. Launch a
-        tracker from Trackio to give it 1 XP and keep your tracker directory
-        worth opening.
+        Save every external tracker you already use in one private HUD. No more
+        switching between tabs or apps to check your stats. Your trackers, your
+        way.
       </p>
       <div className="flex flex-wrap items-center justify-center gap-3">
         <ButtonLink href="/auth?mode=signup&next=/dashboard" size="lg">
