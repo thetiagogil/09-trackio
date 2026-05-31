@@ -28,7 +28,7 @@ export function HomeHero() {
           <input type="hidden" name="next" value="/dashboard" />
           <Button size="lg" type="submit" variant="outline">
             <Zap className="h-4 w-4" />
-            Continue with test user
+            Continue with demo account
           </Button>
         </form>
       </div>
