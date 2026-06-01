@@ -1,4 +1,4 @@
-import type { Tables } from "@thetiagogil/shared-db-types";
+import type { Tables } from "@/types/database.types";
 
 export type TrackerRow = Tables<{ schema: "trackio" }, "trackers">;
 export type TrackerClickRow = Tables<{ schema: "trackio" }, "tracker_clicks">;

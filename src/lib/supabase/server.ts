@@ -2,7 +2,7 @@ import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
 import { getSupabaseEnv } from "@/lib/env";
-import type { Database } from "@thetiagogil/shared-db-types";
+import type { Database } from "@/types/database.types";
 
 export async function createClient() {
   const { url, publishableKey } = getSupabaseEnv();

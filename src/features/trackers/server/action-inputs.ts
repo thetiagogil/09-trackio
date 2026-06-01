@@ -1,5 +1,5 @@
 import type { NormalizedTrackerInput } from "@/features/trackers/lib/trackers";
-import type { Database } from "@thetiagogil/shared-db-types";
+import type { Database } from "@/types/database.types";
 
 type CreateTrackerArgs =
   Database["trackio"]["Functions"]["create_tracker"]["Args"];
