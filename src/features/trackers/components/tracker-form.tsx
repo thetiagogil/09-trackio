@@ -1,10 +1,9 @@
 "use client";
 
-import { Loader2 } from "lucide-react";
 import { FormEvent, useMemo, useState } from "react";
 
-import { Alert } from "@/shared/components/ui/alert";
 import { Button } from "@/shared/components/ui/button";
+import { FieldMessage } from "@/shared/components/ui/field-message";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Modal } from "@/shared/components/ui/modal";
@@ -73,19 +72,27 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
     });
   };
 
+  const customCategoryActive = customCategory.trim().length > 0;
+  const categoryDescription = categoryError
+    ? "tracker-category-error"
+    : customCategoryActive
+      ? "tracker-category-helper"
+      : undefined;
+
   return (
     <Modal
       onClose={onClose}
       open={open}
       title={editing ? "> Edit Tracker" : "> New Tracker"}
     >
-      <form className="space-y-4" onSubmit={handleSubmit}>
+      <form aria-busy={pending} className="space-y-4" onSubmit={handleSubmit}>
         <div className="space-y-1.5">
           <Label htmlFor="tracker-title" required>
             Title
           </Label>
           <Input
             autoFocus
+            disabled={pending}
             id="tracker-title"
             maxLength={TRACKER_FIELD_LIMITS.title}
             onChange={(event) =>
@@ -102,6 +109,7 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
             URL
           </Label>
           <Input
+            disabled={pending}
             id="tracker-url"
             maxLength={TRACKER_FIELD_LIMITS.url}
             onChange={(event) =>
@@ -119,15 +127,17 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
             Category
           </Label>
           <Select
+            aria-describedby={categoryDescription}
+            aria-invalid={categoryError ? true : undefined}
+            clearable={false}
+            disabled={pending}
             id="tracker-category"
-            aria-describedby={
-              categoryError ? "tracker-category-error" : undefined
-            }
             onValueChange={(value) => {
               setForm((current) => ({
                 ...current,
                 category: value,
               }));
+              setCustomCategory("");
               setCategoryError(null);
             }}
             options={categoryOptions}
@@ -139,6 +149,7 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
         <div className="space-y-1.5">
           <Label htmlFor="tracker-custom-category">Or new category</Label>
           <Input
+            disabled={pending}
             id="tracker-custom-category"
             maxLength={TRACKER_FIELD_LIMITS.category}
             onChange={(event) => {
@@ -148,16 +159,22 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
             placeholder="Type a new category"
             value={customCategory}
           />
+          {customCategoryActive ? (
+            <FieldMessage id="tracker-category-helper">
+              New category will be used instead of the selected one.
+            </FieldMessage>
+          ) : null}
         </div>
         {categoryError ? (
-          <Alert id="tracker-category-error" tone="error">
+          <FieldMessage id="tracker-category-error" tone="error">
             {categoryError}
-          </Alert>
+          </FieldMessage>
         ) : null}
 
         <div className="space-y-1.5">
           <Label htmlFor="tracker-username">Username or profile label</Label>
           <Input
+            disabled={pending}
             id="tracker-username"
             maxLength={TRACKER_FIELD_LIMITS.username}
             onChange={(event) =>
@@ -174,6 +191,7 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
         <div className="space-y-1.5">
           <Label htmlFor="tracker-notes">Notes / Context</Label>
           <Textarea
+            disabled={pending}
             id="tracker-notes"
             maxLength={TRACKER_FIELD_LIMITS.notes}
             onChange={(event) =>
@@ -183,15 +201,18 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
             rows={3}
             value={form.notes ?? ""}
           />
+          <FieldMessage>
+            {(form.notes ?? "").length.toLocaleString()} /{" "}
+            {TRACKER_FIELD_LIMITS.notes.toLocaleString()} chars
+          </FieldMessage>
         </div>
 
         <div className="flex justify-end gap-2 pt-2">
-          <Button onClick={onClose} variant="ghost">
+          <Button disabled={pending} onClick={onClose} variant="ghost">
             Cancel
           </Button>
           <Button disabled={pending} type="submit">
-            {pending ? <Loader2 className="h-4 w-4 animate-spin" /> : null}
-            {editing ? "Save" : "Add Tracker"}
+            {pending ? "Saving..." : editing ? "Save" : "Add Tracker"}
           </Button>
         </div>
       </form>

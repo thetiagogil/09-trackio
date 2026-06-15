@@ -4,7 +4,10 @@ import { HomeFeatureCard } from "./home-feature-card";
 
 export function HomeFeatureGrid() {
   return (
-    <section className="grid gap-4 sm:grid-cols-3">
+    <section
+      aria-label="Trackio features"
+      className="grid gap-4 sm:grid-cols-3"
+    >
       <HomeFeatureCard
         body="Trackio is a directory of trackers. You can search for and launch your favorite trackers from one place."
         icon={<LayoutGrid className="h-4 w-4" />}

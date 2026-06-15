@@ -84,6 +84,7 @@ export function DashboardView({
     visibleRealms.length > 1 && visibleRealms.includes(category)
       ? category
       : "all";
+  const hasActiveFilters = query.trim().length > 0 || activeCategory !== "all";
   const filteredTrackers = useMemo(
     () => getDashboardFilteredTrackers(trackers, query, activeCategory),
     [activeCategory, query, trackers],
@@ -108,6 +109,11 @@ export function DashboardView({
 
     setFormOpen(false);
     setEditing(null);
+  };
+
+  const resetFilters = () => {
+    setQuery("");
+    setCategory("all");
   };
 
   const submitTracker = (input: TrackerFormInput) => {
@@ -174,6 +180,8 @@ export function DashboardView({
       lastClickedAt: new Date().toISOString(),
     };
 
+    setFeedback(null);
+    setPendingTrackerId(tracker.id);
     setTrackers((current) =>
       current.map((item) =>
         item.id === tracker.id ? optimisticTracker : item,
@@ -182,6 +190,7 @@ export function DashboardView({
 
     startTrackerTransition(async () => {
       const result = await recordTrackerClickAction(tracker.id);
+      setPendingTrackerId(null);
 
       if (!result.ok) {
         setTrackers(previousTrackers);
@@ -268,14 +277,19 @@ export function DashboardView({
           onCategoryChange={setCategory}
           onCreate={openCreateForm}
           onQueryChange={setQuery}
+          onResetFilters={resetFilters}
           query={query}
+          totalCount={trackers.length}
+          visibleCount={filteredTrackers.length}
         />
         <TrackerList
           allTrackerCount={trackers.length}
+          hasActiveFilters={hasActiveFilters}
           onArchive={requestArchiveTracker}
           onCreate={openCreateForm}
           onEdit={openEditForm}
           onLaunch={launchTracker}
+          onResetFilters={resetFilters}
           pendingTrackerId={pendingTrackerId}
           trackers={filteredTrackers}
         />

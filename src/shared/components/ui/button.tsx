@@ -31,9 +31,9 @@ const variants: Record<ButtonVariant, string> = {
 };
 
 const sizes: Record<ButtonSize, string> = {
-  sm: "h-8 px-3 text-[10px]",
-  md: "h-9 px-4 text-[10px]",
-  lg: "h-10 px-6 text-[10px]",
+  sm: "h-8 px-3 pt-0.5 text-[10px]",
+  md: "h-9 px-4 pt-0.5 text-[10px]",
+  lg: "h-10 px-6 pt-0.5 text-[10px]",
   icon: "h-9 w-9 p-0",
 };
 
@@ -43,7 +43,7 @@ export function buttonVariants({
   variant = "primary",
 }: ButtonStyleProps & { className?: string } = {}) {
   return cn(
-    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md border font-display uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:saturate-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+    "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md border font-display leading-none uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:saturate-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
     variants[variant],
     sizes[size],
     className,

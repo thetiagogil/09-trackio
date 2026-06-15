@@ -6,20 +6,24 @@ import type { Tracker } from "@/features/trackers/types";
 
 type TrackerListProps = {
   allTrackerCount: number;
+  hasActiveFilters: boolean;
   pendingTrackerId: number | null;
   trackers: Tracker[];
   onArchive: (tracker: Tracker) => void;
   onCreate: () => void;
   onEdit: (tracker: Tracker) => void;
   onLaunch: (tracker: Tracker) => void;
+  onResetFilters: () => void;
 };
 
 export function TrackerList({
   allTrackerCount,
+  hasActiveFilters,
   onArchive,
   onCreate,
   onEdit,
   onLaunch,
+  onResetFilters,
   pendingTrackerId,
   trackers,
 }: TrackerListProps) {
@@ -27,8 +31,10 @@ export function TrackerList({
     return (
       <section>
         <TrackerListEmptyState
+          hasActiveFilters={hasActiveFilters}
           hasTrackers={allTrackerCount > 0}
           onCreate={onCreate}
+          onResetFilters={onResetFilters}
         />
       </section>
     );
@@ -45,8 +51,17 @@ export function TrackerList({
             tracker={tracker}
           />
           {pendingTrackerId === tracker.id ? (
-            <div className="border-accent/60 bg-background/70 absolute inset-0 grid place-items-center rounded-lg border-2 backdrop-blur-sm">
-              <Loader2 className="text-accent h-6 w-6 animate-spin" />
+            <div
+              aria-live="polite"
+              className="border-accent/60 bg-background/70 absolute inset-0 grid place-items-center rounded-lg border-2 backdrop-blur-sm"
+              role="status"
+            >
+              <div className="flex flex-col items-center gap-2">
+                <Loader2 className="text-accent h-6 w-6 animate-spin" />
+                <span className="font-display text-accent text-[9px] tracking-wider uppercase">
+                  Syncing
+                </span>
+              </div>
             </div>
           ) : null}
         </div>

@@ -10,7 +10,7 @@ export function DashboardActionFeedback({
   if (!message) return null;
 
   return (
-    <Alert className="mb-5" tone="error">
+    <Alert aria-live="assertive" className="mb-5" role="alert" tone="error">
       {message}
     </Alert>
   );

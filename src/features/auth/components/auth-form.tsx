@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowLeft, Loader2, LockKeyhole, Zap } from "lucide-react";
+import { LockKeyhole } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { FormEvent, useMemo, useState } from "react";
 
@@ -11,6 +11,7 @@ import { AppShell } from "@/shared/components/layout/app-shell";
 import { Button } from "@/shared/components/ui/button";
 import { ButtonLink } from "@/shared/components/ui/button-link";
 import { Card } from "@/shared/components/ui/card";
+import { FieldMessage } from "@/shared/components/ui/field-message";
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { createClient } from "@/lib/supabase/browser";
@@ -46,6 +47,8 @@ export function AuthForm({
     () => `/auth/continue?next=${encodeURIComponent(next)}`,
     [next],
   );
+  const passwordsMismatch =
+    isSignup && confirmPassword.length > 0 && password !== confirmPassword;
 
   const switchMode = (value: AuthMode) => {
     setMode(value);
@@ -131,7 +134,6 @@ export function AuthForm({
       <AppHeader
         leading={
           <ButtonLink href="/" size="sm" variant="ghost">
-            <ArrowLeft className="h-4 w-4" />
             Back
           </ButtonLink>
         }
@@ -154,7 +156,11 @@ export function AuthForm({
                 <AuthFeedback tone="success">{message}</AuthFeedback>
               ) : null}
 
-              <form className="space-y-4" onSubmit={handleSubmit}>
+              <form
+                aria-busy={pending}
+                className="space-y-4"
+                onSubmit={handleSubmit}
+              >
                 {isSignup ? (
                   <div className="space-y-1.5">
                     <Label
@@ -207,6 +213,7 @@ export function AuthForm({
                     Password
                   </Label>
                   <Input
+                    aria-describedby="password-requirement"
                     autoComplete={
                       isSignup ? "new-password" : "current-password"
                     }
@@ -219,6 +226,9 @@ export function AuthForm({
                     type="password"
                     value={password}
                   />
+                  <FieldMessage id="password-requirement">
+                    Minimum {minimumPasswordLength} characters.
+                  </FieldMessage>
                 </div>
 
                 {isSignup ? (
@@ -231,6 +241,7 @@ export function AuthForm({
                       Confirm password
                     </Label>
                     <Input
+                      aria-invalid={passwordsMismatch ? true : undefined}
                       autoComplete="new-password"
                       disabled={pending}
                       id="confirmPassword"
@@ -243,14 +254,20 @@ export function AuthForm({
                       type="password"
                       value={confirmPassword}
                     />
+                    {passwordsMismatch ? (
+                      <FieldMessage tone="error">
+                        Passwords do not match.
+                      </FieldMessage>
+                    ) : null}
                   </div>
                 ) : null}
 
                 <Button className="w-full" disabled={pending} type="submit">
-                  {pending ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
-                  ) : null}
-                  {isSignup ? "Create Account" : "Enter HUD"}
+                  {pending
+                    ? "Checking..."
+                    : isSignup
+                      ? "Create Account"
+                      : "Enter HUD"}
                 </Button>
               </form>
 
@@ -269,7 +286,6 @@ export function AuthForm({
                   type="submit"
                   variant="outline"
                 >
-                  <Zap className="h-4 w-4" />
                   Continue with demo account
                 </Button>
               </form>
@@ -277,7 +293,8 @@ export function AuthForm({
               <div className="text-muted-foreground mt-4 text-center font-mono text-xs">
                 {isSignup ? "Already have an account?" : "No account yet?"}{" "}
                 <button
-                  className="text-accent underline-offset-4 hover:underline"
+                  className="text-accent underline-offset-4 hover:underline disabled:pointer-events-none disabled:saturate-50"
+                  disabled={pending}
                   onClick={() => switchMode(isSignup ? "signin" : "signup")}
                   type="button"
                 >

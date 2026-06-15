@@ -15,8 +15,9 @@ export function DashboardRealmFilterChip({
 }: DashboardRealmFilterChipProps) {
   return (
     <button
+      aria-pressed={active}
       className={cn(
-        "rounded-sm border-2 px-3 py-1.5 font-mono text-[11px] tracking-wider uppercase transition-all",
+        "focus-visible:ring-ring rounded-sm border-2 px-3 py-1.5 font-mono text-[11px] tracking-wider uppercase transition-all focus-visible:ring-1 focus-visible:outline-none",
         active
           ? "border-accent bg-accent text-accent-foreground shadow-accent"
           : "border-border bg-card hover:border-accent/50",

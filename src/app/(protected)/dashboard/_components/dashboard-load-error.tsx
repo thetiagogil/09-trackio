@@ -1,13 +1,17 @@
+"use client";
+
 import { AppHeader } from "@/shared/components/layout/app-header";
 import { AppMain } from "@/shared/components/layout/app-main";
 import { AppShell } from "@/shared/components/layout/app-shell";
+import { Button } from "@/shared/components/ui/button";
 import { Card } from "@/shared/components/ui/card";
 
 type DashboardLoadErrorProps = {
   error: unknown;
+  reset?: () => void;
 };
 
-export function DashboardLoadError({ error }: DashboardLoadErrorProps) {
+export function DashboardLoadError({ error, reset }: DashboardLoadErrorProps) {
   return (
     <AppShell>
       <AppHeader />
@@ -27,6 +31,11 @@ export function DashboardLoadError({ error }: DashboardLoadErrorProps) {
           <p className="text-muted-foreground mt-4 text-sm leading-6">
             {formatDashboardLoadError(error)}
           </p>
+          {reset ? (
+            <Button className="mt-6" onClick={reset}>
+              Retry dashboard
+            </Button>
+          ) : null}
         </Card>
       </AppMain>
     </AppShell>

@@ -1,12 +1,7 @@
 "use client";
 
-import {
-  Archive,
-  ExternalLink,
-  MoreHorizontal,
-  Pencil,
-  Zap,
-} from "lucide-react";
+import { Archive, MoreHorizontal, Pencil, Zap } from "lucide-react";
+import { useState } from "react";
 
 import { Badge } from "@/shared/components/ui/badge";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -25,6 +20,7 @@ import {
   levelFromXp,
   rarityFromXp,
   relativeTime,
+  trackerInitials,
 } from "@/features/trackers/lib/trackers";
 import {
   RARITY_BADGE_CLASS,
@@ -51,8 +47,11 @@ export function TrackerCard({
   const favicon = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(
     domain,
   )}&sz=64`;
+  const initials = trackerInitials(tracker.title);
   const level = levelFromXp(tracker.xp);
   const rarity = rarityFromXp(tracker.xp);
+  const [failedFavicon, setFailedFavicon] = useState<string | null>(null);
+  const faviconFailed = failedFavicon === favicon;
 
   const handleEdit = () => {
     onEdit(tracker);
@@ -81,15 +80,24 @@ export function TrackerCard({
               RARITY_TEXT_CLASS[rarity.rarity],
             )}
           >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              alt=""
-              className="h-7 w-7"
-              onError={(event) => {
-                event.currentTarget.style.display = "none";
-              }}
-              src={favicon}
-            />
+            {faviconFailed ? (
+              <span
+                aria-hidden="true"
+                className="font-display text-foreground text-[10px]"
+              >
+                {initials}
+              </span>
+            ) : (
+              // Google S2 favicons are external and intentionally tiny; next/image
+              // would require allowing a third-party host for no layout benefit here.
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                alt=""
+                className="h-7 w-7"
+                onError={() => setFailedFavicon(favicon)}
+                src={favicon}
+              />
+            )}
             <span className="bg-background font-display text-foreground absolute -right-1 -bottom-1 rounded border border-current px-1 py-0.5 text-[8px]">
               L{level.level}
             </span>
@@ -158,11 +166,12 @@ export function TrackerCard({
             <Zap className="text-accent h-3 w-3" />
             {tracker.xp.toLocaleString()} XP
           </div>
-          <div className="mt-0.5 opacity-60">
-            last: {relativeTime(tracker.lastClickedAt)}
+          <div className="mt-0.5 opacity-70">
+            Last launch: {relativeTime(tracker.lastClickedAt)}
           </div>
         </div>
         <a
+          aria-label={`Launch ${tracker.title} in a new tab`}
           className={buttonVariants({
             className: "rounded-sm",
             size: "sm",
@@ -173,7 +182,6 @@ export function TrackerCard({
           target="_blank"
         >
           Launch
-          <ExternalLink className="h-3 w-3" />
         </a>
       </div>
     </Card>

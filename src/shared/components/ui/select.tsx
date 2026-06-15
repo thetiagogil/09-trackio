@@ -16,6 +16,8 @@ type SelectProps = Omit<
   ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>,
   "onChange" | "value"
 > & {
+  clearLabel?: string;
+  clearable?: boolean;
   name?: string;
   onValueChange: (value: string) => void;
   options: SelectOption[];
@@ -26,6 +28,8 @@ type SelectProps = Omit<
 
 export function Select({
   className,
+  clearLabel = "Clear selected option",
+  clearable = true,
   disabled,
   id,
   name,
@@ -49,7 +53,7 @@ export function Select({
         <SelectPrimitive.Trigger
           className={cn(
             "border-border bg-background/50 text-foreground focus-visible:border-accent focus-visible:ring-ring data-placeholder:text-muted-foreground relative flex h-9 w-full items-center rounded-md border-2 py-1 pr-9 pl-3 text-left font-mono text-sm shadow-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:cursor-not-allowed disabled:saturate-50",
-            hasValue && "pr-16",
+            clearable && hasValue && "pr-16",
             className,
           )}
           id={id}
@@ -91,9 +95,9 @@ export function Select({
         </SelectPrimitive.Portal>
       </SelectPrimitive.Root>
 
-      {hasValue ? (
+      {clearable && hasValue ? (
         <button
-          aria-label="Clear selected option"
+          aria-label={clearLabel}
           className="text-muted-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring absolute top-1/2 right-8 z-10 flex h-5 w-5 -translate-y-1/2 items-center justify-center rounded-sm transition-colors focus-visible:ring-1 focus-visible:outline-none disabled:pointer-events-none disabled:saturate-50"
           disabled={disabled}
           onClick={() => onValueChange("")}

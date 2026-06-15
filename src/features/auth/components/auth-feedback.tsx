@@ -9,7 +9,12 @@ type AuthFeedbackProps = {
 
 export function AuthFeedback({ children, tone }: AuthFeedbackProps) {
   return (
-    <Alert className="mb-5" tone={tone}>
+    <Alert
+      aria-live={tone === "error" ? "assertive" : "polite"}
+      className="mb-5"
+      role={tone === "error" ? "alert" : "status"}
+      tone={tone}
+    >
       {tone === "error" ? "! " : null}
       {children}
     </Alert>

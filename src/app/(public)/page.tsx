@@ -13,7 +13,7 @@ export default function Home() {
   }
 
   return (
-    <AppShell className="h-dvh min-h-screen overflow-hidden">
+    <AppShell>
       <AppHeader
         actions={
           <>
@@ -27,7 +27,7 @@ export default function Home() {
         }
       />
 
-      <AppMain className="flex min-h-0 flex-1 flex-col justify-center overflow-y-auto pb-6 md:pb-10">
+      <AppMain className="flex flex-1 flex-col justify-center pb-10 md:pb-14">
         <div className="flex w-full flex-col justify-center gap-10 md:gap-14">
           <HomeHero />
           <HomeFeatureGrid />
