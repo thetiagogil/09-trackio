@@ -14,7 +14,7 @@ export class AuthRequiredError extends Error {
   }
 }
 
-export async function getCurrentUser(): Promise<CurrentUser | null> {
+export const getCurrentUser = async (): Promise<CurrentUser | null> => {
   if (!isSupabaseConfigured()) return null;
 
   const client = await createClient();
@@ -29,16 +29,16 @@ export async function getCurrentUser(): Promise<CurrentUser | null> {
     email: user.email ?? null,
     profile: mapProfile(profile),
   };
-}
+};
 
-export async function requireUser() {
+export const requireUser = async () => {
   const currentUser = await getCurrentUser();
   if (!currentUser) redirect("/auth");
 
   return currentUser;
-}
+};
 
-export async function requireAuthUser(client: AppSupabaseClient) {
+export const requireAuthUser = async (client: AppSupabaseClient) => {
   const user = await getCurrentAuthUser(client);
 
   if (!user) {
@@ -46,7 +46,7 @@ export async function requireAuthUser(client: AppSupabaseClient) {
   }
 
   return user;
-}
+};
 
 export async function getCurrentAuthUser(client: AppSupabaseClient) {
   const {
@@ -94,9 +94,9 @@ export async function ensureProfileForAuthUser(
   throw new Error(error?.message ?? "Could not create profile.");
 }
 
-export function hasProfile(profile: Profile | null): profile is Profile {
+export const hasProfile = (profile: Profile | null): profile is Profile => {
   return Boolean(profile);
-}
+};
 
 async function readProfile(
   client: AppSupabaseClient,

@@ -6,7 +6,7 @@ type AppLogoProps = {
   href?: string;
 };
 
-export function AppLogo({ href }: AppLogoProps) {
+export const AppLogo = ({ href }: AppLogoProps) => {
   const content = (
     <span className={cn("font-display tracking-tight", "text-sm md:text-base")}>
       <span className="text-glow-primary">TRACK</span>
@@ -23,4 +23,4 @@ export function AppLogo({ href }: AppLogoProps) {
       {content}
     </Link>
   );
-}
+};

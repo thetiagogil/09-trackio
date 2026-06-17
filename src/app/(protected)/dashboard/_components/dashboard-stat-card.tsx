@@ -10,13 +10,13 @@ type DashboardStatCardProps = {
   value: string | number;
 };
 
-export function DashboardStatCard({
+export const DashboardStatCard = ({
   icon,
   label,
   small,
   tone,
   value,
-}: DashboardStatCardProps) {
+}: DashboardStatCardProps) => {
   const toneClass =
     tone === "pink"
       ? "text-primary"
@@ -42,4 +42,4 @@ export function DashboardStatCard({
       </div>
     </div>
   );
-}
+};

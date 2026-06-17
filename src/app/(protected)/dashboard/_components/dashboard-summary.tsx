@@ -14,11 +14,11 @@ type DashboardSummaryProps = {
   stats: TrackerStats;
 };
 
-export function DashboardSummary({
+export const DashboardSummary = ({
   playerLevel,
   profileName,
   stats,
-}: DashboardSummaryProps) {
+}: DashboardSummaryProps) => {
   return (
     <Card as="section" className="mb-8 p-6" gradient tone="primary">
       <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
@@ -66,4 +66,4 @@ export function DashboardSummary({
       </div>
     </Card>
   );
-}
+};

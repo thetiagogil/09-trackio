@@ -10,9 +10,9 @@ type ArchiveTrackerArgs =
 type RecordTrackerClickArgs =
   Database["trackio"]["Functions"]["record_tracker_click"]["Args"];
 
-export function buildCreateTrackerArgs(
+export const buildCreateTrackerArgs = (
   input: NormalizedTrackerInput,
-): CreateTrackerArgs {
+): CreateTrackerArgs => {
   return {
     p_title: input.title,
     p_url: input.url,
@@ -20,12 +20,12 @@ export function buildCreateTrackerArgs(
     ...(input.username ? { p_username: input.username } : {}),
     ...(input.notes ? { p_notes: input.notes } : {}),
   };
-}
+};
 
-export function buildUpdateTrackerArgs(
+export const buildUpdateTrackerArgs = (
   trackerId: number,
   input: NormalizedTrackerInput,
-): UpdateTrackerArgs {
+): UpdateTrackerArgs => {
   return {
     p_tracker_id: trackerId,
     p_title: input.title,
@@ -34,24 +34,26 @@ export function buildUpdateTrackerArgs(
     ...(input.username ? { p_username: input.username } : {}),
     ...(input.notes ? { p_notes: input.notes } : {}),
   };
-}
+};
 
-export function buildArchiveTrackerArgs(trackerId: number): ArchiveTrackerArgs {
-  return { p_tracker_id: trackerId };
-}
-
-export function buildRecordTrackerClickArgs(
+export const buildArchiveTrackerArgs = (
   trackerId: number,
-): RecordTrackerClickArgs {
+): ArchiveTrackerArgs => {
   return { p_tracker_id: trackerId };
-}
+};
 
-export function validateTrackerId(
+export const buildRecordTrackerClickArgs = (
   trackerId: number,
-): { ok: true; id: number } | { ok: false; error: string } {
+): RecordTrackerClickArgs => {
+  return { p_tracker_id: trackerId };
+};
+
+export const validateTrackerId = (
+  trackerId: number,
+): { ok: true; id: number } | { ok: false; error: string } => {
   if (!Number.isSafeInteger(trackerId) || trackerId <= 0) {
     return { ok: false, error: "Invalid tracker id." };
   }
 
   return { ok: true, id: trackerId };
-}
+};

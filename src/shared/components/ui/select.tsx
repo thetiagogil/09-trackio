@@ -26,7 +26,7 @@ type SelectProps = Omit<
   wrapperClassName?: string;
 };
 
-export function Select({
+export const Select = ({
   className,
   clearLabel = "Clear selected option",
   clearable = true,
@@ -39,7 +39,7 @@ export function Select({
   value,
   wrapperClassName,
   ...props
-}: SelectProps) {
+}: SelectProps) => {
   const hasValue = value.length > 0;
 
   return (
@@ -108,4 +108,4 @@ export function Select({
       ) : null}
     </span>
   );
-}
+};

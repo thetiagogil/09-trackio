@@ -9,9 +9,11 @@ export type NormalizedTrackerInput = {
   notes: string | null;
 };
 
-export function normalizeTrackerInput(
+export const normalizeTrackerInput = (
   input: TrackerFormInput,
-): { ok: true; data: NormalizedTrackerInput } | { ok: false; error: string } {
+):
+  | { ok: true; data: NormalizedTrackerInput }
+  | { ok: false; error: string } => {
   const title = input.title.trim();
   const category = input.category.trim();
   const username = normalizeOptionalText(input.username);
@@ -61,17 +63,17 @@ export function normalizeTrackerInput(
       notes,
     },
   };
-}
+};
 
-export function formatDomain(url: string) {
+export const formatDomain = (url: string) => {
   try {
     return new URL(url).hostname.replace(/^www\./, "");
   } catch {
     return url;
   }
-}
+};
 
-export function trackerInitials(title: string) {
+export const trackerInitials = (title: string) => {
   const words = title.trim().split(/\s+/).filter(Boolean);
 
   if (words.length >= 2) {
@@ -79,9 +81,9 @@ export function trackerInitials(title: string) {
   }
 
   return title.slice(0, 2).toUpperCase();
-}
+};
 
-export function relativeTime(isoDate: string | null) {
+export const relativeTime = (isoDate: string | null) => {
   if (!isoDate) {
     return "never";
   }
@@ -122,9 +124,9 @@ export function relativeTime(isoDate: string | null) {
   }
 
   return `${Math.floor(months / 12)}y ago`;
-}
+};
 
-export function levelFromXp(xp: number) {
+export const levelFromXp = (xp: number) => {
   let level = 1;
   let remaining = Math.max(0, xp);
   let cost = 25;
@@ -140,9 +142,9 @@ export function levelFromXp(xp: number) {
     percent: Math.min(100, Math.round((remaining / cost) * 100)),
     next: cost - remaining,
   };
-}
+};
 
-export function rarityFromXp(xp: number): RarityInfo {
+export const rarityFromXp = (xp: number): RarityInfo => {
   if (xp >= 1000) {
     return { label: "Legendary", rarity: "legendary" };
   }
@@ -160,7 +162,7 @@ export function rarityFromXp(xp: number): RarityInfo {
   }
 
   return { label: "Common", rarity: "common" };
-}
+};
 
 function normalizeTrackerUrl(
   value: string,

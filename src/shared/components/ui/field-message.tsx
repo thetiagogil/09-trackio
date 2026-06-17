@@ -13,11 +13,11 @@ const tones: Record<FieldMessageTone, string> = {
   muted: "text-muted-foreground",
 };
 
-export function FieldMessage({
+export const FieldMessage = ({
   className,
   tone = "muted",
   ...props
-}: FieldMessageProps) {
+}: FieldMessageProps) => {
   return (
     <p
       className={cn("font-mono text-[11px] leading-5", tones[tone], className)}
@@ -25,4 +25,4 @@ export function FieldMessage({
       {...props}
     />
   );
-}
+};

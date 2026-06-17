@@ -6,7 +6,7 @@ import { isSupabaseConfigured } from "@/lib/env";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionResult } from "./action-result";
 
-export async function signOutAction(): Promise<ActionResult<void>> {
+export const signOutAction = async (): Promise<ActionResult<void>> => {
   if (!isSupabaseConfigured()) {
     return { ok: false, error: "Supabase is not configured." };
   }
@@ -29,4 +29,4 @@ export async function signOutAction(): Promise<ActionResult<void>> {
       error: error instanceof Error ? error.message : "Sign out failed.",
     };
   }
-}
+};

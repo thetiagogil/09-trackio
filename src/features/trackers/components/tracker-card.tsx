@@ -37,12 +37,12 @@ type TrackerCardProps = {
   onLaunch: (tracker: Tracker) => void;
 };
 
-export function TrackerCard({
+export const TrackerCard = ({
   onArchive,
   onEdit,
   onLaunch,
   tracker,
-}: TrackerCardProps) {
+}: TrackerCardProps) => {
   const domain = formatDomain(tracker.url);
   const favicon = `https://www.google.com/s2/favicons?domain=${encodeURIComponent(
     domain,
@@ -186,4 +186,4 @@ export function TrackerCard({
       </div>
     </Card>
   );
-}
+};

@@ -37,18 +37,18 @@ const sizes: Record<ButtonSize, string> = {
   icon: "h-9 w-9 p-0",
 };
 
-export function buttonVariants({
+export const buttonVariants = ({
   className,
   size = "md",
   variant = "primary",
-}: ButtonStyleProps & { className?: string } = {}) {
+}: ButtonStyleProps & { className?: string } = {}) => {
   return cn(
     "inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-md border font-display leading-none uppercase tracking-wider transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:saturate-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
     variants[variant],
     sizes[size],
     className,
   );
-}
+};
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button(

@@ -11,7 +11,10 @@ type DashboardLoadErrorProps = {
   reset?: () => void;
 };
 
-export function DashboardLoadError({ error, reset }: DashboardLoadErrorProps) {
+export const DashboardLoadError = ({
+  error,
+  reset,
+}: DashboardLoadErrorProps) => {
   return (
     <AppShell>
       <AppHeader />
@@ -40,7 +43,7 @@ export function DashboardLoadError({ error, reset }: DashboardLoadErrorProps) {
       </AppMain>
     </AppShell>
   );
-}
+};
 
 function formatDashboardLoadError(error: unknown) {
   const message = readErrorMessage(error) ?? "";

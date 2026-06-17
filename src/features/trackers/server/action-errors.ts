@@ -1,6 +1,6 @@
 import { AuthRequiredError } from "@/shared/server/auth";
 
-export function formatCaughtTrackerActionError(error: unknown) {
+export const formatCaughtTrackerActionError = (error: unknown) => {
   if (error instanceof AuthRequiredError) {
     return "Your session expired. Sign in again to continue.";
   }
@@ -10,7 +10,7 @@ export function formatCaughtTrackerActionError(error: unknown) {
   }
 
   return "Something went wrong. Try again.";
-}
+};
 
 export function formatTrackerMutationError(message: string | undefined) {
   if (!message) {

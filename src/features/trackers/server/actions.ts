@@ -24,9 +24,9 @@ import {
   requireAuthUser,
 } from "@/shared/server/auth";
 
-export async function createTrackerAction(
+export const createTrackerAction = async (
   input: TrackerFormInput,
-): Promise<ActionResult<Tracker>> {
+): Promise<ActionResult<Tracker>> => {
   const normalized = normalizeTrackerInput(input);
 
   if (!normalized.ok) {
@@ -53,12 +53,12 @@ export async function createTrackerAction(
   } catch (error) {
     return { ok: false, error: formatCaughtTrackerActionError(error) };
   }
-}
+};
 
-export async function updateTrackerAction(
+export const updateTrackerAction = async (
   trackerId: number,
   input: TrackerFormInput,
-): Promise<ActionResult<Tracker>> {
+): Promise<ActionResult<Tracker>> => {
   const idResult = validateTrackerId(trackerId);
 
   if (!idResult.ok) {
@@ -90,11 +90,11 @@ export async function updateTrackerAction(
   } catch (error) {
     return { ok: false, error: formatCaughtTrackerActionError(error) };
   }
-}
+};
 
-export async function archiveTrackerAction(
+export const archiveTrackerAction = async (
   trackerId: number,
-): Promise<ActionResult<Tracker>> {
+): Promise<ActionResult<Tracker>> => {
   const idResult = validateTrackerId(trackerId);
 
   if (!idResult.ok) {
@@ -120,11 +120,11 @@ export async function archiveTrackerAction(
   } catch (error) {
     return { ok: false, error: formatCaughtTrackerActionError(error) };
   }
-}
+};
 
-export async function recordTrackerClickAction(
+export const recordTrackerClickAction = async (
   trackerId: number,
-): Promise<ActionResult<Tracker>> {
+): Promise<ActionResult<Tracker>> => {
   const idResult = validateTrackerId(trackerId);
 
   if (!idResult.ok) {
@@ -150,4 +150,4 @@ export async function recordTrackerClickAction(
   } catch (error) {
     return { ok: false, error: formatCaughtTrackerActionError(error) };
   }
-}
+};

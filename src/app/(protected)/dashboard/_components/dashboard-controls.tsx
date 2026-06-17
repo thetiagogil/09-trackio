@@ -16,7 +16,7 @@ type DashboardControlsProps = {
   onResetFilters: () => void;
 };
 
-export function DashboardControls({
+export const DashboardControls = ({
   categories,
   category,
   onCategoryChange,
@@ -26,7 +26,7 @@ export function DashboardControls({
   query,
   totalCount,
   visibleCount,
-}: DashboardControlsProps) {
+}: DashboardControlsProps) => {
   const hasMultipleRealms = categories.length > 1;
   const hasQuery = query.trim().length > 0;
   const hasActiveFilters = hasQuery || category !== "all";
@@ -102,4 +102,4 @@ export function DashboardControls({
       </div>
     </section>
   );
-}
+};

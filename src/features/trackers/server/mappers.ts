@@ -4,7 +4,7 @@ import type {
   TrackerStatus,
 } from "@/features/trackers/types";
 
-export function mapTracker(row: TrackerRow): Tracker {
+export const mapTracker = (row: TrackerRow): Tracker => {
   return {
     id: row.id,
     title: row.title,
@@ -20,7 +20,7 @@ export function mapTracker(row: TrackerRow): Tracker {
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
-}
+};
 
 function normalizeTrackerStatus(value: string): TrackerStatus {
   return value === "archived" ? "archived" : "active";

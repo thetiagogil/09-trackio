@@ -7,7 +7,7 @@ type AuthFeedbackProps = {
   tone: "error" | "success";
 };
 
-export function AuthFeedback({ children, tone }: AuthFeedbackProps) {
+export const AuthFeedback = ({ children, tone }: AuthFeedbackProps) => {
   return (
     <Alert
       aria-live={tone === "error" ? "assertive" : "polite"}
@@ -19,4 +19,4 @@ export function AuthFeedback({ children, tone }: AuthFeedbackProps) {
       {children}
     </Alert>
   );
-}
+};

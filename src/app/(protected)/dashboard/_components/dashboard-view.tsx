@@ -1,8 +1,6 @@
 "use client";
 
 import { Loader2, LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useMemo, useState, useTransition } from "react";
 
 import { AppHeader } from "@/shared/components/layout/app-header";
 import { AppLogo } from "@/shared/components/layout/app-logo";
@@ -27,22 +25,9 @@ import {
 } from "@/shared/components/ui/tooltip";
 import { TrackerForm } from "@/features/trackers/components/tracker-form";
 import { TrackerList } from "@/features/trackers/components/tracker-list";
-import {
-  getDashboardCategories,
-  getDashboardFilteredTrackers,
-  getDashboardProfileName,
-  getDashboardStats,
-  getDashboardVisibleRealms,
-} from "../_lib/dashboard-view-model";
-import {
-  archiveTrackerAction,
-  createTrackerAction,
-  recordTrackerClickAction,
-  updateTrackerAction,
-} from "@/features/trackers/server/actions";
-import { levelFromXp } from "@/features/trackers/lib/trackers";
-import type { Tracker, TrackerFormInput } from "@/features/trackers/types";
-import { signOutAction } from "@/shared/server/auth-actions";
+import { getDashboardProfileName } from "../_lib/dashboard-view-model";
+import { useDashboardTrackers } from "../_hooks/use-dashboard-trackers";
+import type { Tracker } from "@/features/trackers/types";
 import type { CurrentUser } from "@/shared/types";
 import { DashboardActionFeedback } from "./dashboard-action-feedback";
 import { DashboardControls } from "./dashboard-controls";
@@ -53,173 +38,12 @@ type DashboardViewProps = {
   currentUser: CurrentUser;
 };
 
-export function DashboardView({
+export const DashboardView = ({
   currentUser,
   initialTrackers,
-}: DashboardViewProps) {
-  const router = useRouter();
-  const [trackers, setTrackers] = useState(initialTrackers);
-  const [query, setQuery] = useState("");
-  const [category, setCategory] = useState("all");
-  const [formOpen, setFormOpen] = useState(false);
-  const [editing, setEditing] = useState<Tracker | null>(null);
-  const [archiveCandidate, setArchiveCandidate] = useState<Tracker | null>(
-    null,
-  );
-  const [feedback, setFeedback] = useState<string | null>(null);
-  const [pendingTrackerId, setPendingTrackerId] = useState<number | null>(null);
-  const [isTrackerPending, startTrackerTransition] = useTransition();
-  const [isAuthPending, startAuthTransition] = useTransition();
-
+}: DashboardViewProps) => {
+  const dashboard = useDashboardTrackers(initialTrackers);
   const profileName = getDashboardProfileName(currentUser);
-  const categories = useMemo(
-    () => getDashboardCategories(trackers),
-    [trackers],
-  );
-  const visibleRealms = useMemo(
-    () => getDashboardVisibleRealms(trackers),
-    [trackers],
-  );
-  const activeCategory =
-    visibleRealms.length > 1 && visibleRealms.includes(category)
-      ? category
-      : "all";
-  const hasActiveFilters = query.trim().length > 0 || activeCategory !== "all";
-  const filteredTrackers = useMemo(
-    () => getDashboardFilteredTrackers(trackers, query, activeCategory),
-    [activeCategory, query, trackers],
-  );
-  const stats = useMemo(() => getDashboardStats(trackers), [trackers]);
-  const playerLevel = levelFromXp(stats.totalXp);
-
-  const openCreateForm = () => {
-    setFeedback(null);
-    setEditing(null);
-    setFormOpen(true);
-  };
-
-  const openEditForm = (tracker: Tracker) => {
-    setFeedback(null);
-    setEditing(tracker);
-    setFormOpen(true);
-  };
-
-  const closeForm = () => {
-    if (isTrackerPending) return;
-
-    setFormOpen(false);
-    setEditing(null);
-  };
-
-  const resetFilters = () => {
-    setQuery("");
-    setCategory("all");
-  };
-
-  const submitTracker = (input: TrackerFormInput) => {
-    setFeedback(null);
-
-    startTrackerTransition(async () => {
-      const result = editing
-        ? await updateTrackerAction(editing.id, input)
-        : await createTrackerAction(input);
-
-      if (!result.ok) {
-        setFeedback(result.error);
-        return;
-      }
-
-      setTrackers((current) =>
-        editing
-          ? current.map((tracker) =>
-              tracker.id === result.data.id ? result.data : tracker,
-            )
-          : [result.data, ...current],
-      );
-      setFormOpen(false);
-      setEditing(null);
-      router.refresh();
-    });
-  };
-
-  const requestArchiveTracker = (tracker: Tracker) => {
-    setFeedback(null);
-    setArchiveCandidate(tracker);
-  };
-
-  const confirmArchiveTracker = () => {
-    if (!archiveCandidate) return;
-
-    const tracker = archiveCandidate;
-    setFeedback(null);
-    setArchiveCandidate(null);
-    setPendingTrackerId(tracker.id);
-
-    startTrackerTransition(async () => {
-      const result = await archiveTrackerAction(tracker.id);
-      setPendingTrackerId(null);
-
-      if (!result.ok) {
-        setFeedback(result.error);
-        return;
-      }
-
-      setTrackers((current) =>
-        current.filter((item) => item.id !== result.data.id),
-      );
-      router.refresh();
-    });
-  };
-
-  const launchTracker = (tracker: Tracker) => {
-    const previousTrackers = trackers;
-    const optimisticTracker: Tracker = {
-      ...tracker,
-      xp: tracker.xp + 1,
-      clickCount: tracker.clickCount + 1,
-      lastClickedAt: new Date().toISOString(),
-    };
-
-    setFeedback(null);
-    setPendingTrackerId(tracker.id);
-    setTrackers((current) =>
-      current.map((item) =>
-        item.id === tracker.id ? optimisticTracker : item,
-      ),
-    );
-
-    startTrackerTransition(async () => {
-      const result = await recordTrackerClickAction(tracker.id);
-      setPendingTrackerId(null);
-
-      if (!result.ok) {
-        setTrackers(previousTrackers);
-        setFeedback(result.error);
-        return;
-      }
-
-      setTrackers((current) =>
-        current.map((item) =>
-          item.id === result.data.id ? result.data : item,
-        ),
-      );
-      router.refresh();
-    });
-  };
-
-  const signOut = () => {
-    startAuthTransition(async () => {
-      const result = await signOutAction();
-
-      if (!result.ok) {
-        setFeedback(result.error);
-        return;
-      }
-
-      router.replace("/");
-      router.refresh();
-    });
-  };
 
   return (
     <AppShell>
@@ -245,12 +69,12 @@ export function DashboardView({
                 <TooltipTrigger asChild>
                   <Button
                     aria-label="Sign out"
-                    disabled={isAuthPending}
-                    onClick={signOut}
+                    disabled={dashboard.isAuthPending}
+                    onClick={dashboard.signOut}
                     size="lg"
                     variant="outline"
                   >
-                    {isAuthPending ? (
+                    {dashboard.isAuthPending ? (
                       <Loader2 className="h-4 w-4 animate-spin" />
                     ) : (
                       <LogOut className="h-4 w-4" />
@@ -266,69 +90,69 @@ export function DashboardView({
 
       <AppMain className="pb-8">
         <DashboardSummary
-          playerLevel={playerLevel}
+          playerLevel={dashboard.playerLevel}
           profileName={profileName}
-          stats={stats}
+          stats={dashboard.stats}
         />
-        <DashboardActionFeedback message={feedback} />
+        <DashboardActionFeedback message={dashboard.feedback} />
         <DashboardControls
-          categories={visibleRealms}
-          category={activeCategory}
-          onCategoryChange={setCategory}
-          onCreate={openCreateForm}
-          onQueryChange={setQuery}
-          onResetFilters={resetFilters}
-          query={query}
-          totalCount={trackers.length}
-          visibleCount={filteredTrackers.length}
+          categories={dashboard.visibleRealms}
+          category={dashboard.activeCategory}
+          onCategoryChange={dashboard.setCategory}
+          onCreate={dashboard.openCreateForm}
+          onQueryChange={dashboard.setQuery}
+          onResetFilters={dashboard.resetFilters}
+          query={dashboard.query}
+          totalCount={dashboard.trackers.length}
+          visibleCount={dashboard.filteredTrackers.length}
         />
         <TrackerList
-          allTrackerCount={trackers.length}
-          hasActiveFilters={hasActiveFilters}
-          onArchive={requestArchiveTracker}
-          onCreate={openCreateForm}
-          onEdit={openEditForm}
-          onLaunch={launchTracker}
-          onResetFilters={resetFilters}
-          pendingTrackerId={pendingTrackerId}
-          trackers={filteredTrackers}
+          allTrackerCount={dashboard.trackers.length}
+          hasActiveFilters={dashboard.hasActiveFilters}
+          onArchive={dashboard.requestArchiveTracker}
+          onCreate={dashboard.openCreateForm}
+          onEdit={dashboard.openEditForm}
+          onLaunch={dashboard.launchTracker}
+          onResetFilters={dashboard.resetFilters}
+          pendingTrackerId={dashboard.pendingTrackerId}
+          trackers={dashboard.filteredTrackers}
         />
       </AppMain>
 
       <TrackerForm
-        categories={categories}
-        editing={editing}
-        key={`${formOpen ? "open" : "closed"}-${editing?.id ?? "new"}`}
-        onClose={closeForm}
-        onSubmit={submitTracker}
-        open={formOpen}
-        pending={isTrackerPending}
+        categories={dashboard.categories}
+        editing={dashboard.editing}
+        key={`${dashboard.formOpen ? "open" : "closed"}-${dashboard.editing?.id ?? "new"}`}
+        onClose={dashboard.closeForm}
+        onSubmit={dashboard.submitTracker}
+        open={dashboard.formOpen}
+        pending={dashboard.isTrackerPending}
       />
 
       <AlertDialog
         onOpenChange={(open) => {
           if (!open) {
-            setArchiveCandidate(null);
+            dashboard.setArchiveCandidate(null);
           }
         }}
-        open={Boolean(archiveCandidate)}
+        open={Boolean(dashboard.archiveCandidate)}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Archive Tracker</AlertDialogTitle>
             <AlertDialogDescription>
-              {archiveCandidate
-                ? `Archive ${archiveCandidate.title}? It will leave your active HUD, but your data stays private.`
+              {dashboard.archiveCandidate
+                ? `Archive ${dashboard.archiveCandidate.title}? It will leave your active HUD, but your data stays private.`
                 : "Archive this tracker? It will leave your active HUD, but your data stays private."}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel disabled={isTrackerPending}>
+            <AlertDialogCancel disabled={dashboard.isTrackerPending}>
               Cancel
             </AlertDialogCancel>
             <AlertDialogAction
-              disabled={isTrackerPending}
-              onClick={confirmArchiveTracker}
+              disabled={dashboard.isTrackerPending}
+              onClick={dashboard.confirmArchiveTracker}
             >
               Archive
             </AlertDialogAction>
@@ -337,4 +161,4 @@ export function DashboardView({
       </AlertDialog>
     </AppShell>
   );
-}
+};

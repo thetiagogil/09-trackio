@@ -10,12 +10,12 @@ type TrackerListEmptyStateProps = {
   onResetFilters: () => void;
 };
 
-export function TrackerListEmptyState({
+export const TrackerListEmptyState = ({
   hasActiveFilters,
   hasTrackers,
   onCreate,
   onResetFilters,
-}: TrackerListEmptyStateProps) {
+}: TrackerListEmptyStateProps) => {
   const title = hasTrackers ? "No matches found" : "No trackers yet";
   const body = hasTrackers
     ? "No active tracker matches the current search or realm."
@@ -43,4 +43,4 @@ export function TrackerListEmptyState({
       </div>
     </Card>
   );
-}
+};

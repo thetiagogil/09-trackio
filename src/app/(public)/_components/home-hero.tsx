@@ -1,7 +1,7 @@
 import { Button } from "@/shared/components/ui/button";
 import { ButtonLink } from "@/shared/components/ui/button-link";
 
-export function HomeHero() {
+export const HomeHero = () => {
   return (
     <section className="mx-auto max-w-3xl text-center">
       <div className="text-accent text-glow-accent mb-5 font-mono text-[10px] tracking-[0.3em] uppercase md:mb-6">
@@ -43,4 +43,4 @@ export function HomeHero() {
       </div>
     </section>
   );
-}
+};

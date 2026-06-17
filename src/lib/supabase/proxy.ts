@@ -4,7 +4,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getSupabaseEnv, isSupabaseConfigured } from "@/lib/env";
 import type { Database } from "@/types/database.types";
 
-export async function updateSession(request: NextRequest) {
+export const updateSession = async (request: NextRequest) => {
   let response = NextResponse.next({ request });
 
   if (!isSupabaseConfigured()) {
@@ -35,4 +35,4 @@ export async function updateSession(request: NextRequest) {
   await supabase.auth.getClaims();
 
   return response;
-}
+};

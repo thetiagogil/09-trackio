@@ -16,7 +16,7 @@ type TrackerListProps = {
   onResetFilters: () => void;
 };
 
-export function TrackerList({
+export const TrackerList = ({
   allTrackerCount,
   hasActiveFilters,
   onArchive,
@@ -26,7 +26,7 @@ export function TrackerList({
   onResetFilters,
   pendingTrackerId,
   trackers,
-}: TrackerListProps) {
+}: TrackerListProps) => {
   if (trackers.length === 0) {
     return (
       <section>
@@ -68,4 +68,4 @@ export function TrackerList({
       ))}
     </section>
   );
-}
+};

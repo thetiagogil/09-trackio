@@ -8,11 +8,11 @@ type DashboardRealmFilterChipProps = {
   onClick: () => void;
 };
 
-export function DashboardRealmFilterChip({
+export const DashboardRealmFilterChip = ({
   active,
   children,
   onClick,
-}: DashboardRealmFilterChipProps) {
+}: DashboardRealmFilterChipProps) => {
   return (
     <button
       aria-pressed={active}
@@ -28,4 +28,4 @@ export function DashboardRealmFilterChip({
       {children}
     </button>
   );
-}
+};

@@ -32,7 +32,7 @@ const emptyForm: TrackerFormInput = {
   notes: "",
 };
 
-export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
+export const TrackerForm = ({ editing, open, ...props }: TrackerFormProps) => {
   const { categories, onClose, onSubmit, pending } = props;
   const [form, setForm] = useState<TrackerFormInput>(() =>
     editing
@@ -218,4 +218,4 @@ export function TrackerForm({ editing, open, ...props }: TrackerFormProps) {
       </form>
     </Modal>
   );
-}
+};

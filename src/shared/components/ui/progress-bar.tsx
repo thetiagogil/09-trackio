@@ -19,12 +19,12 @@ const sizes: Record<ProgressBarSize, string> = {
   sm: "h-1.5",
 };
 
-export function ProgressBar({
+export const ProgressBar = ({
   className,
   size = "md",
   value,
   ...props
-}: ProgressBarProps) {
+}: ProgressBarProps) => {
   const boundedValue = Math.max(0, Math.min(100, value));
 
   return (
@@ -47,4 +47,4 @@ export function ProgressBar({
       />
     </ProgressPrimitive.Root>
   );
-}
+};

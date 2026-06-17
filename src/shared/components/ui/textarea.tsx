@@ -2,10 +2,10 @@ import type { TextareaHTMLAttributes } from "react";
 
 import { cn } from "@/shared/utils/cn";
 
-export function Textarea({
+export const Textarea = ({
   className,
   ...props
-}: TextareaHTMLAttributes<HTMLTextAreaElement>) {
+}: TextareaHTMLAttributes<HTMLTextAreaElement>) => {
   return (
     <textarea
       className={cn(
@@ -15,4 +15,4 @@ export function Textarea({
       {...props}
     />
   );
-}
+};

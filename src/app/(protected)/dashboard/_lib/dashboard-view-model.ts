@@ -7,34 +7,34 @@ const TRACKER_NAME_COLLATOR = new Intl.Collator("en", {
   sensitivity: "base",
 });
 
-export function getDashboardProfileName(currentUser: CurrentUser) {
+export const getDashboardProfileName = (currentUser: CurrentUser) => {
   return (
     currentUser.profile.displayName ??
     currentUser.profile.username ??
     currentUser.email ??
     "Trackio user"
   );
-}
+};
 
-export function getDashboardCategories(trackers: Tracker[]) {
+export const getDashboardCategories = (trackers: Tracker[]) => {
   const categories = new Set(DEFAULT_CATEGORIES);
   trackers.forEach((tracker) => categories.add(tracker.category));
 
   return Array.from(categories);
-}
+};
 
-export function getDashboardVisibleRealms(trackers: Tracker[]) {
+export const getDashboardVisibleRealms = (trackers: Tracker[]) => {
   const realms = new Set<string>();
   trackers.forEach((tracker) => realms.add(tracker.category));
 
   return Array.from(realms);
-}
+};
 
-export function getDashboardFilteredTrackers(
+export const getDashboardFilteredTrackers = (
   trackers: Tracker[],
   query: string,
   category: string,
-) {
+) => {
   const normalizedQuery = query.trim().toLowerCase();
 
   return sortDashboardTrackersByName(
@@ -60,9 +60,9 @@ export function getDashboardFilteredTrackers(
       return searchable.includes(normalizedQuery);
     }),
   );
-}
+};
 
-export function getDashboardStats(trackers: Tracker[]): TrackerStats {
+export const getDashboardStats = (trackers: Tracker[]): TrackerStats => {
   let totalXp = 0;
   let totalLaunches = 0;
   let topTracker: Tracker | null = null;
@@ -85,7 +85,7 @@ export function getDashboardStats(trackers: Tracker[]): TrackerStats {
     categoryCount: categories.size,
     topTracker,
   };
-}
+};
 
 export function sortDashboardTrackersByName(trackers: Tracker[]) {
   return [...trackers].sort((left, right) => {

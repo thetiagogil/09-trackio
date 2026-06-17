@@ -15,7 +15,7 @@ export type DashboardHydration = {
   trackers: Tracker[];
 };
 
-export async function hydrateDashboard(): Promise<DashboardHydration> {
+export const hydrateDashboard = async (): Promise<DashboardHydration> => {
   const client = await createClient();
   const user = await getCurrentAuthUser(client);
 
@@ -36,4 +36,4 @@ export async function hydrateDashboard(): Promise<DashboardHydration> {
     },
     trackers,
   };
-}
+};

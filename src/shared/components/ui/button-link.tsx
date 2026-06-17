@@ -14,13 +14,13 @@ type ButtonLinkProps = LinkProps &
     variant?: ButtonVariant;
   };
 
-export function ButtonLink({
+export const ButtonLink = ({
   className,
   size = "md",
   variant = "primary",
   ...props
-}: ButtonLinkProps) {
+}: ButtonLinkProps) => {
   return (
     <Link className={buttonVariants({ className, size, variant })} {...props} />
   );
-}
+};

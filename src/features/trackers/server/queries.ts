@@ -2,9 +2,9 @@ import { mapTracker } from "@/features/trackers/server/mappers";
 import type { Tracker } from "@/features/trackers/types";
 import { trackio, type AppSupabaseClient } from "@/lib/supabase/schemas";
 
-export async function getActiveTrackers(
+export const getActiveTrackers = async (
   client: AppSupabaseClient,
-): Promise<Tracker[]> {
+): Promise<Tracker[]> => {
   const { data, error } = await trackio(client)
     .from("trackers")
     .select(
@@ -19,4 +19,4 @@ export async function getActiveTrackers(
   }
 
   return (data ?? []).map(mapTracker);
-}
+};

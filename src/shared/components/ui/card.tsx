@@ -29,7 +29,7 @@ const cornerTones: Record<CardTone, string> = {
   primary: "text-primary",
 };
 
-export function Card({
+export const Card = ({
   as: Component = "div",
   children,
   className,
@@ -39,7 +39,7 @@ export function Card({
   interactive = false,
   tone = "default",
   ...props
-}: CardProps) {
+}: CardProps) => {
   const borderClass = borders[tone];
   const cornerClass = cn(cornerTones[tone], cornerClassName);
 
@@ -88,4 +88,4 @@ export function Card({
       {children}
     </Component>
   );
-}
+};

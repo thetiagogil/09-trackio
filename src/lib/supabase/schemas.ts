@@ -4,10 +4,10 @@ import type { Database } from "@/types/database.types";
 
 export type AppSupabaseClient = SupabaseClient<Database>;
 
-export function core(client: AppSupabaseClient) {
+export const core = (client: AppSupabaseClient) => {
   return client.schema("core");
-}
+};
 
-export function trackio(client: AppSupabaseClient) {
+export const trackio = (client: AppSupabaseClient) => {
   return client.schema("trackio");
-}
+};

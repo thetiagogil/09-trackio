@@ -2,7 +2,7 @@ import { LayoutGrid, LockKeyhole, Trophy } from "lucide-react";
 
 import { HomeFeatureCard } from "./home-feature-card";
 
-export function HomeFeatureGrid() {
+export const HomeFeatureGrid = () => {
   return (
     <section
       aria-label="Trackio features"
@@ -28,4 +28,4 @@ export function HomeFeatureGrid() {
       />
     </section>
   );
-}
+};

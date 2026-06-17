@@ -9,12 +9,12 @@ type HomeFeatureCardProps = {
   tone: "pink" | "cyan" | "amber";
 };
 
-export function HomeFeatureCard({
+export const HomeFeatureCard = ({
   body,
   icon,
   title,
   tone,
-}: HomeFeatureCardProps) {
+}: HomeFeatureCardProps) => {
   const toneClass =
     tone === "pink"
       ? "text-primary"
@@ -34,4 +34,4 @@ export function HomeFeatureCard({
       </p>
     </Card>
   );
-}
+};

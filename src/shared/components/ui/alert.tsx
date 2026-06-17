@@ -13,7 +13,7 @@ const tones: Record<AlertTone, string> = {
   success: "border-accent/50 bg-accent/10 text-accent",
 };
 
-export function Alert({ className, tone = "error", ...props }: AlertProps) {
+export const Alert = ({ className, tone = "error", ...props }: AlertProps) => {
   return (
     <div
       className={cn(
@@ -24,4 +24,4 @@ export function Alert({ className, tone = "error", ...props }: AlertProps) {
       {...props}
     />
   );
-}
+};

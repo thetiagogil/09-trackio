@@ -4,9 +4,9 @@ type DashboardActionFeedbackProps = {
   message: string | null;
 };
 
-export function DashboardActionFeedback({
+export const DashboardActionFeedback = ({
   message,
-}: DashboardActionFeedbackProps) {
+}: DashboardActionFeedbackProps) => {
   if (!message) return null;
 
   return (
@@ -14,4 +14,4 @@ export function DashboardActionFeedback({
       {message}
     </Alert>
   );
-}
+};
