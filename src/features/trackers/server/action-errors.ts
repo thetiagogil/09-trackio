@@ -12,7 +12,7 @@ export const formatCaughtTrackerActionError = (error: unknown) => {
   return "Something went wrong. Try again.";
 };
 
-export function formatTrackerMutationError(message: string | undefined) {
+export const formatTrackerMutationError = (message: string | undefined) => {
   if (!message) {
     return "Something went wrong. Try again.";
   }
@@ -30,4 +30,4 @@ export function formatTrackerMutationError(message: string | undefined) {
   }
 
   return message;
-}
+};

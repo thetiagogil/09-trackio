@@ -22,6 +22,6 @@ export const mapTracker = (row: TrackerRow): Tracker => {
   };
 };
 
-function normalizeTrackerStatus(value: string): TrackerStatus {
+const normalizeTrackerStatus = (value: string): TrackerStatus => {
   return value === "archived" ? "archived" : "active";
-}
+};

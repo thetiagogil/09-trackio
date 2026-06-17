@@ -87,7 +87,7 @@ export const getDashboardStats = (trackers: Tracker[]): TrackerStats => {
   };
 };
 
-export function sortDashboardTrackersByName(trackers: Tracker[]) {
+export const sortDashboardTrackersByName = (trackers: Tracker[]) => {
   return [...trackers].sort((left, right) => {
     const titleComparison = TRACKER_NAME_COLLATOR.compare(
       left.title,
@@ -100,4 +100,4 @@ export function sortDashboardTrackersByName(trackers: Tracker[]) {
 
     return left.id - right.id;
   });
-}
+};

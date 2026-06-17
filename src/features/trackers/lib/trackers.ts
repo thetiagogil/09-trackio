@@ -164,9 +164,9 @@ export const rarityFromXp = (xp: number): RarityInfo => {
   return { label: "Common", rarity: "common" };
 };
 
-function normalizeTrackerUrl(
+const normalizeTrackerUrl = (
   value: string,
-): { ok: true; url: string } | { ok: false; error: string } {
+): { ok: true; url: string } | { ok: false; error: string } => {
   const trimmed = value.trim();
 
   if (!trimmed || trimmed.length > TRACKER_FIELD_LIMITS.url) {
@@ -195,9 +195,9 @@ function normalizeTrackerUrl(
   } catch {
     return { ok: false, error: "Enter a valid URL." };
   }
-}
+};
 
-function normalizeOptionalText(value: string | null | undefined) {
+const normalizeOptionalText = (value: string | null | undefined) => {
   const normalized = value?.trim();
   return normalized ? normalized : null;
-}
+};

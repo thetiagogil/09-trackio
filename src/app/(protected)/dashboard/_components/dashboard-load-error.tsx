@@ -45,7 +45,7 @@ export const DashboardLoadError = ({
   );
 };
 
-function formatDashboardLoadError(error: unknown) {
+const formatDashboardLoadError = (error: unknown) => {
   const message = readErrorMessage(error) ?? "";
 
   if (message.includes("Invalid schema: trackio")) {
@@ -53,9 +53,9 @@ function formatDashboardLoadError(error: unknown) {
   }
 
   return message || "Something went wrong while loading Trackio.";
-}
+};
 
-function readErrorMessage(error: unknown) {
+const readErrorMessage = (error: unknown) => {
   if (error instanceof Error) {
     return error.message;
   }
@@ -70,4 +70,4 @@ function readErrorMessage(error: unknown) {
   }
 
   return null;
-}
+};

@@ -30,7 +30,9 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
     null,
   );
   const [feedback, setFeedback] = useState<string | null>(null);
-  const [pendingTrackerId, setPendingTrackerId] = useState<number | null>(null);
+  const [pendingTrackerIds, setPendingTrackerIds] = useState<Set<number>>(
+    () => new Set(),
+  );
   const [isTrackerPending, startTrackerTransition] = useTransition();
   const [isAuthPending, startAuthTransition] = useTransition();
 
@@ -53,6 +55,20 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
   );
   const stats = useMemo(() => getDashboardStats(trackers), [trackers]);
   const playerLevel = levelFromXp(stats.totalXp);
+
+  const updatePendingTracker = (trackerId: number, pending: boolean) => {
+    setPendingTrackerIds((current) => {
+      const next = new Set(current);
+
+      if (pending) {
+        next.add(trackerId);
+      } else {
+        next.delete(trackerId);
+      }
+
+      return next;
+    });
+  };
 
   const openCreateForm = () => {
     setFeedback(null);
@@ -115,11 +131,11 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
     const tracker = archiveCandidate;
     setFeedback(null);
     setArchiveCandidate(null);
-    setPendingTrackerId(tracker.id);
+    updatePendingTracker(tracker.id, true);
 
     startTrackerTransition(async () => {
       const result = await archiveTrackerAction(tracker.id);
-      setPendingTrackerId(null);
+      updatePendingTracker(tracker.id, false);
 
       if (!result.ok) {
         setFeedback(result.error);
@@ -134,28 +150,42 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
   };
 
   const launchTracker = (tracker: Tracker) => {
-    const previousTrackers = trackers;
-    const optimisticTracker: Tracker = {
-      ...tracker,
-      xp: tracker.xp + 1,
-      clickCount: tracker.clickCount + 1,
-      lastClickedAt: new Date().toISOString(),
-    };
+    if (pendingTrackerIds.has(tracker.id)) return;
+
+    const launchedAt = new Date().toISOString();
 
     setFeedback(null);
-    setPendingTrackerId(tracker.id);
+    updatePendingTracker(tracker.id, true);
     setTrackers((current) =>
       current.map((item) =>
-        item.id === tracker.id ? optimisticTracker : item,
+        item.id === tracker.id
+          ? {
+              ...item,
+              xp: item.xp + 1,
+              clickCount: item.clickCount + 1,
+              lastClickedAt: launchedAt,
+            }
+          : item,
       ),
     );
 
     startTrackerTransition(async () => {
       const result = await recordTrackerClickAction(tracker.id);
-      setPendingTrackerId(null);
+      updatePendingTracker(tracker.id, false);
 
       if (!result.ok) {
-        setTrackers(previousTrackers);
+        setTrackers((current) =>
+          current.map((item) =>
+            item.id === tracker.id
+              ? {
+                  ...item,
+                  xp: tracker.xp,
+                  clickCount: tracker.clickCount,
+                  lastClickedAt: tracker.lastClickedAt,
+                }
+              : item,
+          ),
+        );
         setFeedback(result.error);
         return;
       }
@@ -199,7 +229,7 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
     launchTracker,
     openCreateForm,
     openEditForm,
-    pendingTrackerId,
+    pendingTrackerIds,
     playerLevel,
     query,
     requestArchiveTracker,

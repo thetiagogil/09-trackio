@@ -1,7 +1,7 @@
 "use client";
 
 import { Archive, MoreHorizontal, Pencil, Zap } from "lucide-react";
-import { useState } from "react";
+import { type MouseEvent, useState } from "react";
 
 import { Badge } from "@/shared/components/ui/badge";
 import { buttonVariants } from "@/shared/components/ui/button";
@@ -31,6 +31,7 @@ import {
 import type { Tracker } from "@/features/trackers/types";
 
 type TrackerCardProps = {
+  launchPending: boolean;
   tracker: Tracker;
   onArchive: (tracker: Tracker) => void;
   onEdit: (tracker: Tracker) => void;
@@ -38,6 +39,7 @@ type TrackerCardProps = {
 };
 
 export const TrackerCard = ({
+  launchPending,
   onArchive,
   onEdit,
   onLaunch,
@@ -59,6 +61,15 @@ export const TrackerCard = ({
 
   const handleArchive = () => {
     onArchive(tracker);
+  };
+
+  const handleLaunch = (event: MouseEvent<HTMLAnchorElement>) => {
+    if (launchPending) {
+      event.preventDefault();
+      return;
+    }
+
+    onLaunch(tracker);
   };
 
   return (
@@ -171,14 +182,19 @@ export const TrackerCard = ({
           </div>
         </div>
         <a
+          aria-disabled={launchPending}
           aria-label={`Launch ${tracker.title} in a new tab`}
           className={buttonVariants({
-            className: "rounded-sm",
+            className: cn(
+              "rounded-sm",
+              launchPending && "pointer-events-none opacity-70",
+            ),
             size: "sm",
           })}
           href={tracker.url}
-          onClick={() => onLaunch(tracker)}
+          onClick={handleLaunch}
           rel="noreferrer"
+          tabIndex={launchPending ? -1 : undefined}
           target="_blank"
         >
           Launch

@@ -114,7 +114,7 @@ export const DashboardView = ({
           onEdit={dashboard.openEditForm}
           onLaunch={dashboard.launchTracker}
           onResetFilters={dashboard.resetFilters}
-          pendingTrackerId={dashboard.pendingTrackerId}
+          pendingTrackerIds={dashboard.pendingTrackerIds}
           trackers={dashboard.filteredTrackers}
         />
       </AppMain>

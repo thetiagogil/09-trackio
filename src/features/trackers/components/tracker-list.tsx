@@ -7,7 +7,7 @@ import type { Tracker } from "@/features/trackers/types";
 type TrackerListProps = {
   allTrackerCount: number;
   hasActiveFilters: boolean;
-  pendingTrackerId: number | null;
+  pendingTrackerIds: ReadonlySet<number>;
   trackers: Tracker[];
   onArchive: (tracker: Tracker) => void;
   onCreate: () => void;
@@ -24,7 +24,7 @@ export const TrackerList = ({
   onEdit,
   onLaunch,
   onResetFilters,
-  pendingTrackerId,
+  pendingTrackerIds,
   trackers,
 }: TrackerListProps) => {
   if (trackers.length === 0) {
@@ -42,30 +42,35 @@ export const TrackerList = ({
 
   return (
     <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-      {trackers.map((tracker) => (
-        <div className="relative" key={tracker.id}>
-          <TrackerCard
-            onArchive={onArchive}
-            onEdit={onEdit}
-            onLaunch={onLaunch}
-            tracker={tracker}
-          />
-          {pendingTrackerId === tracker.id ? (
-            <div
-              aria-live="polite"
-              className="border-accent/60 bg-background/70 absolute inset-0 grid place-items-center rounded-lg border-2 backdrop-blur-sm"
-              role="status"
-            >
-              <div className="flex flex-col items-center gap-2">
-                <Loader2 className="text-accent h-6 w-6 animate-spin" />
-                <span className="font-display text-accent text-[9px] tracking-wider uppercase">
-                  Syncing
-                </span>
+      {trackers.map((tracker) => {
+        const isPending = pendingTrackerIds.has(tracker.id);
+
+        return (
+          <div className="relative" key={tracker.id}>
+            <TrackerCard
+              launchPending={isPending}
+              onArchive={onArchive}
+              onEdit={onEdit}
+              onLaunch={onLaunch}
+              tracker={tracker}
+            />
+            {isPending ? (
+              <div
+                aria-live="polite"
+                className="border-accent/60 bg-background/70 absolute inset-0 grid place-items-center rounded-lg border-2 backdrop-blur-sm"
+                role="status"
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <Loader2 className="text-accent h-6 w-6 animate-spin" />
+                  <span className="font-display text-accent text-[9px] tracking-wider uppercase">
+                    Syncing
+                  </span>
+                </div>
               </div>
-            </div>
-          ) : null}
-        </div>
-      ))}
+            ) : null}
+          </div>
+        );
+      })}
     </section>
   );
 };
