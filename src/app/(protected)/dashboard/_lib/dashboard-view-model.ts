@@ -2,6 +2,8 @@ import { DEFAULT_CATEGORIES } from "@/features/trackers/constants";
 import type { Tracker, TrackerStats } from "@/features/trackers/types";
 import type { CurrentUser } from "@/shared/types";
 
+export type DashboardTrackerSort = "name" | "recent" | "launches" | "newest";
+
 const TRACKER_NAME_COLLATOR = new Intl.Collator("en", {
   numeric: true,
   sensitivity: "base",
@@ -34,10 +36,11 @@ export const getDashboardFilteredTrackers = (
   trackers: Tracker[],
   query: string,
   category: string,
+  sort: DashboardTrackerSort,
 ) => {
   const normalizedQuery = query.trim().toLowerCase();
 
-  return sortDashboardTrackersByName(
+  return sortDashboardTrackers(
     trackers.filter((tracker) => {
       if (category !== "all" && tracker.category !== category) {
         return false;
@@ -59,6 +62,7 @@ export const getDashboardFilteredTrackers = (
 
       return searchable.includes(normalizedQuery);
     }),
+    sort,
   );
 };
 
@@ -89,15 +93,59 @@ export const getDashboardStats = (trackers: Tracker[]): TrackerStats => {
 
 export const sortDashboardTrackersByName = (trackers: Tracker[]) => {
   return [...trackers].sort((left, right) => {
-    const titleComparison = TRACKER_NAME_COLLATOR.compare(
-      left.title,
-      right.title,
-    );
+    return compareTrackersByName(left, right);
+  });
+};
 
-    if (titleComparison !== 0) {
-      return titleComparison;
+const sortDashboardTrackers = (
+  trackers: Tracker[],
+  sort: DashboardTrackerSort,
+) => {
+  return [...trackers].sort((left, right) => {
+    if (sort === "recent") {
+      return (
+        timestampFromIso(right.lastClickedAt) -
+          timestampFromIso(left.lastClickedAt) ||
+        compareTrackersByName(left, right)
+      );
     }
 
-    return left.id - right.id;
+    if (sort === "launches") {
+      return (
+        right.clickCount - left.clickCount || compareTrackersByName(left, right)
+      );
+    }
+
+    if (sort === "newest") {
+      return (
+        timestampFromIso(right.createdAt) - timestampFromIso(left.createdAt) ||
+        compareTrackersByName(left, right)
+      );
+    }
+
+    return compareTrackersByName(left, right);
   });
+};
+
+const compareTrackersByName = (left: Tracker, right: Tracker) => {
+  const titleComparison = TRACKER_NAME_COLLATOR.compare(
+    left.title,
+    right.title,
+  );
+
+  if (titleComparison !== 0) {
+    return titleComparison;
+  }
+
+  return left.id - right.id;
+};
+
+const timestampFromIso = (value: string | null) => {
+  if (!value) {
+    return 0;
+  }
+
+  const timestamp = Date.parse(value);
+
+  return Number.isNaN(timestamp) ? 0 : timestamp;
 };

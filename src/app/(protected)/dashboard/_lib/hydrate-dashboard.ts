@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { getActiveTrackers } from "@/features/trackers/server/queries";
+import { getTrackers } from "@/features/trackers/server/queries";
 import type { Tracker } from "@/features/trackers/types";
 import { createClient } from "@/lib/supabase/server";
 import {
@@ -25,7 +25,7 @@ export const hydrateDashboard = async (): Promise<DashboardHydration> => {
 
   const [profile, trackers] = await Promise.all([
     ensureProfileForAuthUser(client, user),
-    getActiveTrackers(client),
+    getTrackers(client),
   ]);
 
   return {

@@ -5,8 +5,6 @@ type CreateTrackerArgs =
   Database["trackio"]["Functions"]["create_tracker"]["Args"];
 type UpdateTrackerArgs =
   Database["trackio"]["Functions"]["update_tracker"]["Args"];
-type ArchiveTrackerArgs =
-  Database["trackio"]["Functions"]["archive_tracker"]["Args"];
 type RecordTrackerClickArgs =
   Database["trackio"]["Functions"]["record_tracker_click"]["Args"];
 
@@ -34,12 +32,6 @@ export const buildUpdateTrackerArgs = (
     ...(input.username ? { p_username: input.username } : {}),
     ...(input.notes ? { p_notes: input.notes } : {}),
   };
-};
-
-export const buildArchiveTrackerArgs = (
-  trackerId: number,
-): ArchiveTrackerArgs => {
-  return { p_tracker_id: trackerId };
 };
 
 export const buildRecordTrackerClickArgs = (

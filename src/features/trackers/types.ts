@@ -1,9 +1,20 @@
 import type { Tables } from "@/types/database.types";
 
 export type TrackerRow = Tables<{ schema: "trackio" }, "trackers">;
-export type TrackerClickRow = Tables<{ schema: "trackio" }, "tracker_clicks">;
-
-export type TrackerStatus = "active" | "archived";
+export type TrackerRecord = Pick<
+  TrackerRow,
+  | "category"
+  | "click_count"
+  | "created_at"
+  | "id"
+  | "last_clicked_at"
+  | "notes"
+  | "title"
+  | "updated_at"
+  | "url"
+  | "username"
+  | "xp"
+>;
 
 export type Tracker = {
   id: number;
@@ -12,11 +23,9 @@ export type Tracker = {
   category: string;
   username: string | null;
   notes: string | null;
-  status: TrackerStatus;
   xp: number;
   clickCount: number;
   lastClickedAt: string | null;
-  archivedAt: string | null;
   createdAt: string;
   updatedAt: string;
 };

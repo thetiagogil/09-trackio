@@ -2,15 +2,14 @@ import { mapTracker } from "@/features/trackers/server/mappers";
 import type { Tracker } from "@/features/trackers/types";
 import { trackio, type AppSupabaseClient } from "@/lib/supabase/schemas";
 
-export const getActiveTrackers = async (
+export const getTrackers = async (
   client: AppSupabaseClient,
 ): Promise<Tracker[]> => {
   const { data, error } = await trackio(client)
     .from("trackers")
     .select(
-      "id, title, url, category, username, notes, status, xp, click_count, last_clicked_at, archived_at, created_at, updated_at, user_id",
+      "id, title, url, category, username, notes, xp, click_count, last_clicked_at, created_at, updated_at",
     )
-    .eq("status", "active")
     .order("title", { ascending: true })
     .order("created_at", { ascending: true });
 

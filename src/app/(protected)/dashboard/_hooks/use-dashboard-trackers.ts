@@ -8,10 +8,11 @@ import {
   getDashboardFilteredTrackers,
   getDashboardStats,
   getDashboardVisibleRealms,
+  type DashboardTrackerSort,
 } from "../_lib/dashboard-view-model";
 import {
-  archiveTrackerAction,
   createTrackerAction,
+  deleteTrackerAction,
   recordTrackerClickAction,
   updateTrackerAction,
 } from "@/features/trackers/server/actions";
@@ -24,11 +25,10 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
   const [trackers, setTrackers] = useState(initialTrackers);
   const [query, setQuery] = useState("");
   const [category, setCategory] = useState("all");
+  const [sort, setSort] = useState<DashboardTrackerSort>("name");
   const [formOpen, setFormOpen] = useState(false);
   const [editing, setEditing] = useState<Tracker | null>(null);
-  const [archiveCandidate, setArchiveCandidate] = useState<Tracker | null>(
-    null,
-  );
+  const [deleteCandidate, setDeleteCandidate] = useState<Tracker | null>(null);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [pendingTrackerIds, setPendingTrackerIds] = useState<Set<number>>(
     () => new Set(),
@@ -50,8 +50,8 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
       : "all";
   const hasActiveFilters = query.trim().length > 0 || activeCategory !== "all";
   const filteredTrackers = useMemo(
-    () => getDashboardFilteredTrackers(trackers, query, activeCategory),
-    [activeCategory, query, trackers],
+    () => getDashboardFilteredTrackers(trackers, query, activeCategory, sort),
+    [activeCategory, query, sort, trackers],
   );
   const stats = useMemo(() => getDashboardStats(trackers), [trackers]);
   const playerLevel = levelFromXp(stats.totalXp);
@@ -92,6 +92,7 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
   const resetFilters = () => {
     setQuery("");
     setCategory("all");
+    setSort("name");
   };
 
   const submitTracker = (input: TrackerFormInput) => {
@@ -120,21 +121,21 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
     });
   };
 
-  const requestArchiveTracker = (tracker: Tracker) => {
+  const requestDeleteTracker = (tracker: Tracker) => {
     setFeedback(null);
-    setArchiveCandidate(tracker);
+    setDeleteCandidate(tracker);
   };
 
-  const confirmArchiveTracker = () => {
-    if (!archiveCandidate) return;
+  const confirmDeleteTracker = () => {
+    if (!deleteCandidate) return;
 
-    const tracker = archiveCandidate;
+    const tracker = deleteCandidate;
     setFeedback(null);
-    setArchiveCandidate(null);
+    setDeleteCandidate(null);
     updatePendingTracker(tracker.id, true);
 
     startTrackerTransition(async () => {
-      const result = await archiveTrackerAction(tracker.id);
+      const result = await deleteTrackerAction(tracker.id);
       updatePendingTracker(tracker.id, false);
 
       if (!result.ok) {
@@ -215,10 +216,10 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
 
   return {
     activeCategory,
-    archiveCandidate,
     categories,
     closeForm,
-    confirmArchiveTracker,
+    confirmDeleteTracker,
+    deleteCandidate,
     editing,
     feedback,
     filteredTrackers,
@@ -232,12 +233,14 @@ export const useDashboardTrackers = (initialTrackers: Tracker[]) => {
     pendingTrackerIds,
     playerLevel,
     query,
-    requestArchiveTracker,
+    requestDeleteTracker,
     resetFilters,
-    setArchiveCandidate,
     setCategory,
+    setDeleteCandidate,
     setQuery,
+    setSort,
     signOut,
+    sort,
     stats,
     submitTracker,
     trackers,

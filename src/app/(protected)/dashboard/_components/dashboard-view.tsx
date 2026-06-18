@@ -102,15 +102,15 @@ export const DashboardView = ({
           onCreate={dashboard.openCreateForm}
           onQueryChange={dashboard.setQuery}
           onResetFilters={dashboard.resetFilters}
+          onSortChange={dashboard.setSort}
           query={dashboard.query}
-          totalCount={dashboard.trackers.length}
-          visibleCount={dashboard.filteredTrackers.length}
+          sort={dashboard.sort}
         />
         <TrackerList
           allTrackerCount={dashboard.trackers.length}
           hasActiveFilters={dashboard.hasActiveFilters}
-          onArchive={dashboard.requestArchiveTracker}
           onCreate={dashboard.openCreateForm}
+          onDelete={dashboard.requestDeleteTracker}
           onEdit={dashboard.openEditForm}
           onLaunch={dashboard.launchTracker}
           onResetFilters={dashboard.resetFilters}
@@ -132,18 +132,18 @@ export const DashboardView = ({
       <AlertDialog
         onOpenChange={(open) => {
           if (!open) {
-            dashboard.setArchiveCandidate(null);
+            dashboard.setDeleteCandidate(null);
           }
         }}
-        open={Boolean(dashboard.archiveCandidate)}
+        open={Boolean(dashboard.deleteCandidate)}
       >
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Archive Tracker</AlertDialogTitle>
+            <AlertDialogTitle>Delete Tracker</AlertDialogTitle>
             <AlertDialogDescription>
-              {dashboard.archiveCandidate
-                ? `Archive ${dashboard.archiveCandidate.title}? It will leave your active HUD, but your data stays private.`
-                : "Archive this tracker? It will leave your active HUD, but your data stays private."}
+              {dashboard.deleteCandidate
+                ? `Delete ${dashboard.deleteCandidate.title}? This removes the tracker and its launch history.`
+                : "Delete this tracker? This removes the tracker and its launch history."}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -152,9 +152,9 @@ export const DashboardView = ({
             </AlertDialogCancel>
             <AlertDialogAction
               disabled={dashboard.isTrackerPending}
-              onClick={dashboard.confirmArchiveTracker}
+              onClick={dashboard.confirmDeleteTracker}
             >
-              Archive
+              Delete
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

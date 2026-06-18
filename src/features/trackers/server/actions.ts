@@ -8,7 +8,6 @@ import {
   formatTrackerMutationError,
 } from "@/features/trackers/server/action-errors";
 import {
-  buildArchiveTrackerArgs,
   buildCreateTrackerArgs,
   buildRecordTrackerClickArgs,
   buildUpdateTrackerArgs,
@@ -16,7 +15,7 @@ import {
 } from "@/features/trackers/server/action-inputs";
 import { mapTracker } from "@/features/trackers/server/mappers";
 import type { Tracker, TrackerFormInput } from "@/features/trackers/types";
-import { trackio } from "@/lib/supabase/schemas";
+import { trackio, type AppSupabaseClient } from "@/lib/supabase/schemas";
 import { createClient } from "@/lib/supabase/server";
 import type { ActionResult } from "@/shared/server/action-result";
 import {
@@ -92,9 +91,13 @@ export const updateTrackerAction = async (
   }
 };
 
-export const archiveTrackerAction = async (
+type DeletedTracker = {
+  id: number;
+};
+
+export const deleteTrackerAction = async (
   trackerId: number,
-): Promise<ActionResult<Tracker>> => {
+): Promise<ActionResult<DeletedTracker>> => {
   const idResult = validateTrackerId(trackerId);
 
   if (!idResult.ok) {
@@ -103,20 +106,63 @@ export const archiveTrackerAction = async (
 
   try {
     const client = await createClient();
-    await requireAuthUser(client);
+    const user = await requireAuthUser(client);
 
-    const { data, error } = await trackio(client).rpc(
-      "archive_tracker",
-      buildArchiveTrackerArgs(idResult.id),
+    const { data, error } = await deleteTrackerRecord(
+      client,
+      idResult.id,
+      user.id,
     );
 
-    if (error || !data) {
+    if (isForeignKeyViolation(error)) {
+      const { error: clicksError } = await trackio(client)
+        .from("tracker_clicks")
+        .delete()
+        .eq("tracker_id", idResult.id)
+        .eq("user_id", user.id);
+
+      if (clicksError) {
+        return {
+          ok: false,
+          error: formatTrackerMutationError(clicksError.message),
+        };
+      }
+
+      const retry = await deleteTrackerRecord(client, idResult.id, user.id);
+
+      if (retry.error) {
+        return {
+          ok: false,
+          error: formatTrackerMutationError(retry.error?.message),
+        };
+      }
+
+      if (!retry.data) {
+        return {
+          ok: false,
+          error: formatTrackerMutationError("Tracker not found"),
+        };
+      }
+
+      revalidatePath("/dashboard");
+
+      return { ok: true, data: { id: retry.data.id } };
+    }
+
+    if (error) {
       return { ok: false, error: formatTrackerMutationError(error?.message) };
+    }
+
+    if (!data) {
+      return {
+        ok: false,
+        error: formatTrackerMutationError("Tracker not found"),
+      };
     }
 
     revalidatePath("/dashboard");
 
-    return { ok: true, data: mapTracker(data) };
+    return { ok: true, data: { id: data.id } };
   } catch (error) {
     return { ok: false, error: formatCaughtTrackerActionError(error) };
   }
@@ -150,4 +196,27 @@ export const recordTrackerClickAction = async (
   } catch (error) {
     return { ok: false, error: formatCaughtTrackerActionError(error) };
   }
+};
+
+const deleteTrackerRecord = async (
+  client: AppSupabaseClient,
+  trackerId: number,
+  userId: string,
+) => {
+  return trackio(client)
+    .from("trackers")
+    .delete()
+    .eq("id", trackerId)
+    .eq("user_id", userId)
+    .select("id")
+    .maybeSingle();
+};
+
+const isForeignKeyViolation = (
+  error: { code?: string; message?: string } | null,
+) => {
+  return (
+    error?.code === "23503" ||
+    error?.message?.toLowerCase().includes("foreign key") === true
+  );
 };

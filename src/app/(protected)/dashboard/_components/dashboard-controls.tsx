@@ -2,18 +2,26 @@ import { Search, X } from "lucide-react";
 
 import { Button } from "@/shared/components/ui/button";
 import { Input } from "@/shared/components/ui/input";
-import { DashboardRealmFilterChip } from "./dashboard-realm-filter-chip";
+import { Select } from "@/shared/components/ui/select";
+import type { DashboardTrackerSort } from "../_lib/dashboard-view-model";
+
+const DASHBOARD_SORT_OPTIONS = [
+  { label: "Name A-Z", value: "name" },
+  { label: "Recent launch", value: "recent" },
+  { label: "Most launches", value: "launches" },
+  { label: "Newest", value: "newest" },
+];
 
 type DashboardControlsProps = {
   categories: string[];
   category: string;
   query: string;
-  totalCount: number;
-  visibleCount: number;
+  sort: DashboardTrackerSort;
   onCategoryChange: (category: string) => void;
   onCreate: () => void;
   onQueryChange: (query: string) => void;
   onResetFilters: () => void;
+  onSortChange: (sort: DashboardTrackerSort) => void;
 };
 
 export const DashboardControls = ({
@@ -23,17 +31,20 @@ export const DashboardControls = ({
   onCreate,
   onQueryChange,
   onResetFilters,
+  onSortChange,
   query,
-  totalCount,
-  visibleCount,
+  sort,
 }: DashboardControlsProps) => {
-  const hasMultipleRealms = categories.length > 1;
   const hasQuery = query.trim().length > 0;
-  const hasActiveFilters = hasQuery || category !== "all";
+  const hasActiveControls = hasQuery || category !== "all" || sort !== "name";
+  const realmOptions = [
+    { label: "All realms", value: "all" },
+    ...categories.map((item) => ({ label: item, value: item })),
+  ];
 
   return (
-    <section aria-label="Tracker controls" className="mb-6 space-y-4">
-      <div className="flex flex-col gap-3 sm:flex-row">
+    <section aria-label="Tracker controls" className="mb-6 space-y-3">
+      <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(10rem,13rem)_minmax(10rem,13rem)_auto] md:items-center">
         <div className="relative min-w-0 flex-1">
           <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
           <Input
@@ -54,52 +65,55 @@ export const DashboardControls = ({
             </button>
           ) : null}
         </div>
-        <Button className="h-11 w-full sm:w-auto" onClick={onCreate} size="lg">
-          New Tracker
-        </Button>
-      </div>
 
-      <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-        {hasMultipleRealms ? (
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="font-display text-accent mr-1 text-[9px] tracking-wider uppercase">
-              &gt; Realm
-            </span>
-            <DashboardRealmFilterChip
-              active={category === "all"}
-              onClick={() => onCategoryChange("all")}
+        <Select
+          aria-label="Filter trackers by realm"
+          className="bg-card h-11 rounded-sm text-xs tracking-wider uppercase"
+          clearable={false}
+          onValueChange={onCategoryChange}
+          options={realmOptions}
+          value={category}
+        />
+
+        <Select
+          aria-label="Sort trackers"
+          className="bg-card h-11 rounded-sm text-xs tracking-wider uppercase"
+          clearable={false}
+          onValueChange={(value) => {
+            if (isDashboardTrackerSort(value)) {
+              onSortChange(value);
+            }
+          }}
+          options={DASHBOARD_SORT_OPTIONS}
+          value={sort}
+        />
+
+        <div className="flex gap-2 md:justify-end">
+          {hasActiveControls ? (
+            <Button
+              className="h-11 flex-1 md:flex-none"
+              onClick={onResetFilters}
+              size="lg"
+              variant="ghost"
             >
-              All
-            </DashboardRealmFilterChip>
-            {categories.map((item) => (
-              <DashboardRealmFilterChip
-                active={category === item}
-                key={item}
-                onClick={() => onCategoryChange(item)}
-              >
-                {item}
-              </DashboardRealmFilterChip>
-            ))}
-          </div>
-        ) : (
-          <div />
-        )}
-
-        <div className="flex flex-wrap items-center gap-2 md:justify-end">
-          <div
-            aria-live="polite"
-            className="text-muted-foreground font-mono text-[11px] tracking-wider uppercase"
-          >
-            {visibleCount.toLocaleString()} / {totalCount.toLocaleString()}{" "}
-            trackers
-          </div>
-          {hasActiveFilters ? (
-            <Button onClick={onResetFilters} size="sm" variant="ghost">
               Reset
             </Button>
           ) : null}
+          <Button
+            className="h-11 flex-1 md:flex-none"
+            onClick={onCreate}
+            size="lg"
+          >
+            New Tracker
+          </Button>
         </div>
       </div>
     </section>
   );
+};
+
+const isDashboardTrackerSort = (
+  value: string,
+): value is DashboardTrackerSort => {
+  return DASHBOARD_SORT_OPTIONS.some((option) => option.value === value);
 };

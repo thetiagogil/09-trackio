@@ -1,6 +1,6 @@
 "use client";
 
-import { Archive, MoreHorizontal, Pencil, Zap } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2, Zap } from "lucide-react";
 import { type MouseEvent, useState } from "react";
 
 import { Badge } from "@/shared/components/ui/badge";
@@ -33,14 +33,14 @@ import type { Tracker } from "@/features/trackers/types";
 type TrackerCardProps = {
   launchPending: boolean;
   tracker: Tracker;
-  onArchive: (tracker: Tracker) => void;
+  onDelete: (tracker: Tracker) => void;
   onEdit: (tracker: Tracker) => void;
   onLaunch: (tracker: Tracker) => void;
 };
 
 export const TrackerCard = ({
   launchPending,
-  onArchive,
+  onDelete,
   onEdit,
   onLaunch,
   tracker,
@@ -59,8 +59,8 @@ export const TrackerCard = ({
     onEdit(tracker);
   };
 
-  const handleArchive = () => {
-    onArchive(tracker);
+  const handleDelete = () => {
+    onDelete(tracker);
   };
 
   const handleLaunch = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -139,9 +139,9 @@ export const TrackerCard = ({
               Edit
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onSelect={handleArchive} tone="danger">
-              <Archive className="h-4 w-4" />
-              Archive
+            <DropdownMenuItem onSelect={handleDelete} tone="danger">
+              <Trash2 className="h-4 w-4" />
+              Delete
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

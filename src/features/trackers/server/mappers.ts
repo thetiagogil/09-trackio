@@ -1,10 +1,6 @@
-import type {
-  Tracker,
-  TrackerRow,
-  TrackerStatus,
-} from "@/features/trackers/types";
+import type { Tracker, TrackerRecord } from "@/features/trackers/types";
 
-export const mapTracker = (row: TrackerRow): Tracker => {
+export const mapTracker = (row: TrackerRecord): Tracker => {
   return {
     id: row.id,
     title: row.title,
@@ -12,16 +8,10 @@ export const mapTracker = (row: TrackerRow): Tracker => {
     category: row.category,
     username: row.username,
     notes: row.notes,
-    status: normalizeTrackerStatus(row.status),
     xp: row.xp,
     clickCount: row.click_count,
     lastClickedAt: row.last_clicked_at,
-    archivedAt: row.archived_at,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
   };
-};
-
-const normalizeTrackerStatus = (value: string): TrackerStatus => {
-  return value === "archived" ? "archived" : "active";
 };

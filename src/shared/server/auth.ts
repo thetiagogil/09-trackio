@@ -2,6 +2,7 @@ import type { User } from "@supabase/supabase-js";
 import { redirect } from "next/navigation";
 
 import { isSupabaseConfigured } from "@/lib/env";
+import { isInvalidRefreshTokenError } from "@/lib/supabase/auth-errors";
 import { core, type AppSupabaseClient } from "@/lib/supabase/schemas";
 import { createClient } from "@/lib/supabase/server";
 import { mapProfile } from "@/shared/server/mappers";
@@ -49,11 +50,19 @@ export const requireAuthUser = async (client: AppSupabaseClient) => {
 };
 
 export const getCurrentAuthUser = async (client: AppSupabaseClient) => {
-  const {
-    data: { user },
-  } = await client.auth.getUser();
+  try {
+    const {
+      data: { user },
+    } = await client.auth.getUser();
 
-  return user;
+    return user;
+  } catch (error) {
+    if (isInvalidRefreshTokenError(error)) {
+      return null;
+    }
+
+    throw error;
+  }
 };
 
 export const ensureProfileForAuthUser = async (

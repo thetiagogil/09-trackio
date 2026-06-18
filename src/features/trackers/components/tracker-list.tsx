@@ -9,7 +9,7 @@ type TrackerListProps = {
   hasActiveFilters: boolean;
   pendingTrackerIds: ReadonlySet<number>;
   trackers: Tracker[];
-  onArchive: (tracker: Tracker) => void;
+  onDelete: (tracker: Tracker) => void;
   onCreate: () => void;
   onEdit: (tracker: Tracker) => void;
   onLaunch: (tracker: Tracker) => void;
@@ -19,8 +19,8 @@ type TrackerListProps = {
 export const TrackerList = ({
   allTrackerCount,
   hasActiveFilters,
-  onArchive,
   onCreate,
+  onDelete,
   onEdit,
   onLaunch,
   onResetFilters,
@@ -49,7 +49,7 @@ export const TrackerList = ({
           <div className="relative" key={tracker.id}>
             <TrackerCard
               launchPending={isPending}
-              onArchive={onArchive}
+              onDelete={onDelete}
               onEdit={onEdit}
               onLaunch={onLaunch}
               tracker={tracker}
